@@ -1,0 +1,40 @@
+#titlebar {
+    position: absolute;
+    top: 1px;
+}
+/* Remove close button */
+.titlebar-buttonbox-container{ 
+	display:none 
+}
+
+#toolbar {
+    position: absolute;
+    top: 1px;
+}
+#urlbar-searchmode-switcher {
+	display:none 
+}
+
+#toolbar-menubar {
+  display: none !important;	
+}
+
+#alltabs-button {
+  display: none !important;	
+}
+
+#tabs-newtab-button, #vertical-tabs-newtab-button {
+  display: none !important;	
+}
+
+/* Center url bar stuff */
+#urlbar {
+	text-align: center;
+}
+.urlbarView-row-inner{ 
+display: flex; 
+flex-direction: column !important; 
+} 
+/* .urlbarView-title-separator{  */
+/* display: none;  */
+/* }  */
