@@ -1,0 +1,144 @@
+
+/*for channel list*/
+[class^=sidebar_]:has([class*=avatarWrapper_]) {
+  width: 250px;
+  transition: width 0.15s ease, padding 0.15s ease; /* how fast to open and close the channel list and the padding */
+  transition-delay: 0.2s; /* how long to hover before opening*/
+  &:not(:hover) {
+    transition-delay: 0.5s; /* how to keep open after hover is removed*/
+    /* padding-left: 35px; */
+    width: 150px;
+  }
+}
+/*for server list*/
+[class*=guilds_] {
+    transition: width 0.15s ease, padding 0.15s ease;  /* how fast to open and close the server list and the padding */
+    transition-delay: 0.2s; /* how long to hover before opening*/
+  &:not(:hover) {
+    transition-delay: 10.5s; /* how to keep open after hover is removed*/
+    padding-left: 13px;
+    width: 0px;
+  }
+}
+
+/* Shrinks titlebar down to nothing */
+div[class*="titleBar_"] {
+    height: 5px;
+}
+
+/* Removes the "Discord" text on the top left of the screen */
+div[class*="wordmark_"] {
+    display: none;
+}
+
+/* Scale the _ □ X buttons to match top bar icons */
+div[class*=winButton_] {
+    top: 13px;
+    transform: scale(1.6);
+    padding-right: 4px;
+    right: 4px;
+    -webkit-app-region: no-drag !important;
+	display:none;	
+}
+div[class*=winButton_]:hover {
+    color: var(--currentColor);
+    background-color: transparent;
+	display:none;	
+}
+
+/* small hack to avoid https://github.com/electron/electron/issues/1354 */
+/* [class^="winButtonClose_"], */
+/* [class^="closeButton_"] { */
+    /* -webkit-app-region: no-drag; */
+	/* display:none; */
+}
+div[class^="upperContainer_"] {
+    -webkit-app-region: drag;
+    width: calc(100% - 96px);
+}
+
+/* revert offset when thread/forum channel is open */
+div[class*="threadSidebarOpen_"] > div > section > div[class^="upperContainer_"] {
+    width: 100%;
+}
+
+/* Remove useless tabs from app homepage */
+.channel_c91bad:nth-child(2)[aria-posinset="1"] {
+  top: 0px;
+  position: fixed;
+  z-index: 10000;
+  background: var(--bg-overlay-3, var(--background-secondary));
+  width: 14rem;
+  height: 3.7rem;
+}
+.channel_c91bad:nth-child(2) > div {
+  margin-top: 13px;
+  width: 2.5rem;
+  height: 2rem;
+  background: var(--background-tertiary);
+  padding-left: 0;
+  margin-left: 6px;
+  margin-right: 0;
+}
+.channel_c91bad:nth-child(2) > div > a > div > div.avatar_f9647d > svg.linkButtonIcon_c91bad {
+  left: 5.8rem;
+  position: fixed;
+}
+.channel_c91bad:nth-child(2) > div > a > div > div.content_f9647d {
+  display: none;
+}
+/* .channel_c91bad:nth-child(3) { */
+  /* display: none; */
+/* } */
+/* .channel_c91bad:nth-child(4) { */
+  /* display: none; */
+/* } */
+/* .channel_c91bad:nth-child(5) { */
+  /* display: none; */
+/* } */
+
+.privateChannelsHeaderContainer_c47fa9 {
+  margin-top: 4px;
+  padding-top: 13.5px;
+  height: 2rem;
+  margin-bottom: 10px;
+}
+
+.privateChannelsHeaderContainer_c47fa9 > .headerText_c47fa9 {
+  color: #b9b9b9;
+}
+
+.privateChannels_f0963d {
+  background: rgba(0,0,0,0) !important;
+}
+
+.searchBar_f0963d {
+  background: none !important;
+  left: 7.15rem;
+  z-index: 20000;
+  top: 4px;
+  box-shadow: none;
+  position: fixed;
+}
+
+.searchBar_f0963d > button {
+  visibility: hidden;
+}
+/* .searchBar_f0963d > button:after { */
+  /* content: "Find/start a conversation"; */
+  /* visibility: visible; */
+  /* display: block; */
+  /* position: absolute; */
+  /* border-radius: 4px; */
+  /* background-color: var(--background-tertiary); */
+  /* color: #dddddd; */
+  /* padding-left: .5rem; */
+  /* padding-right: .5rem; */
+  /* line-height: 2rem; */
+  /* top: 11px; */
+/* } */
+
+.listItem_c96c45:nth-child(3) {
+  margin-top: 11.5px;
+}
+/* --- */
