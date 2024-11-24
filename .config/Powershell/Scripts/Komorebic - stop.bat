@@ -1,0 +1,1 @@
+pwsh -File %~dp0\Komorebic-stop.ps1
