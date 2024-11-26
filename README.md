@@ -35,7 +35,7 @@
  - [ExplorerPatcher](https://github.com/valinet/ExplorerPatcher) Disable rounded corners, improved alt tab, and more.
  - [Flow Launcher](https://github.com/Flow-Launcher/Flow.Launcher) Better search and app launcher.
 
-#Additional tidbits
+# Additional tidbits
 - [Betterfox](https://github.com/yokoffing/Betterfox)
 - [Vencord](https://vencord.dev/)
 
