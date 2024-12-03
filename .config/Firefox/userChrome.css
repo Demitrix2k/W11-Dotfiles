@@ -38,3 +38,7 @@ flex-direction: column !important;
 /* .urlbarView-title-separator{  */
 /* display: none;  */
 /* }  */
+
+#PlacesToolbarItems { 
+justify-content: safe center !important;
+}
