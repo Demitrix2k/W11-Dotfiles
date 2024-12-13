@@ -9,7 +9,7 @@
 ![Screenshot 2024-11-24 083158](https://github.com/user-attachments/assets/41ebd397-e39a-4b7b-a882-8db4f7024a39)
 
 #### Firefox + Discord custom  
-![Screenshot 2024-11-24 082340](https://github.com/user-attachments/assets/8477f176-866e-4160-a22f-662485e1a0f4)
+![Screenshot 2024-12-13 163731](https://github.com/user-attachments/assets/f81d327a-58ea-40cb-b61c-00a6dc992540)
 
   <summary>Additional Screenshots</summary>
   
