@@ -1,21 +1,54 @@
-
-/*for channel list*/
-[class^=sidebar_]:has([class*=avatarWrapper_]) {
-  width: 250px;
-  transition: width 0.15s ease, padding 0.15s ease; /* how fast to open and close the channel list and the padding */
-  transition-delay: 0.2s; /* how long to hover before opening*/
-  &:not(:hover) {
-    transition-delay: 0.5s; /* how to keep open after hover is removed*/
-    /* padding-left: 35px; */
-    width: 150px;
-  }
+/* Hides the # in channel names */
+@media (max-width: 1100px)
+{
+    [class*="sidebar_"]
+    {
+        width: 200px;
+        .vc-typing-indicator, .vc-channelemojis-emoji, [class*="guildIconV2Container_"]
+        {
+            display: none;
+        }
+        [class*="containerDefault_"]
+        {
+            [role="img"]
+            {
+                display: none;
+            }
+        }
+    }
+    [class*="chat_"]
+    {
+        [class*="membersWrap_"]
+        {
+            display: none;
+        }
+    }
 }
+
+/*
+ * @name Collapsable Sidebars
+ * @author rech
+ * @source https://github.com/rechington/Discord-Mods/blob/main/collapsable%20sidebars.css
+*/
+/* Hide left sidebar */
+div[class^=base] > div[class^=content] > div[class^=sidebar] {
+    transition: width 0.15s ease, padding 0.15s ease; 
+	transition-delay: 1.2s;
+    width: 60px!important;
+}
+
+/* Show left sidebar when hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
+    width: 240px!important;
+	transition-delay: 0.2s;
+}
+
 /*for server list*/
 [class*=guilds_] {
     transition: width 0.15s ease, padding 0.15s ease;  /* how fast to open and close the server list and the padding */
     transition-delay: 0.2s; /* how long to hover before opening*/
   &:not(:hover) {
-    transition-delay: 10.5s; /* how to keep open after hover is removed*/
+    transition-delay: 4.5s; /* how to keep open after hover is removed*/
     padding-left: 13px;
     width: 0px;
   }
