@@ -9,15 +9,14 @@
   "default_container_padding": 10,
   "border": true,
   "border_width": 2,
-  "border_offset": -1,
+  "border_offset": 0,
   "border_style": "Square",
-  "border_z_order": "Bottom",
   "border_colours": {
     "single": "#8BE9FD",
     "stack": "#8BE9FD",
     "monocle": "#ff3399",
-    "unfocused": "#000000",
-    "floating": "#000000"		
+    "unfocused": "#00000000",
+    "floating": "#00000000"		
   },
   "stackbar": {
     "height": 18,
@@ -29,11 +28,15 @@
       "background": "#141414"
     }
   },
-    "animation": {
-    "enabled": false,
-	"animation.style": "ease-in-sine",
-	"animation.fps": 60
-  },
+  "animation": {
+     "enabled": false,
+     "duration": 350,
+     "fps": 60,
+     "style": {
+         "movement": "EaseOutBack",
+         "transparency": "Linear"
+     }
+   },  
 
   "monitors": [
     {
@@ -63,11 +66,11 @@
 	{	
 	"workspaces": [		
 			{
-			"name": "Social",
+			"name": "1",
 			"layout": "BSP"
 			},
 			{
-			"name": "misc",
+			"name": "2",
 			"layout": "BSP"
 			},
 			{
@@ -75,7 +78,7 @@
 			"layout": "BSP"
 			},
 			{
-			"name": "Work",
+			"name": "4",
 			"layout": "BSP",
 			"float_override": false
 			}
