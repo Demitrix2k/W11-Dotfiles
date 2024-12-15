@@ -71,6 +71,9 @@ ctrl + 1                 : komorebic resize-axis horizontal decrease
 ctrl + 3                 : komorebic resize-axis vertical increase
 ctrl + 4                 : komorebic resize-axis vertical decrease
 
+ctrl + 5                 : komorebic load-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
+ctrl + 6                 : komorebic save-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
+
 
 #####################################################################
 
