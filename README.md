@@ -24,6 +24,9 @@
 -  [whkd](https://github.com/LGUG2Z/whkd)
 -  [yasb](github.com/amnweb/yasb)
 -  [yazi](https://github.com/sxyazi/yazi)
+-  [Windows Terminal](https://github.com/microsoft/terminal)
+-  [Powershell](https://github.com/PowerShell/PowerShell)
+-  [Vencord](https://vencord.dev/)
 
  # Windows configurations
  -  [SecureUxTheme](https://github.com/namazso/SecureUxTheme) to use custom themes.
@@ -37,8 +40,7 @@
  - [Taskbar Toggler](https://github.com/Demitrix2k/Taskbar-Toggler) Simple program to toggle hide/unhide taskbar.
 
 # Additional tidbits
-- [Betterfox](https://github.com/yokoffing/Betterfox)
-- [Vencord](https://vencord.dev/)
+- [Betterfox](https://github.com/yokoffing/Betterfox) about:config tweaks to enhance Mozilla Firefox.
 
 
 # Installation
