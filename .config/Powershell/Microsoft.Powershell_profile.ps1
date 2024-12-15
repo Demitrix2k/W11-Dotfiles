@@ -5,8 +5,8 @@ $Env:YAZI_CONFIG_HOME= 		'C:\Users\rando\.config\yazi'
 $Env:YAZI_FILE_ONE= 		'C:\Program Files\Git\usr\bin\file.exe'
 $Env:XDG_CONFIG_HOME=		'C:\Users\rando\.config\nvim'
 
-
-Set-Alias -Name list -Value Get-Childitem
+Set-Alias	ff	fastfetch
+Set-Alias	q	Quit
 
 function prompt {
 
@@ -59,6 +59,11 @@ function y {
         Set-Location -LiteralPath $cwd
     }
     Remove-Item -Path $tmp
+}
+
+
+function Quit {
+    [System.Environment]::Exit(0)
 }
 
 fastfetch
