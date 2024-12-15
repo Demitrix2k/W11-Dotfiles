@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.bar.json",
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.30/schema.bar.json",
   "monitor": {
     "index": 1,
     "work_area_offset": {
@@ -7,23 +7,24 @@
       "top": 0,
       "right": 0,
       "bottom": 0
-      }
-	},
+    }
+  },
     "position": {
-        "inner_size": {
+        "end": {
             "x": 2560,
-            "y": 0
+            "y": 30
           },
-        "position": {
+        "start": {
             "x":0,
-            "y":1438
+            "y":1414
           }
-  },  
+  },    
   "font_family": "JetBrains Mono",
+  "transparency_alpha": 0,
   "theme": {
     "palette": "Base16",
-    "name": "AyuDark",
-    "accent": "Base0D"
+    "name": "Ashes",
+    "accent": "Base0E"
   },
   "left_widgets": [
     {
@@ -45,41 +46,41 @@
   "right_widgets": [
     {
       "Media": {
-        "enable": true
+        "enable": false
       }
     },
     {
       "Storage": {
-        "enable": true
+        "enable": false
       }
     },
     {
       "Memory": {
-        "enable": true
+        "enable": false
       }
     },
     {
       "Network": {
-        "enable": true,
-        "show_total_data_transmitted": true,
-        "show_network_activity": true
+        "enable": false,
+        "show_total_data_transmitted": false,
+        "show_network_activity": false
       }
     },
     {
       "Date": {
-        "enable": true,
+        "enable": false,
         "format": "DayDateMonthYear"
       }
     },
     {
       "Time": {
-        "enable": true,
+        "enable": false,
         "format": "TwentyFourHour"
       }
     },
     {
       "Battery": {
-        "enable": true
+        "enable": false
       }
     }
   ]
