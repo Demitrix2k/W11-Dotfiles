@@ -1,0 +1,9 @@
+[
+  {
+    "left": 0,
+    "top": 0,
+    "right": 850,
+    "bottom": 0
+  },
+  null
+]
