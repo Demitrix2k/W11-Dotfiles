@@ -1,7 +1,24 @@
 {
   "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/master/schema.asc.json",
 
-
+  "media-downloader": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "media-downloader.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
+  "Stalker 2": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "Stalker2-Win64-Shipping.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "MO2 Extracting files": {
     "ignore": [
       {
