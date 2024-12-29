@@ -3,7 +3,6 @@
   "app_specific_configuration_path": "$Env:KOMOREBI_CONFIG_HOME/applications.json",
   "window_hiding_behaviour": "Cloak",
   "window_container_behaviour": "Create",
-  "float_override": true,
   "cross_monitor_move_behaviour": "Insert",
   "default_workspace_padding": 10,
   "default_container_padding": 10,
@@ -28,15 +27,6 @@
       "background": "#141414"
     }
   },
-  "animation": {
-     "enabled": false,
-     "duration": 350,
-     "fps": 60,
-     "style": {
-         "movement": "EaseOutBack",
-         "transparency": "Linear"
-     }
-   },  
 
   "monitors": [
     {
@@ -48,7 +38,8 @@
 			},
 			{
 			"name": "2",
-			"layout": "BSP"
+			"layout": "BSP",
+			"float_override": true
 			},
 			{
 			"name": "3",
@@ -58,8 +49,7 @@
 			},
 			{
 			"name": "stuff",
-			"layout": "Rows",
-			"float_override": true
+			"layout": "BSP"
 			}
 	    ]
 	},
@@ -67,20 +57,22 @@
 	"workspaces": [		
 			{
 			"name": "1",
-			"layout": "BSP"
+			"layout": "BSP",
+			"float_override": true
 			},
 			{
 			"name": "2",
-			"layout": "BSP"
+			"layout": "BSP",
+			"float_override": true
 			},
 			{
 			"name": "3",
-			"layout": "BSP"
+			"layout": "BSP",
+			"float_override": true
 			},
 			{
 			"name": "4",
-			"layout": "BSP",
-			"float_override": false
+			"layout": "BSP"
 			}
 			
 		]	

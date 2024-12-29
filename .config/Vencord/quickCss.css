@@ -33,13 +33,13 @@
 /* Hide left sidebar */
 div[class^=base] > div[class^=content] > div[class^=sidebar] {
     transition: width 0.15s ease, padding 0.15s ease; 
-	transition-delay: 1.2s;
+	transition-delay: 3.0s;
     width: 60px!important;
 }
 
 /* Show left sidebar when hovered */
 div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
-    width: 240px!important;
+    width: 230px!important;
 	transition-delay: 0.2s;
 }
 
@@ -48,7 +48,7 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
     transition: width 0.15s ease, padding 0.15s ease;  /* how fast to open and close the server list and the padding */
     transition-delay: 0.2s; /* how long to hover before opening*/
   &:not(:hover) {
-    transition-delay: 4.5s; /* how to keep open after hover is removed*/
+    transition-delay: 8.5s; /* how to keep open after hover is removed*/
     padding-left: 13px;
     width: 0px;
   }

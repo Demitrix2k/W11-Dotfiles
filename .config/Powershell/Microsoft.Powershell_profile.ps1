@@ -5,8 +5,13 @@ $Env:YAZI_CONFIG_HOME= 		'C:\Users\rando\.config\yazi'
 $Env:YAZI_FILE_ONE= 		'C:\Program Files\Git\usr\bin\file.exe'
 $Env:XDG_CONFIG_HOME=		'C:\Users\rando\.config\nvim'
 
-Set-Alias	ff	fastfetch
-Set-Alias	q	Quit
+Set-Alias	"ff"			"fastfetch"
+Set-Alias	"q"				"Quit"
+Set-Alias	"obm"			"Logitech.OnboardMemoryManager"
+Set-Alias 	"winget.local" 	"Winget-Packages-Local"
+Set-Alias 	"openw" 		"Open-In-Explorer"
+
+
 
 function prompt {
 
@@ -65,5 +70,14 @@ function y {
 function Quit {
     [System.Environment]::Exit(0)
 }
+
+function Winget-Packages-Local {
+    Set-Location -Path $Env:LocalAppdata\Microsoft\WinGet\Packages\
+}
+
+function Open-In-Explorer {
+    Invoke-item .
+}
+
 
 fastfetch
