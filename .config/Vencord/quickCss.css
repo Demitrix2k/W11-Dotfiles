@@ -1,4 +1,4 @@
-/* Hides the # in channel names */
+/* Hides the # in channel names and also hides server user list */
 @media (max-width: 1100px)
 {
     [class*="sidebar_"]
@@ -20,7 +20,7 @@
     {
         [class*="membersWrap_"]
         {
-            display: none;
+            display: all;
         }
     }
 }
@@ -95,83 +95,46 @@ div[class*="threadSidebarOpen_"] > div > section > div[class^="upperContainer_"]
     width: 100%;
 }
 
-/* Remove useless tabs from app homepage */
-.channel_c91bad:nth-child(2)[aria-posinset="1"] {
-  top: 0px;
-  position: fixed;
-  z-index: 10000;
-  background: var(--bg-overlay-3, var(--background-secondary));
-  width: 14rem;
-  height: 3.7rem;
-}
-.channel_c91bad:nth-child(2) > div {
-  margin-top: 13px;
-  width: 2.5rem;
-  height: 2rem;
-  background: var(--background-tertiary);
-  padding-left: 0;
-  margin-left: 6px;
-  margin-right: 0;
-}
-.channel_c91bad:nth-child(2) > div > a > div > div.avatar_f9647d > svg.linkButtonIcon_c91bad {
-  left: 5.8rem;
-  position: fixed;
-}
-.channel_c91bad:nth-child(2) > div > a > div > div.content_f9647d {
+
+/* --- */
+
+/* hide nitro ads from profile */
+
+[data-list-item-id*="_get-premium"] {
   display: none;
 }
-/* .channel_c91bad:nth-child(3) { */
-  /* display: none; */
-/* } */
-/* .channel_c91bad:nth-child(4) { */
-  /* display: none; */
-/* } */
-/* .channel_c91bad:nth-child(5) { */
-  /* display: none; */
-/* } */
-
-.privateChannelsHeaderContainer_c47fa9 {
-  margin-top: 4px;
-  padding-top: 13.5px;
-  height: 2rem;
-  margin-bottom: 10px;
+[class*="menuDivider_"]:has(+[data-list-item-id*="_get-premium"])
+ {
+  display: none;
 }
 
-.privateChannelsHeaderContainer_c47fa9 > .headerText_c47fa9 {
-  color: #b9b9b9;
+/* Hides Store and Shop button BEST WORKING SO FAR THAN ABOVE ONE*/
+[href="/store"], 
+[href='/shop']
+{
+  display: none;
 }
 
-.privateChannels_f0963d {
-  background: rgba(0,0,0,0) !important;
+/* Hide Nitro Gift button */
+button[aria-label="Send a gift"] {
+  display: none;
 }
 
+/* Hide app launcher */
+[class*=channelAppLauncher_] {
+  display: none;
+}
+
+/* Hide forward button (only on hover) */
+#message-actions-forward {
+    display: none;
+}
+
+div[aria-label="Forward"] {
+    display: none;
+}
+
+/* Hide "Find or start conversation" button in home */
 .searchBar_f0963d {
-  background: none !important;
-  left: 7.15rem;
-  z-index: 20000;
-  top: 4px;
-  box-shadow: none;
-  position: fixed;
+    display: none;
 }
-
-.searchBar_f0963d > button {
-  visibility: hidden;
-}
-/* .searchBar_f0963d > button:after { */
-  /* content: "Find/start a conversation"; */
-  /* visibility: visible; */
-  /* display: block; */
-  /* position: absolute; */
-  /* border-radius: 4px; */
-  /* background-color: var(--background-tertiary); */
-  /* color: #dddddd; */
-  /* padding-left: .5rem; */
-  /* padding-right: .5rem; */
-  /* line-height: 2rem; */
-  /* top: 11px; */
-/* } */
-
-.listItem_c96c45:nth-child(3) {
-  margin-top: 11.5px;
-}
-/* --- */
