@@ -3,8 +3,13 @@
     top: 1px;
 }
 /* Remove close button */
-.titlebar-buttonbox-container{ 
+.titlebar-buttonbox-container { 
 	display:none 
+}
+
+/* hide vertical tabs "close tab" icon button on mini-tabs */
+.tab-close-button {
+	display:none !important;	
 }
 
 #toolbar {

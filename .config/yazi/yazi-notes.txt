@@ -1,0 +1,12 @@
+plugins
+
+#max preview
+https://github.com/yazi-rs/plugins/tree/main/max-preview.yazi
+
+ya pack -a yazi-rs/plugins:max-preview
+
+# hide preview
+https://github.com/yazi-rs/plugins/tree/main/hide-preview.yazi
+
+
+ya pack -a yazi-rs/plugins:hide-preview

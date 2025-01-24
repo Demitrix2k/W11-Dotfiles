@@ -1,142 +1,118 @@
 .shell powershell
-#####################################################################
+##########################################################################################################################################
+################ RELOAD WHKD CONFIGURATION
 
-# Reload whkd configuration
+# alt + o                		: taskkill /f /im whkd.exe && start /b whkd # if shell is cmd
+alt + o                  		: taskkill /f /im whkd.exe; Start-Process whkd -WindowStyle hidden # if shell is pwsh / powershell
+alt + shift + o          		: komorebic reload-configuration
 
-# alt + o                : taskkill /f /im whkd.exe && start /b whkd # if shell is cmd
-alt + o                  : taskkill /f /im whkd.exe; Start-Process whkd -WindowStyle hidden # if shell is pwsh / powershell
-alt + shift + o          : komorebic reload-configuration
+##########################################################################################################################################
+################ APP SHORTCUTS - THESE REQUIRE SHELL TO BE PWSH / POWERSHELL
+################ THE APPS WILL BE FOCUSED IF OPEN, OR LAUNCHED IF NOT OPEN
 
-# App shortcuts - these require shell to be pwsh / powershell
-# The apps will be focused if open, or launched if not open
-#ctrl + shift + enter     : if ($wshell.AppActivate('Firefox') -eq $False) { start firefox }
+#ctrl + shift + enter     		: if ($wshell.AppActivate('Firefox') -eq $False) { start firefox }
 
+##########################################################################################################################################
+############### PROGRAMS
+alt + shift + 0      	 		: start wt
+alt + shift + 9      	 		: start 'C:\programs\TaskbarToggle.exe'
 
-#####################################################################
+##########################################################################################################################################
+############### FOCUS WINDOWS
 
-# Programs
+ctrl + win + h                  : komorebic focus left
+ctrl + win + j                  : komorebic focus down
+ctrl + win + k                  : komorebic focus up
+ctrl + win + l                  : komorebic focus right
 
-alt + shift + 0      	 : start wt
-alt + shift + 9      	 : start 'C:\programs\TaskbarToggle.exe'
+alt + x                  		: komorebic cycle-focus previous
+alt + C                  		: komorebic cycle-focus next
+alt + v                  		: komorebic toggle-focus-follows-mouse -i windows
 
+##########################################################################################################################################
+################ MOVE WINDOWS
 
-#####################################################################
+alt + shift + a      			: komorebic move left
+alt + shift + s     			: komorebic move right
+	
+ctrl + win + Left     			: komorebic move left
+ctrl + win + Down     			: komorebic move down
+ctrl + win + Up       			: komorebic move up
+ctrl + win + Right    			: komorebic move right
+alt + r                 		: komorebic promote
+alt + f                 		: komorebic toggle-maximize
+ctrl + shift + m        		: komorebic cycle-send-to-monitor next
 
-# Focus windows
+##########################################################################################################################################
+################ STACK WINDOWS
 
-alt + h                  : komorebic focus left
-alt + j                  : komorebic focus down
-alt + k                  : komorebic focus up
-alt + l                  : komorebic focus right
-alt + x                  : komorebic cycle-focus previous
-alt + C                  : komorebic cycle-focus next
-alt + v                  : komorebic toggle-focus-follows-mouse -i windows
+ctrl + win +shift + Left        : komorebic stack left
+ctrl + win +shift + Down        : komorebic stack down
+ctrl + win + shift + Up         : komorebic stack up
+ctrl + win + shift + Right		: komorebic stack right
+ctrl + alt + u 					: komorebic unstack
+ctrl + alt + x      			: komorebic cycle-stack previous
+ctrl + alt + C      			: komorebic cycle-stack next
 
+##########################################################################################################################################
+################ RESIZE WINDOWS
 
-#####################################################################
+ctrl + 1               			: komorebic resize-axis horizontal decrease
+ctrl + 2               			: komorebic resize-axis horizontal increase
 
-# Move windows
+ctrl + 3               			: komorebic resize-axis vertical increase
+ctrl + 4               			: komorebic resize-axis vertical decrease
 
-alt + shift + a      	 : komorebic move left
-alt + shift + s     	 : komorebic move right
+ctrl + 5               			: komorebic load-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
+ctrl + 6               			: komorebic save-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
 
-ctrl + shift + Left      : komorebic move left
-ctrl + shift + Down      : komorebic move down
-ctrl + shift + Up        : komorebic move up
-ctrl + shift + Right     : komorebic move right
-alt + r                  : komorebic promote
-alt + f                  : komorebic toggle-maximize
-ctrl + shift + m         : komorebic cycle-send-to-monitor next
+##########################################################################################################################################
+################ MANIPULATE WINDOWS
 
-
-#####################################################################
-
-# Stack windows
-
-ctrl + alt + Left        : komorebic stack left
-ctrl + alt + Down        : komorebic stack down
-ctrl + alt + Up          : komorebic stack up
-ctrl + alt + Right       : komorebic stack right
-ctrl + alt + u 			 : komorebic unstack
-alt + shift + x          : komorebic cycle-stack previous
-alt + shift + C          : komorebic cycle-stack next
-
-
-#####################################################################
-
-# Resize windows
-
-ctrl + 2                 : komorebic resize-axis horizontal increase
-ctrl + 1                 : komorebic resize-axis horizontal decrease
-ctrl + 3                 : komorebic resize-axis vertical increase
-ctrl + 4                 : komorebic resize-axis vertical decrease
-
-ctrl + 5                 : komorebic load-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
-ctrl + 6                 : komorebic save-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
-
-
-#####################################################################
-
-# Manipulate windows
-
-#alt + shift + f 		 : komorebic toggle-window-container-behaviour
-alt + t                  : komorebic toggle-float
-ctrl + alt + t           : komorebic toggle-float-override
-alt + shift + f          : komorebic toggle-monocle
-alt + q                  : komorebic close
-alt + w                  : komorebic minimize
-ctrl + shift + z         : komorebic manage
-ctrl + shift + x         : komorebic unmanage
+alt + t                			: komorebic toggle-float
+ctrl + alt + t         			: komorebic toggle-float-override
+alt + shift + f        			: komorebic toggle-monocle
+alt + q                			: komorebic close
+alt + w                			: komorebic minimize
+alt + shift + r        			: komorebic retile
 
 
-#####################################################################
+##########################################################################################################################################
+################ WINDOW MANAGER OPTIONS
 
-# Window manager options
+alt + p                			: komorebic toggle-pause
+alt + b                			: komorebic border enable
+ctrl + alt + b         			: komorebic border disable
 
-alt + shift + r          : komorebic retile
-alt + p                  : komorebic toggle-pause
-alt + b                  : komorebic border enable
-ctrl + alt + b           : komorebic border disable
+##########################################################################################################################################
+################ LAYOUTS
 
+alt + u                			: komorebic flip-layout horizontal
+ctrl + alt + u         			: komorebic flip-layout vertical
 
-#####################################################################
+alt + i                			: komorebic cycle-layout next
+ctrl + alt + i         			: komorebic cycle-layout previous
 
-# Layouts
+##########################################################################################################################################
+################ FOCUS MOVE TO WORKSPACES
 
-alt + u                  : komorebic flip-layout horizontal
-alt + y                  : komorebic flip-layout vertical
-alt + i                  : komorebic cycle-layout previous
-ctrl + alt + i           : komorebic cycle-layout next
+alt + 1                  		: komorebic focus-workspace 0
+alt + 2                  		: komorebic focus-workspace 1
+alt + 3                  		: komorebic focus-workspace 2
+alt + 4                  		: komorebic focus-workspace 3
 
+##########################################################################################################################################
+################ MOVE WINDOW AND USER ACROSS WORKSPACES
 
-#####################################################################
+alt + shift + 1          		: komorebic move-to-workspace 0
+alt + shift + 2          		: komorebic move-to-workspace 1
+alt + shift + 3          		: komorebic move-to-workspace 2
+alt + shift + 4          		: komorebic move-to-workspace 3
 
-# Focus move to workspaces
+###############################################################################
+################ SENDS WINDOWS TO  WORKSPACES
 
-alt + 1                  : komorebic focus-workspace 0
-alt + 2                  : komorebic focus-workspace 1
-alt + 3                  : komorebic focus-workspace 2
-alt + 4                  : komorebic focus-workspace 3
-
-
-#####################################################################
-
-# Move window and user across workspaces
-
-alt + shift + 1          : komorebic move-to-workspace 0
-alt + shift + 2          : komorebic move-to-workspace 1
-alt + shift + 3          : komorebic move-to-workspace 2
-alt + shift + 4          : komorebic move-to-workspace 3
-
-
-#####################################################################
-
-# Sends windows to  workspaces
-
-# alt + shift + 1        : komorebic send-to-workspace 0
-# alt + shift + 2        : komorebic send-to-workspace 1
-# alt + shift + 3        : komorebic send-to-workspace 2
-# alt + shift + 4        : komorebic send-to-workspace 3
-
-
-#####################################################################
+# alt + shift + 1        		: komorebic send-to-workspace 0
+# alt + shift + 2        		: komorebic send-to-workspace 1
+# alt + shift + 3        		: komorebic send-to-workspace 2
+# alt + shift + 4        		: komorebic send-to-workspace 3

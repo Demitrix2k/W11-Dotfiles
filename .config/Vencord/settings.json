@@ -3,7 +3,9 @@
     "autoUpdateNotification": true,
     "useQuickCss": true,
     "themeLinks": [],
-    "enabledThemes": [],
+    "enabledThemes": [
+        "MinimalNight.theme.css"
+    ],
     "enableReactDevtools": false,
     "frameless": false,
     "transparent": false,
@@ -33,7 +35,7 @@
             "enabled": true
         },
         "MessageUpdaterAPI": {
-            "enabled": false
+            "enabled": true
         },
         "ServerListAPI": {
             "enabled": false
@@ -94,7 +96,7 @@
             "eagerLoad": true
         },
         "BetterUploadButton": {
-            "enabled": false
+            "enabled": true
         },
         "BiggerStreamPreview": {
             "enabled": false
@@ -247,7 +249,17 @@
             "enabled": false
         },
         "MessageLogger": {
-            "enabled": false
+            "enabled": true,
+            "collapseDeleted": false,
+            "deleteStyle": "text",
+            "ignoreBots": false,
+            "ignoreSelf": false,
+            "ignoreUsers": "",
+            "ignoreChannels": "",
+            "ignoreGuilds": "",
+            "logEdits": true,
+            "logDeletes": true,
+            "inlineEdits": true
         },
         "MessageTags": {
             "enabled": false
@@ -286,10 +298,11 @@
             "enabled": false
         },
         "NoMosaic": {
-            "enabled": false
+            "enabled": true,
+            "inlineVideo": true
         },
         "NoOnboardingDelay": {
-            "enabled": false
+            "enabled": true
         },
         "NoPendingCount": {
             "enabled": false
@@ -404,7 +417,8 @@
             "enabled": false
         },
         "SecretRingToneEnabler": {
-            "enabled": false
+            "enabled": true,
+            "onlySnow": false
         },
         "Summaries": {
             "enabled": false
@@ -571,6 +585,9 @@
         },
         "FixImagesQuality": {
             "enabled": false
+        },
+        "FullUserInChatbox": {
+            "enabled": false
         }
     },
     "notifications": {
@@ -583,6 +600,6 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1731476451499
+        "settingsSyncVersion": 1737609597312
     }
 }

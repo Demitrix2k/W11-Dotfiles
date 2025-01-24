@@ -1,17 +1,21 @@
-$Env:NTop_CONFIG_HOME= 		'C:\Users\rando\.config\ntop'
-$Env:KOMOREBI_CONFIG_HOME = 'C:\Users\rando\.config\komerebi'
-$Env:WHKD_CONFIG_HOME = 	'C:\Users\rando\.config\whkd'
-$Env:YAZI_CONFIG_HOME= 		'C:\Users\rando\.config\yazi'
-$Env:YAZI_FILE_ONE= 		'C:\Program Files\Git\usr\bin\file.exe'
-$Env:XDG_CONFIG_HOME=		'C:\Users\rando\.config\nvim'
+$Env:KOMOREBI_CONFIG_HOME = "$HOME\.config\komerebi"
+$Env:WHKD_CONFIG_HOME = 	"$HOME\.config\whkd"
+$Env:NTop_CONFIG_HOME= 		"$HOME\.config\ntop"
+$Env:YAZI_CONFIG_HOME= 		"$HOME\.config\yazi"
+$Env:XDG_CONFIG_HOME=		"$HOME\.config\nvim"
+$Env:YAZI_FILE_ONE= 		"C:\Program Files\Git\usr\bin\file.exe"
+$Env:nvim= 					"C:\Program Files\Neovim\bin\nvim.exe"
+
+# Set-Variable -Name HOME -Value "C:\Users\rando" -Scope Global
 
 Set-Alias	"ff"			"fastfetch"
 Set-Alias	"q"				"Quit"
 Set-Alias	"obm"			"Logitech.OnboardMemoryManager"
 Set-Alias 	"winget.local" 	"Winget-Packages-Local"
 Set-Alias 	"openw" 		"Open-In-Explorer"
-
-
+Set-PSReadlineKeyHandler -Key "shift+Tab" -Function MenuComplete
+Set-PSReadLineKeyHandler -Chord "Tab" -Function AcceptSuggestion
+Set-PSReadLineKeyHandler -Chord "RightArrow" -Function ForwardWord
 
 function prompt {
 

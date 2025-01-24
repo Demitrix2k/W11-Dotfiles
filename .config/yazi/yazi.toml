@@ -1,4 +1,4 @@
-# A TOML linter such as https://taplo.tamasfe.dev/ can use this schema to validate your config.
+
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
@@ -19,8 +19,8 @@ title_format   = "Yazi: {cwd}"
 [preview]
 wrap            = "no"
 tab_size        = 3
-max_width       = 520
-max_height      = 600
+max_width       = 1920
+max_height      = 1080
 cache_dir       = ""
 image_delay     = 30
 image_filter    = "triangle"
@@ -33,8 +33,8 @@ ueberzug_offset = [ 0, 0, 0, 0 ]
 edit = [
 
 	{ run = '${EDITOR:-vi} "$@"', desc = "$EDITOR", block = true, for = "unix" },
-	{ run = 'C:\programs\Notepad++\Notepad++.exe %*',    orphan = true, desc = "code",           for = "windows" },
-	{ run = 'code -w %*', block = true,  desc = "code (block)",   for = "windows" },
+ 	{ run = 'nvim %*',    block = true, desc = "nvim",           for = "windows" },
+ 	{ run = 'nvim -w %*', block = true,  desc = "nvim (block)",   for = "windows" },	
 	
 #	{ run = 'code %*',    orphan = true, desc = "code",           for = "windows" },
 #	{ run = 'code -w %*', block = true,  desc = "code (block)",   for = "windows" },	

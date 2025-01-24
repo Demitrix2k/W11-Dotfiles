@@ -25,6 +25,15 @@
     }
 }
 
+
+
+
+/* Hide the dumbfuck voice chat icon on server lists */
+
+[class^="upperBadge_"] {
+	display:none;
+}
+
 /*
  * @name Collapsable Sidebars
  * @author rech
