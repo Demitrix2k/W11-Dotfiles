@@ -498,7 +498,10 @@
         "Translate": {
             "enabled": true,
             "autoTranslate": false,
-            "showChatBarButton": true
+            "showChatBarButton": true,
+            "service": "google",
+            "receivedInput": "auto",
+            "receivedOutput": "en"
         },
         "TypingIndicator": {
             "enabled": false
@@ -588,6 +591,12 @@
         },
         "FullUserInChatbox": {
             "enabled": false
+        },
+        "IrcColors": {
+            "enabled": false
+        },
+        "BadgeAPI": {
+            "enabled": true
         }
     },
     "notifications": {
@@ -600,6 +609,6 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1737609597312
+        "settingsSyncVersion": 1738040681650
     }
 }

@@ -17,7 +17,6 @@ dark = "tokyo-night"
 [manager]
 cwd = { fg = "cyan" }
 
-
 # Hovered
 hovered         = { reversed = true }
 preview_hovered = { underline = true }
@@ -47,9 +46,7 @@ border_symbol = "│"
 border_style  = { fg = "gray" }
 
 # Highlighting
-# syntect_theme = "./.config/yazi/themes/Syntax-themes"
-syntect_theme = ""
-
+syntect_theme = "./.config/yazi/themes/Syntax-themes"
 
 # : 
 
