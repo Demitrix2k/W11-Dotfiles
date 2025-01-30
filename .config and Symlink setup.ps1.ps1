@@ -79,13 +79,17 @@ if (-Not (Test-Path -Path $sourcePath) -and -Not $skipMove) {
 # Move the .config folder to the user's home directory if not already there #
 #####################################################
 if (-Not $skipMove) {
-    Write-Host "###############################################" -ForegroundColor Yellow
-    Write-Host "#   Moving .config folder to $targetPath...   #" -ForegroundColor Yellow
-    Write-Host "###############################################" -ForegroundColor Yellow
-    Move-Item -Path $sourcePath -Destination $targetPath -Force
-    Write-Host "###############################################" -ForegroundColor Green
-    Write-Host "#     .config folder moved successfully.      #" -ForegroundColor Green
-    Write-Host "###############################################" -ForegroundColor Green
+    $moveFolder = Read-Host "### Do you want to move the .config folder to your home directory now? (Y/N) ###"
+    if ($moveFolder -eq 'Y') {
+        Move-Item -Path $sourcePath -Destination $homeDirectory -Force
+        Write-Host "###############################################" -ForegroundColor Green
+        Write-Host "#   .config folder moved successfully.        #" -ForegroundColor Green
+        Write-Host "###############################################" -ForegroundColor Green
+    } else {
+        Write-Host "###############################################" -ForegroundColor Yellow
+        Write-Host "#      Skipping .config folder move...        #" -ForegroundColor Yellow
+        Write-Host "###############################################" -ForegroundColor Yellow
+    }
 }
 
 #####################################################
