@@ -1,4 +1,4 @@
-# DemitriX's Windows 11 Dotfiles
+# My Windows 11 Dotfiles
 
 ![Screenshot 2024-11-24 082550](https://github.com/user-attachments/assets/24e1b45e-d121-48b2-a1cf-e53f83fec5cf)
 
