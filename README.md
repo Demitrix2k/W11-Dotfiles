@@ -58,7 +58,7 @@ git clone https://github.com/Demitrix2k/W11-Dotfiles.git $HOME\
 #....or download zip manually and place within $HOME\
 ```
 
-2. Run Powershell as admin or use sudo and link these files and folders
+2. Run Powershell as admin or use sudo and link files and folders akin to
 ```pwsh
 New-Item -ItemType SymbolicLink -Target $HOME\.config\Powershell -Path $HOME\Documents\Powershell
 
@@ -66,4 +66,4 @@ New-Item -ItemType SymbolicLink -Target $HOME\.config\Firefox -Path $Env:appdata
 
 New-Item -ItemType SymbolicLink -Target $HOME\.config\ntop\ntop.conf -Path $Env:LocalAppdata\Microsoft\WinGet\Packages\gsass1.NTop_Microsoft.Winget.Source_8wekyb3d8bbwe\ntop.conf
 ```
-3. 
+3. Alternatively run the powershell script for setting up symbolic links, configure to your liking.
