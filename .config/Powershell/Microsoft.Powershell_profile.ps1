@@ -1,23 +1,23 @@
-$Env:KOMOREBI_CONFIG_HOME = 	"$HOME\.config\komerebi"
-$Env:WHKD_CONFIG_HOME = 		"$HOME\.config\whkd"
-$Env:NTop_CONFIG_HOME= 			"$HOME\.config\ntop"
-$Env:YAZI_CONFIG_HOME= 			"$HOME\.config\yazi"
-$Env:XDG_CONFIG_HOME=			"$HOME\.config"
-$Env:YAZI_FILE_ONE= 			"C:\Program Files\Git\usr\bin\file.exe"
-$Env:nvim= 						"C:\Program Files\Neovim\bin\nvim.exe"
+$Env:KOMOREBI_CONFIG_HOME =             "$HOME\.config\komerebi"
+$Env:WHKD_CONFIG_HOME =                 "$HOME\.config\whkd"
+$Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
+$Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
+$Env:XDG_CONFIG_HOME=                   "$HOME\.config"
+$Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
+$Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 
 
 
 # Set-Variable -Name HOME -Value "C:\Users\rando" -Scope Global
 
-Set-Alias	"ff"					"fastfetch"
-Set-Alias	"q"						"Quit"
-Set-Alias	"obm"					"OnboardMemoryManager"
-Set-Alias 	"winget-local" 			"Winget-Local"
-Set-Alias 	"open-exp" 				"Open-In-Explorer"
-Set-PSReadlineKeyHandler -Key 		"shift+Tab" -Function MenuComplete
-Set-PSReadLineKeyHandler -Chord 	"Tab" -Function AcceptSuggestion
-# Set-PSReadLineKeyHandler -Chord 	"RightArrow" -Function ForwardWord
+Set-Alias       "ff"                    "fastfetch"
+Set-Alias       "q"                     "Quit"
+Set-Alias       "obm"                   "OnboardMemoryManager"
+Set-Alias       "winget-local"          "Winget-Local"
+Set-Alias       "open-exp"              "Open-In-Explorer"
+Set-PSReadlineKeyHandler -Key           "shift+Tab" -Function MenuComplete
+Set-PSReadLineKeyHandler -Chord         "Tab" -Function AcceptSuggestion
+# Set-PSReadLineKeyHandler -Chord       "RightArrow" -Function ForwardWord
 
 
 # Store information that doesn't change frequently outside the prompt function
@@ -74,6 +74,14 @@ function Open-In-Explorer {
     Invoke-item .
 }
 
+
+
+function reboot {
+    Restart-Computer
+}
+
+
+
 # Measure initialization time
 $InitializationStartTime = Get-Date
 
@@ -87,6 +95,6 @@ $InitializationTime = [math]::Round(($InitializationEndTime - $InitializationSta
 # Display initialization time once at startup
 Write-Host "[Initialized in $InitializationTime ms] " -NoNewline -ForegroundColor Green
 
-ff
+
 
 

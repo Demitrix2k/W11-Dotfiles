@@ -10,3 +10,17 @@ https://github.com/yazi-rs/plugins/tree/main/hide-preview.yazi
 
 
 ya pack -a yazi-rs/plugins:hide-preview
+
+
+# tokyo night flavor
+https://github.com/BennyOe/tokyo-night.yazi
+
+or git
+
+git clone https://github.com/BennyOe/tokyo-night.yazi.git ~\.config\yazi\flavors
+
+add to theme.toml:
+[flavor]
+use = "tokyo-night"
+# For Yazi 0.4 and above
+dark = "tokyo-night"
