@@ -57,8 +57,16 @@
             "keys": "ctrl+shift+f"
         },
         {
+            "id": "Terminal.ToggleMarkMode",
+            "keys": "ctrl+alt+m"
+        },
+        {
             "id": "User.splitPane.A6751878",
             "keys": "alt+shift+d"
+        },
+        {
+            "id": null,
+            "keys": "ctrl+shift+m"
         }
     ],
     "launchMode": "focus",
@@ -77,6 +85,7 @@
             {
                 "face": "JetBrainsMono Nerd Font"
             },
+            "padding": "0, 0, 0, 0",
             "scrollbarState": "hidden",
             "useAcrylic": false
         },

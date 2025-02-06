@@ -5,6 +5,8 @@ $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
+$Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
+$Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
 
 
 
@@ -13,7 +15,7 @@ $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 Set-Alias       "ff"                    "fastfetch"
 Set-Alias       "q"                     "Quit"
 Set-Alias       "obm"                   "OnboardMemoryManager"
-Set-Alias       "winget-local"          "Winget-Local"
+Set-Alias       "winget-local"          "WingetLocal"
 Set-Alias       "open-exp"              "Open-In-Explorer"
 Set-PSReadlineKeyHandler -Key           "shift+Tab" -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord         "Tab" -Function AcceptSuggestion
@@ -66,7 +68,7 @@ function Quit {
     [System.Environment]::Exit(0)
 }
 
-function Winget-Local {
+function WingetLocal {
     Set-Location -Path $Env:LocalAppdata\Microsoft\WinGet\Packages\
 }
 
