@@ -123,7 +123,7 @@
 .komorebi-workspaces .ws-btn {
 	font-size: 14px;
     border: none;
-    color: #6c7086;
+    color: #41a6b5;
 	margin: 0 1px 0 1px;
     height: 30px;
     padding: 0 3px;
@@ -134,10 +134,10 @@
     border-bottom: 1px solid #7f849c;
 }
 .komorebi-workspaces .ws-btn.populated {
-	color: #b4befe;
+	color: #41a6b5;
 }
 .komorebi-workspaces .ws-btn.active {
-    color: #8BE9FD;
+    color: #41a6b5;
     font-weight: 900;
     border-bottom-color: #8BE9FD;
 }
@@ -213,7 +213,7 @@
 	font-size: 16px;
 }
 .volume-widget .icon {
-	color: #89b4fa;
+	color: #41a6b5;
 	margin: 1px 2px 0 0;
 }
 .cpu-widget .icon,

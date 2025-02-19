@@ -3,10 +3,14 @@ $Env:WHKD_CONFIG_HOME =                 "$HOME\.config\whkd"
 $Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
 $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
+$Env:POSHY=                             "$HOME\.config\posh"
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
-$Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
-$Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
+$Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
+$Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
+$Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
+$Env:pad2=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-20.ps1"
+
 
 
 
@@ -29,7 +33,7 @@ $IsAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.
 $LastPath = $pwd # Initialize last path
 
 function prompt {
-    # Update Window title only if the path has changed
+    ## Update Window title only if the path has changed
     $currentPath = $pwd
     if ($currentPath -ne $LastPath) {
         $host.ui.RawUI.WindowTitle = "Current Folder: $currentPath"
@@ -39,19 +43,20 @@ function prompt {
     $CmdPromptCurrentFolder = Split-Path -Path $currentPath -Leaf
     $Date = Get-Date -Format 'HH:mm:ss' # Simplified date format
 
-    #Decorate the CMD Prompt (simplified)
+    ## Decorate the CMD Prompt (simplified)
     Write-Host ""
     Write-host ($(if ($IsAdmin) { 'Elevated ' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
-    Write-Host " USER:$CurrentUser " -BackgroundColor DarkBlue -ForegroundColor White -NoNewline
+    Write-Host "  " -BackgroundColor DarkCyan -ForegroundColor White -NoNewline
+	# Write-Host " USER:$CurrentUser " -BackgroundColor DarkCyan -ForegroundColor White -NoNewline
     If ($CmdPromptCurrentFolder -like "*:*") {
-        Write-Host " $CmdPromptCurrentFolder "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline
+        Write-Host "  $CmdPromptCurrentFolder "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline
     } else {
-        Write-Host ".\$CmdPromptCurrentFolder\ "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline
+        Write-Host "  .\$CmdPromptCurrentFolder\ "  -ForegroundColor White -BackgroundColor DarkGray -NoNewline
     }
 
     Write-Host " $Date " -ForegroundColor White
 
-    return "> "
+    return "󱞩 "
 } # end prompt function
 
 # custom prompt Functions
@@ -83,6 +88,29 @@ function reboot {
 }
 
 
+function shell-colors {
+	$colors = [System.Enum]::GetValues([System.ConsoleColor])
+foreach ($color in $colors) {
+    Write-Host "This is $color" -ForegroundColor $color
+	}
+}
+
+
+
+function Convert-WebmToMp4 {
+  # Get the path to the conversion script from the environment variable
+  $conversionScriptPath = $Env:conv_webm_to_mp4
+
+  # Check if the path is valid
+  if (-not (Test-Path $conversionScriptPath)) {
+    Write-Error "Conversion script not found at: $conversionScriptPath"
+    return  # Exit the function if the script is not found
+  }
+
+  # Execute the conversion script
+  & $conversionScriptPath @args  # Pass any arguments to the script
+}
+
 
 # Measure initialization time
 $InitializationStartTime = Get-Date
@@ -96,6 +124,7 @@ $InitializationTime = [math]::Round(($InitializationEndTime - $InitializationSta
 
 # Display initialization time once at startup
 Write-Host "[Initialized in $InitializationTime ms] " -NoNewline -ForegroundColor Green
+
 
 
 

@@ -1,3 +1,6 @@
 *.log
 .config/Firefox/bypass_paywalls_clean-4.0.2.0-custom.xpi
 /.config/yazi/flavors/tokyo-night.yazi
+/.config/github-copilot
+.config/nvim/.github/ISSUE_TEMPLATE/bug_report.md
+.config/nvim/.github/pull_request_template.md

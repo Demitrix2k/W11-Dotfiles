@@ -16,8 +16,8 @@
             "id": "User.paste"
         },
         {
-            "command": "toggleFocusMode",
-            "id": "User.toggleFocusMode"
+            "command": "find",
+            "id": "User.find"
         },
         {
             "command": 
@@ -29,8 +29,8 @@
             "id": "User.splitPane.A6751878"
         },
         {
-            "command": "find",
-            "id": "User.find"
+            "command": "toggleFocusMode",
+            "id": "User.toggleFocusMode"
         }
     ],
     "alwaysShowTabs": true,
@@ -45,24 +45,24 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "User.toggleFocusMode",
-            "keys": "ctrl+f"
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
         },
         {
             "id": "User.paste",
             "keys": "ctrl+v"
         },
         {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "id": "Terminal.ToggleMarkMode",
-            "keys": "ctrl+alt+m"
+            "id": "User.toggleFocusMode",
+            "keys": "ctrl+f"
         },
         {
             "id": "User.splitPane.A6751878",
             "keys": "alt+shift+d"
+        },
+        {
+            "id": "Terminal.ToggleMarkMode",
+            "keys": "ctrl+alt+m"
         },
         {
             "id": null,
@@ -80,6 +80,7 @@
     {
         "defaults": 
         {
+            "colorScheme": "Tokyo Night",
             "experimental.retroTerminalEffect": false,
             "font": 
             {
@@ -142,10 +143,47 @@
                 "hidden": true,
                 "name": "Visual Studio Debug Console",
                 "source": "VSDebugConsole"
+            },
+            {
+                "guid": "{8b1a1f81-7f95-539d-91ce-c06fab61b158}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2019",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{7fc85221-6506-5cc6-8d20-4b0abffd8360}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2019",
+                "source": "Windows.Terminal.VisualStudio"
             }
         ]
     },
-    "schemes": [],
+    "schemes": 
+    [
+        {
+            "background": "#1A1B2C",
+            "black": "#414868",
+            "blue": "#7AA2F7",
+            "brightBlack": "#414868",
+            "brightBlue": "#7AA2F7",
+            "brightCyan": "#7DCFFF",
+            "brightGreen": "#73DACA",
+            "brightPurple": "#BB9AF7",
+            "brightRed": "#F7768E",
+            "brightWhite": "#C0CAF5",
+            "brightYellow": "#E0AF68",
+            "cursorColor": "#C0CAF5",
+            "cyan": "#7DCFFF",
+            "foreground": "#A9B1DC",
+            "green": "#73DACA",
+            "name": "Tokyo Night",
+            "purple": "#BB9AF7",
+            "red": "#F7768E",
+            "selectionBackground": "#28344A",
+            "white": "#C0CAF5",
+            "yellow": "#E0AF68"
+        }
+    ],
     "showTabsInTitlebar": true,
     "showTerminalTitleInTitlebar": false,
     "theme": "dark",

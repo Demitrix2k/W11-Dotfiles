@@ -15,7 +15,8 @@ bars:
   status-bar:
     enabled: true
     #screens: ['DELL P2419H (1)'] # If you want to show on specific screen
-    screens: ['*'] 
+    screens: ['LG ULTRAGEAR'] 
+    # screens: ['*'] 
     class_name: "yasb-bar"
     alignment:
       position: "bottom"
@@ -46,8 +47,8 @@ bars:
           "active_window_mod2"
         ] 
       center: [
-         "clock",
-         #"apps"
+         #"apps",
+         "clock"
         ]
       right:
         [
@@ -62,6 +63,7 @@ bars:
           "cpu2",
           #"libre_cpu",
           #"taskbar",
+          "battery",
           "volume",
           #"power_menu"
         ]
@@ -141,6 +143,8 @@ widgets:
       label_alt: "{icon} {percent}% | time: {time_remaining}"
       charging_options:
         icon_format: "{charging_icon}"
+      status_thresholds: {critical: 10, low: 25, medium: 40, high: 50, full: 60}
+        
 
   clock:
     type: "yasb.clock.ClockWidget"
@@ -370,6 +374,7 @@ widgets:
         - "\uf027"  # Icon for 31-60% volume
         - "\uf028"  # Icon for 61-100% volume
       callbacks:
+        on_left: "exec cmd.exe /c start ms-settings:apps-volume"
         on_right: "exec cmd.exe /c start ms-settings:sound"
 
   power_menu:
@@ -398,13 +403,16 @@ widgets:
     options:
       label: "{data}"
       app_list:
-        #- {icon: "\udb80\ude39", launch: "C:\\Program Files\\Mozilla Firefox\\firefox.exe"}
         - {icon: "\uf0a2", launch: "notification_center"}
         - {icon: "\ueb51", launch: "quick_settings"}
-        #- {icon: "\uf46a", launch: "cmd.exe /c start ms-settings:windowsupdate"}
         - {icon: "\uf422", launch: "search"}
-        #- {icon: "\udb84\udf55", launch: "widget"}
-        # Currently available to use quick_settings, notification_center, search, widget, launcher (launcher will trigger ALT+A)
+        #- {icon: "\uf489", launch: "wt"}
+        #- {icon: "C:\\Users\\jahuh\\icons\\vscode.png", launch: "C:\\jahuh\\Username\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"}
+      container_padding: 
+        top: 0
+        left: 8
+        bottom: 0
+        right: 8
 
   github:
     type: "yasb.github.GithubWidget"

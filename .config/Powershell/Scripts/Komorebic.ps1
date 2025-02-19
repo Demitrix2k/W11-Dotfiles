@@ -5,7 +5,7 @@ taskkill /f /im komorebi-bar.exe
 
 komorebic start --whkd
 # komorebic start --bar --whkd
-komorebic mouse-follows-focus disable
+#komorebic mouse-follows-focus disable
 
 echo Komorebic Running
 timeout /t 30

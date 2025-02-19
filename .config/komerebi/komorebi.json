@@ -4,6 +4,7 @@
   "window_hiding_behaviour": "Cloak",
   "window_container_behaviour": "Create",
   "cross_monitor_move_behaviour": "Insert",
+  "mouse_follows_focus": false,
   "default_workspace_padding": 10,
   "default_container_padding": 10,
   "border": true,
@@ -11,8 +12,8 @@
   "border_offset": 0,
   "border_style": "Square",
   "border_colours": {
-    "single": "#8BE9FD",
-    "stack": "#8BE9FD",
+    "single": "#41a6b5",
+    "stack": "#41a6b5",
     "monocle": "#ff3399",
     "unfocused": "#00000000",
     "floating": "#00000000"		
@@ -27,29 +28,15 @@
       "background": "#141414"
     }
   },
-
+  "display_index_preferences": {
+    "0": "SHP1558-5&2c1b134a&0&UID256",
+    "1": "GSM5BD2-5&32d7051&1&UID4354"
+	  },
   "monitors": [
     {
       "workspaces": [
 			{
-			"name": "1",
-			"layout": "BSP",
-			"float_override": true
-			},
-			{
-			"name": "2",
-			"layout": "BSP",
-			"float_override": true
-			},
-			{
-			"name": "3",
-			"layout": "BSP",
-			"window_container_behaviour": "Append",
-			"float_override": true
-			},
-			{
-			"name": "stuff",
-			"layout": "BSP"
+			"name": "laptop-mon"
 			}
 	    ]
 	},

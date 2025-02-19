@@ -1,5 +1,17 @@
-[plugin]
-deps = [{ use = "yazi-rs/plugins:hide-preview", rev = "8ed2537" }, { use = "yazi-rs/plugins:max-preview", rev = "8ed2537" }, { use = "dedukun/bookmarks", rev = "202e450" }]
+[[plugin.deps]]
+use = "yazi-rs/plugins:hide-preview"
+rev = "8ed2537"
+hash = "5be5885898ca9df783bdec0d402bf4b0"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:max-preview"
+rev = "8ed2537"
+hash = "9bc26d10d2f6e2aa93b10905b1b76979"
+
+[[plugin.deps]]
+use = "dedukun/bookmarks"
+rev = "202e450"
+hash = ""
 
 [flavor]
 deps = []

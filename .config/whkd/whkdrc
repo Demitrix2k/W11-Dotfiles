@@ -75,6 +75,7 @@ ctrl + 6                        : komorebic save-resize $Env:KOMOREBI_CONFIG_HOM
 
 win + ctrl + 1                  : pwsh $env:pad0 
 win + ctrl + 2                  : pwsh $env:pad1
+win + ctrl + 3                  : pwsh $env:pad2
 
 ##########################################################################################################################################
 ################ MANIPULATE WINDOWS
