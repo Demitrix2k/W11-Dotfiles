@@ -1,10 +1,17 @@
-.shell powershell
+.shell pwsh                            # can be one of cmd | pwsh | powershell
+.pause alt + shift + p                 # can be any hotkey combo to toggle all other hotkeys on and off
+
+#.pause_hook komorebic toggle-pause
+#.pause_hook echo "you can call whatever powershell command you want here"
+
+
 ##########################################################################################################################################
 ################ RELOAD WHKD CONFIGURATION
 
 # alt + o                		: taskkill /f /im whkd.exe && start /b whkd # if shell is cmd
 alt + o                  		: taskkill /f /im whkd.exe; Start-Process whkd -WindowStyle hidden # if shell is pwsh / powershell
 alt + shift + o          		: komorebic reload-configuration
+
 
 ##########################################################################################################################################
 ################ APP SHORTCUTS - THESE REQUIRE SHELL TO BE PWSH / POWERSHELL
@@ -16,6 +23,15 @@ alt + shift + o          		: komorebic reload-configuration
 ############### PROGRAMS
 alt + shift + 0                 : start wt
 alt + shift + 9                 : start 'C:\programs\TaskbarToggle.exe'
+
+##########################################################################################################################################
+############### PAUSE WHKD
+#.shell pwsh
+
+#.pause alt + shift + p
+#.pause_hook komorebic toggle-pause
+
+alt + shift + p                  : .pause
 
 ##########################################################################################################################################
 ############### FOCUS WINDOWS
@@ -121,7 +137,7 @@ alt + shift + 2                 : komorebic move-to-workspace 1
 alt + shift + 3                 : komorebic move-to-workspace 2
 alt + shift + 4                 : komorebic move-to-workspace 3
 
-###############################################################################
+##########################################################################################################################################
 ################ SENDS WINDOWS TO  WORKSPACES
 
 # alt + shift + 1               : komorebic send-to-workspace 0

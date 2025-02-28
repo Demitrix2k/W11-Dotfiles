@@ -1,3 +1,75 @@
+/* ########################## BEGIN OF SNIPPET ---Auto-collapse server, channel and member list.--- BEGIN OF SNIPPET ########################## */
+:root {
+    --transition-bezier: 0s ease-in-out; /* modify this to add a transition, but it stutters too much for me */
+    --exit-delay: 0.25s;
+	--exit-delay-server: .25s;
+    --collapsed-channel-width: 120px;
+    --collapsed-members-width: 64px;
+    --collapsed-profile-width: 110px;
+    --expanded-channel-width: 264px;
+    --expanded-members-width: 240px;
+    --expanded-profile-width: 340px;
+}   
+/* Hide Channels sidebar */
+div[class^=base] > div[class^=content] > div[class^=sidebar] {
+	transition-delay: var(--exit-delay);
+    width: var(--exit-delay);
+	width: var(--collapsed-members-width)!important;
+	/* transform: translateX(-5px); */
+}
+/* Show Channels sidebar when hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
+	transition-delay: var(--exit-delay);
+	width: var(--expanded-members-width)!important;
+}
+/*for server list*/
+[class*=guilds_] {
+
+	/* how long to hover before opening */
+	transition-delay: 0.4s; 
+	&:not(:hover) {
+	transition-delay: var(--exit-delay-server);
+	
+    /* transition-delay: 8.5s;   */
+	/* how to keep open after hover is removed */
+    padding-left: 13px;
+    width: 0px;
+  }
+} 
+/* Hide member list */
+[class^=membersWrap],
+[aria-label="Members"],
+[class^=members] {
+    /* set width */
+    transition-delay: var(--exit-delay);
+    width: var(--collapsed-members-width)!important;
+    min-width: var(--collapsed-members-width)!important;
+}
+/* Show member list when hovered */
+[class^=membersWrap]:hover,
+[class^=membersWrap]:hover [aria-label="Members"],
+[class^=members]:hover {
+    /* set width */
+    transition-delay: 0s;
+    transition: var(--transition-bezier);
+    width: var(--expanded-members-width)!important;
+}
+/* ########################## END OF SNIPPET ---Auto-collapse server, channel and member list.--- END OF SNIPPET ########################## */
+
+
+/* ########################## BEGIN OF SNIPPET ---HIDE SERVER BANNERE.--- BEGIN OF SNIPPET ########################## */
+  
+[class*=animatedContainer_]:has(>[class*=bannerImage_]),
+[style="height: 84px;"] {
+	display:none
+
+}
+/* ########################## END OF SNIPPET ---HIDE SERVER BANNERE.--- END OF SNIPPET ########################## */
+
+
+
+
+
 /* Hides the # in channel names and also hides server user list */
 @media (max-width: 1100px)
 {
@@ -39,29 +111,6 @@
  * @author rech
  * @source https://github.com/rechington/Discord-Mods/blob/main/collapsable%20sidebars.css
 */
-/* Hide left sidebar */
-div[class^=base] > div[class^=content] > div[class^=sidebar] {
-    transition: width 0.15s ease, padding 0.15s ease; 
-	transition-delay: 3.0s;
-    width: 60px!important;
-}
-
-/* Show left sidebar when hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
-    width: 230px!important;
-	transition-delay: 0.2s;
-}
-
-/*for server list*/
-[class*=guilds_] {
-    transition: width 0.15s ease, padding 0.15s ease;  /* how fast to open and close the server list and the padding */
-    transition-delay: 0.2s; /* how long to hover before opening*/
-  &:not(:hover) {
-    transition-delay: 8.5s; /* how to keep open after hover is removed*/
-    padding-left: 13px;
-    width: 0px;
-  }
-}
 
 /* Shrinks titlebar down to nothing */
 div[class*="titleBar_"] {

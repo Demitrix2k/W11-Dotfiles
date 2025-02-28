@@ -2,7 +2,10 @@
     "autoUpdate": true,
     "autoUpdateNotification": true,
     "useQuickCss": true,
-    "themeLinks": [],
+    "themeLinks": [
+        ". https://raw.githubusercontent.com/Dyzean/Tokyo-Night/main/themes/tokyo-night.theme.css",
+        "https://discordstyles.github.io/DarkMatter/DarkMatter.theme.css"
+    ],
     "enabledThemes": [
         "MinimalNight.theme.css"
     ],
@@ -159,7 +162,7 @@
             "enabled": true
         },
         "Experiments": {
-            "enabled": false
+            "enabled": true
         },
         "F8Break": {
             "enabled": false
@@ -609,6 +612,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1738468855436
-    }
+        "settingsSyncVersion": 1740721619309
+    },
+    "eagerPatches": false
 }

@@ -19,7 +19,9 @@ foreach ($webmFile in $webmFiles) {
     $outputPath = Join-Path $outputDir "$($webmFile.BaseName).mp4"
 
     # Run FFmpeg (with error handling and realtime output)
-    ffmpeg -i $webmFile.FullName -c:v libx264 -crf 23 -preset medium -c:a copy $outputPath 2>&1 #| Out-File -FilePath "ffmpeg_errors.txt" -Append  # Commented out logging
+    #ffmpeg -i $webmFile.FullName -c:v libx264 -crf 23 -preset medium -c:a copy $outputPath 2>&1 #| Out-File -FilePath "ffmpeg_errors.txt" -Append  # Commented out logging
+	ffmpeg -i $webmFile.FullName -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k $outputPath 2>&1 #| Out-File -FilePath "ffmpeg_errors.txt" -Append  # Commented out logging
+
 
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "FFmpeg returned an error for $($webmFile.FullName)"

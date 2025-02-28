@@ -12,15 +12,12 @@ $Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komore
 $Env:pad2=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-20.ps1"
 
 
-
-
-# Set-Variable -Name HOME -Value "C:\Users\rando" -Scope Global
-
 Set-Alias       "ff"                    "fastfetch"
 Set-Alias       "q"                     "Quit"
 Set-Alias       "obm"                   "OnboardMemoryManager"
 Set-Alias       "winget-local"          "WingetLocal"
 Set-Alias       "open-exp"              "Open-In-Explorer"
+Set-Alias       "aliasp"                "profile-aliases"
 Set-PSReadlineKeyHandler -Key           "shift+Tab" -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord         "Tab" -Function AcceptSuggestion
 # Set-PSReadLineKeyHandler -Chord       "RightArrow" -Function ForwardWord
@@ -95,7 +92,15 @@ foreach ($color in $colors) {
 	}
 }
 
-
+function profile-aliases {
+	Write-Host "ff              - Fastfetch"
+	Write-Host "q               - quit terminal"
+	Write-Host "obm             - OnBoardMemoryManager mouse"
+	Write-Host "winget-local    - shows winget path"
+	Write-Host "open-exp        - opens explorer in current path"
+	Write-Host "Tab             - autocomplete"
+	Write-Host "Shift+Tab       - Show Suggestions"
+}
 
 function Convert-WebmToMp4 {
   # Get the path to the conversion script from the environment variable
