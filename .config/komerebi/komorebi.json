@@ -8,15 +8,15 @@
   "default_workspace_padding": 10,
   "default_container_padding": 10,
   "border": true,
-  "border_width": 2,
-  "border_offset": 0,
+  "border_width": 3,
+  "border_offset": -1,
   "border_style": "Square",
   "border_colours": {
     "single": "#41a6b5",
     "stack": "#41a6b5",
     "monocle": "#ff3399",
-    "unfocused": "#00000000",
-    "floating": "#00000000"		
+    "unfocused": "#000000",
+    "floating": "#000000"		
   },
   "stackbar": {
     "height": 18,

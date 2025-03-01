@@ -9,7 +9,7 @@ Write-Host "###############################################" -ForegroundColor Cy
 Write-Host ""
 Write-Host "###############################################" -ForegroundColor Cyan
 Write-Host "#   The sub-folders include Firefox, ntop,    #" -ForegroundColor Cyan
-Write-Host "#  Powershell, Vencord, and Windows Terminal. #" -ForegroundColor Cyan
+Write-Host "# Powershell, Vencord, Zen, Windows Terminal. #" -ForegroundColor Cyan
 Write-Host "###############################################" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "###############################################" -ForegroundColor Cyan
@@ -27,7 +27,7 @@ Write-Host "#   Your home directory is: $homeDirectory    #" -ForegroundColor Ye
 Write-Host "###############################################" -ForegroundColor Yellow
 Write-Host ""
 $confirmation = Read-Host "### Do you want to continue? (Y/N) ###"
-if ($confirmation -ne 'Y') {
+if ($confirmation -ne 'Y' -and $confirmation -ne 'y' -and $confirmation -ne '') {
     Write-Host "###############################################" -ForegroundColor Red
     Write-Host "#             Operation cancelled.            #" -ForegroundColor Red
     Write-Host "###############################################" -ForegroundColor Red
@@ -80,7 +80,7 @@ if (-Not (Test-Path -Path $sourcePath) -and -Not $skipMove) {
 #####################################################
 if (-Not $skipMove) {
     $moveFolder = Read-Host "### Do you want to move the .config folder to your home directory now? (Y/N) ###"
-    if ($moveFolder -eq 'Y') {
+    if ($moveFolder -eq 'Y' -or $moveFolder -eq 'y' -or $moveFolder -eq '') {
         Move-Item -Path $sourcePath -Destination $homeDirectory -Force
         Write-Host "###############################################" -ForegroundColor Green
         Write-Host "#   .config folder moved successfully.        #" -ForegroundColor Green
@@ -100,7 +100,7 @@ $scannedSubFolders = Get-ChildItem -Directory -Path $targetPath | Select-Object 
 #####################################################
 # Define the sub-folders to create symbolic links for #
 #####################################################
-$subFolders = @("Firefox", "ntop", "Powershell", "Vencord", "Windows Terminal")
+$subFolders = @("Firefox", "Zen", "ntop", "Powershell", "Vencord", "Windows Terminal")
 
 #####################################################
 # Check if the sub-folders exist in the scanned sub-folders #
@@ -121,7 +121,7 @@ foreach ($folder in $subFolders) {
 # Ask the user if they want to create symbolic links #
 #####################################################
 $createLinks = Read-Host "### Do you want to create symbolic links for the sub-folders? (Y/N) ###"
-if ($createLinks -ne 'Y') {
+if ($createLinks -ne 'Y' -and $createLinks -ne 'y' -and $createLinks -ne '') {
     Write-Host "###############################################" -ForegroundColor Yellow
     Write-Host "#      Skipping symbolic link creation.       #" -ForegroundColor Yellow
     Write-Host "###############################################" -ForegroundColor Yellow
@@ -140,12 +140,12 @@ if ($createLinks -ne 'Y') {
 $linkAll = Read-Host "### Do you want to create symbolic links for all sub-folders? (Y/N) ###"
 $selectedFolders = @()
 
-if ($linkAll -eq 'Y') {
+if ($linkAll -eq 'Y' -or $linkAll -eq 'y' -or $linkAll -eq '') {
     $selectedFolders = $existingSubFolders
 } else {
     foreach ($folder in $existingSubFolders) {
         $response = Read-Host "### Do you want to create a symbolic link for ${folder}? (Y/N) ###"
-        if ($response -eq 'Y') {
+        if ($response -eq 'Y' -or $response -eq 'y' -or $response -eq '') {
             $selectedFolders += $folder
         }
     }
@@ -180,8 +180,8 @@ function Prompt-SymbolicLink {
         $selectedProfiles = @()
         foreach ($profile in $profiles) {
             $response = Read-Host "### Do you want to create a symbolic link for profile $($profile.Name)? (y/n) ###"
-            if ($response -eq 'y') {
-                $selectedProfiles += $profile.Name
+            if ($response -eq 'y' -or $response -eq 'Y' -or $response -eq '') {
+                $selectedProfiles += $profile.Name 
             }
         }
 
@@ -190,14 +190,14 @@ function Prompt-SymbolicLink {
             $linkTarget = "$targetPath\Firefox\chrome"
             if (Test-Path $linkPath) {
                 $renameResponse = Read-Host "### The folder $linkPath already exists. Do you want to rename it? (y/n) ###"
-                if ($renameResponse -eq 'y') {
+                if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                     $newName = "$linkPath-renamed"
                     Rename-Item -Path $linkPath -NewName $newName
                     Write-Host "###############################################" -ForegroundColor Yellow
                     Write-Host "#     Renamed existing folder to $newName     #" -ForegroundColor Yellow
                     Write-Host "###############################################" -ForegroundColor Yellow
                     $openResponse = Read-Host "### Do you want to open the renamed folder? (y/n) ###"
-                    if ($openResponse -eq 'y') {
+                    if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                         explorer.exe $newName
                     }
                 }
@@ -205,6 +205,52 @@ function Prompt-SymbolicLink {
             New-Item -ItemType SymbolicLink -Target $linkTarget -Path $linkPath -Force
             Write-Host "######################################################" -ForegroundColor Green
             Write-Host "# Symbolic link created for Firefox profile $profile #" -ForegroundColor Green
+            Write-Host "######################################################" -ForegroundColor Green
+        }
+    } elseif ($folderName -eq "Zen") {
+        $profilesPath = "$HOME\AppData\Roaming\Zen\Profiles"
+        $profiles = Get-ChildItem -Directory -Path $profilesPath
+
+        if ($profiles.Count -eq 0) {
+            Write-Host "###############################################" -ForegroundColor Red
+            Write-Host "#          No Zen profiles found.             #" -ForegroundColor Red
+            Write-Host "###############################################" -ForegroundColor Red
+            return
+        }
+
+        Write-Host "###############################################" -ForegroundColor Yellow
+        Write-Host "#    Found the following Zen profiles:        #" -ForegroundColor Yellow
+        Write-Host "###############################################" -ForegroundColor Yellow
+        $profiles | ForEach-Object { Write-Host $_.Name }
+
+        $selectedProfiles = @()
+        foreach ($profile in $profiles) {
+            $response = Read-Host "### Do you want to create a symbolic link for profile $($profile.Name)? (y/n) ###"
+            if ($response -eq 'y' -or $response -eq 'Y' -or $response -eq '') {
+                $selectedProfiles += $profile.Name 
+            }
+        }
+
+        foreach ($profile in $selectedProfiles) {
+            $linkPath = "$profilesPath\$profile\chrome"
+            $linkTarget = "$targetPath\Zen\chrome"
+            if (Test-Path $linkPath) {
+                $renameResponse = Read-Host "### The folder $linkPath already exists. Do you want to rename it? (y/n) ###"
+                if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
+                    $newName = "$linkPath-renamed"
+                    Rename-Item -Path $linkPath -NewName $newName
+                    Write-Host "###############################################" -ForegroundColor Yellow
+                    Write-Host "#     Renamed existing folder to $newName     #" -ForegroundColor Yellow
+                    Write-Host "###############################################" -ForegroundColor Yellow
+                    $openResponse = Read-Host "### Do you want to open the renamed folder? (y/n) ###"
+                    if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
+                        explorer.exe $newName
+                    }
+                }
+            }
+            New-Item -ItemType SymbolicLink -Target $linkTarget -Path $linkPath -Force
+            Write-Host "######################################################" -ForegroundColor Green
+            Write-Host "# Symbolic link created for Zen profile $profile     #" -ForegroundColor Green
             Write-Host "######################################################" -ForegroundColor Green
         }
     } elseif ($folderName -eq "ntop") {
@@ -223,14 +269,14 @@ function Prompt-SymbolicLink {
         $linkTarget = "$targetPath\ntop\ntop.conf"
         if (Test-Path $linkPath) {
             $renameResponse = Read-Host "### The file $linkPath already exists. Do you want to rename it? (y/n) ###"
-            if ($renameResponse -eq 'y') {
+            if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                 $newName = "$linkPath-renamed"
                 Rename-Item -Path $linkPath -NewName $newName
                 Write-Host "###############################################" -ForegroundColor Yellow
                 Write-Host "#      Renamed existing file to $newName      #" -ForegroundColor Yellow
                 Write-Host "###############################################" -ForegroundColor Yellow
                 $openResponse = Read-Host "### Do you want to open the location of the renamed file? (y/n) ###"
-                if ($openResponse -eq 'y') {
+                if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                     explorer.exe (Split-Path -Parent $newName)
                 }
             }
@@ -245,14 +291,14 @@ function Prompt-SymbolicLink {
         $linkPath = "C:\Users\$userName\Documents\Powershell"
         if (Test-Path $linkPath) {
             $renameResponse = Read-Host "### The folder $linkPath already exists. Do you want to rename it? (y/n) ###"
-            if ($renameResponse -eq 'y') {
+            if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                 $newName = "$linkPath-renamed"
                 Rename-Item -Path $linkPath -NewName $newName
                 Write-Host "###############################################" -ForegroundColor Yellow
                 Write-Host "#      Renamed existing folder to $newName    #" -ForegroundColor Yellow
                 Write-Host "###############################################" -ForegroundColor Yellow
                 $openResponse = Read-Host "### Do you want to open the renamed folder? (y/n) ###"
-                if ($openResponse -eq 'y') {
+                if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                     explorer.exe $newName
                 }
             }
@@ -267,14 +313,14 @@ function Prompt-SymbolicLink {
         $linkPath = "C:\Users\$userName\AppData\Roaming\Vencord\settings"
         if (Test-Path $linkPath) {
             $renameResponse = Read-Host "### The folder $linkPath already exists. Do you want to rename it? (y/n) ###"
-            if ($renameResponse -eq 'y') {
+            if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                 $newName = "$linkPath-renamed"
                 Rename-Item -Path $linkPath -NewName $newName
                 Write-Host "###############################################" -ForegroundColor Yellow
                 Write-Host "#     Renamed existing folder to $newName     #" -ForegroundColor Yellow
                 Write-Host "###############################################" -ForegroundColor Yellow
                 $openResponse = Read-Host "### Do you want to open the renamed folder? (y/n) ###"
-                if ($openResponse -eq 'y') {
+                if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                     explorer.exe $newName
                 }
             }
@@ -293,14 +339,14 @@ function Prompt-SymbolicLink {
             $linkTarget = "$targetPath\Windows Terminal\Stable\settings.json"
             if (Test-Path $stablePath) {
                 $renameResponse = Read-Host "### The file $stablePath already exists. Do you want to rename it? (y/n) ###"
-                if ($renameResponse -eq 'y') {
+                if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                     $newName = "$stablePath-renamed"
                     Rename-Item -Path $stablePath -NewName $newName
                     Write-Host "###############################################" -ForegroundColor Yellow
                     Write-Host "#      Renamed existing file to $newName      #" -ForegroundColor Yellow
                     Write-Host "###############################################" -ForegroundColor Yellow
                     $openResponse = Read-Host "### Do you want to open the location of the renamed file? (y/n) ###"
-                    if ($openResponse -eq 'y') {
+                    if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                         explorer.exe (Split-Path -Parent $newName)
                     }
                 }
@@ -322,14 +368,14 @@ function Prompt-SymbolicLink {
             $linkTarget = "$targetPath\Windows Terminal\Preview\settings.json"
             if (Test-Path $previewPath) {
                 $renameResponse = Read-Host "### The file $previewPath already exists. Do you want to rename it? (y/n) ###"
-                if ($renameResponse -eq 'y') {
+                if ($renameResponse -eq 'y' -or $renameResponse -eq 'Y' -or $renameResponse -eq '') {
                     $newName = "$previewPath-renamed"
                     Rename-Item -Path $previewPath -NewName $newName
                     Write-Host "###############################################" -ForegroundColor Yellow
                     Write-Host "#      Renamed existing file to $newName      #" -ForegroundColor Yellow
                     Write-Host "###############################################" -ForegroundColor Yellow
                     $openResponse = Read-Host "### Do you want to open the location of the renamed file? (y/n) ###"
-                    if ($openResponse -eq 'y') {
+                    if ($openResponse -eq 'y' -or $openResponse -eq 'Y' -or $openResponse -eq '') {
                         explorer.exe (Split-Path -Parent $newName)
                     }
                 }
@@ -348,7 +394,7 @@ function Prompt-SymbolicLink {
     # Option to open the folder location of the linked file/folder
     if ($linkPath) {
         $openLinkLocation = Read-Host "### Do you want to open the folder location of the linked file/folder? (y/n) ###"
-        if ($openLinkLocation -eq 'y') {
+        if ($openLinkLocation -eq 'y' -or $openLinkLocation -eq 'Y' -or $openLinkLocation -eq '') {
             explorer.exe (Split-Path -Parent $linkPath)
         }
     }

@@ -1,4 +1,6 @@
-/* ########################## BEGIN OF SNIPPET ---Auto-collapse server, channel and member list.--- BEGIN OF SNIPPET ########################## */
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
+
+/* Auto-collapse server, channel and member list. */
 :root {
     --transition-bezier: 0s ease-in-out; /* modify this to add a transition, but it stutters too much for me */
     --exit-delay: 0.25s;
@@ -12,30 +14,43 @@
 }   
 /* Hide Channels sidebar */
 div[class^=base] > div[class^=content] > div[class^=sidebar] {
-	transition-delay: var(--exit-delay);
-    width: var(--exit-delay);
-	width: var(--collapsed-members-width)!important;
-	/* transform: translateX(-5px); */
+    transition-delay: var(--exit-delay);
+    width: var(--collapsed-members-width)!important;
 }
 /* Show Channels sidebar when hovered */
 div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
-	transition-delay: var(--exit-delay);
-	width: var(--expanded-members-width)!important;
+    transition-delay: var(--exit-delay);
+    width: var(--expanded-members-width)!important;
 }
-/*for server list*/
-[class*=guilds_] {
-
-	/* how long to hover before opening */
-	transition-delay: 0.4s; 
-	&:not(:hover) {
-	transition-delay: var(--exit-delay-server);
-	
-    /* transition-delay: 8.5s;   */
-	/* how to keep open after hover is removed */
+/* Hide server list when Channels sidebar is hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_] {
     padding-left: 13px;
     width: 0px;
-  }
-} 
+}
+/* Hide server list */
+[class*=guilds_] {
+    transition-delay: 0.4s;
+    &:not(:hover) {
+        transition-delay: var(--exit-delay-server);
+        padding-left: 13px;
+        width: 0px;
+    }
+}
+/* Show server list when hovered */
+[class*=guilds_]:hover {
+    transition-delay: var(--exit-delay-server);
+    width: var(--collapsed-members-width)!important;
+}
+/* Apply hover rules to guilds when sidebar is hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_],
+div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_]:hover {
+    transition-delay: var(--exit-delay-server);
+    width: var(--collapsed-members-width)!important;
+}
+/* Hide Channels sidebar when server list is hovered */
+[class*=guilds_]:hover ~ div[class^=base] > div[class^=content] > div[class^=sidebar] {
+    width: var(--collapsed-members-width)!important;
+}
 /* Hide member list */
 [class^=membersWrap],
 [aria-label="Members"],
@@ -54,21 +69,27 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
     transition: var(--transition-bezier);
     width: var(--expanded-members-width)!important;
 }
-/* ########################## END OF SNIPPET ---Auto-collapse server, channel and member list.--- END OF SNIPPET ########################## */
+/* ########################## ---END OF SNIPPET--- ########################## */
 
 
-/* ########################## BEGIN OF SNIPPET ---HIDE SERVER BANNERE.--- BEGIN OF SNIPPET ########################## */
-  
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
+
+/* Hides the banner image in the server list */
 [class*=animatedContainer_]:has(>[class*=bannerImage_]),
 [style="height: 84px;"] {
 	display:none
 
 }
-/* ########################## END OF SNIPPET ---HIDE SERVER BANNERE.--- END OF SNIPPET ########################## */
+/* ########################## ---END OF SNIPPET--- ########################## */
 
 
 
 
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Hides the # in channel names and also hides server user list */
 @media (max-width: 1100px)
@@ -96,10 +117,13 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
         }
     }
 }
+/* ########################## ---END OF SNIPPET--- ########################## */
 
 
 
 
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 /* Hide the dumbfuck voice chat icon on server lists */
 
 [class^="upperBadge_"] {
@@ -111,16 +135,37 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
  * @author rech
  * @source https://github.com/rechington/Discord-Mods/blob/main/collapsable%20sidebars.css
 */
+/* ########################## ---END OF SNIPPET--- ########################## */
+
+
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Shrinks titlebar down to nothing */
 div[class*="titleBar_"] {
     height: 5px;
 }
+/* ########################## ---END OF SNIPPET--- ########################## */
+
+
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Removes the "Discord" text on the top left of the screen */
 div[class*="wordmark_"] {
     display: none;
 }
+/* ########################## ---END OF SNIPPET--- ########################## */
+
+
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Scale the _ □ X buttons to match top bar icons */
 div[class*=winButton_] {
@@ -136,13 +181,12 @@ div[class*=winButton_]:hover {
     background-color: transparent;
 	display:none;	
 }
-
 /* small hack to avoid https://github.com/electron/electron/issues/1354 */
 /* [class^="winButtonClose_"], */
 /* [class^="closeButton_"] { */
     /* -webkit-app-region: no-drag; */
 	/* display:none; */
-}
+/* } */
 div[class^="upperContainer_"] {
     -webkit-app-region: drag;
     width: calc(100% - 96px);
@@ -152,9 +196,13 @@ div[class^="upperContainer_"] {
 div[class*="threadSidebarOpen_"] > div > section > div[class^="upperContainer_"] {
     width: 100%;
 }
+/* ########################## ---END OF SNIPPET--- ########################## */
 
 
-/* --- */
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* hide nitro ads from profile */
 
@@ -196,3 +244,10 @@ div[aria-label="Forward"] {
 .searchBar_f0963d {
     display: none;
 }
+/* ########################## ---END OF SNIPPET--- ########################## */
+
+
+
+
+
+/* ########################## ---BEGIN OF SNIPPET--- ########################## */

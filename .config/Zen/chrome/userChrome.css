@@ -1,0 +1,58 @@
+/* conflicts with zen  */
+/* #titlebar { */
+    /* position: absolute; */
+    /* top: 1px; */
+/* } */
+/* Remove close button */
+.titlebar-buttonbox-container { 
+	display:none 
+}
+
+/* hide vertical tabs "close tab" icon button on mini-tabs */
+.tab-close-button {
+	display:none !important;	
+}
+
+#toolbar {
+    position: absolute;
+    top: 1px;
+}
+#urlbar-searchmode-switcher {
+	display:none 
+}
+
+#toolbar-menubar {
+  display: none !important;	
+}
+
+#alltabs-button {
+  display: none !important;	
+}
+
+#tabs-newtab-button, #vertical-tabs-newtab-button {
+  display: none !important;	
+}
+
+/* Center url bar stuff */
+#urlbar {
+	text-align: center;
+}
+.urlbarView-row-inner{ 
+	display: flex; 
+flex-direction: column !important; 
+} 
+/* .urlbarView-title-separator{  */
+/* display: none;  */
+/* }  */
+
+#PlacesToolbarItems { 
+	justify-content: safe center !important;
+}
+
+/* #zen-main-app-wrapper,  #zen-appcontent-wrapper,  #zen-sidebar-splitter { */
+	/* appearance: unset !important; */
+/* } */
+
+#zen-workspaces-button {
+	display: none !important;
+}  
