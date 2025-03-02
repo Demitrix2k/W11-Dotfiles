@@ -8,19 +8,19 @@
   "default_workspace_padding": 10,
   "default_container_padding": 10,
   "border": true,
-  "border_width": 3,
+  "border_width": 4,
   "border_offset": -1,
   "border_style": "Square",
   "border_colours": {
-    "single": "#41a6b5",
-    "stack": "#41a6b5",
-    "monocle": "#ff3399",
+    "single": "#006699",
+    "stack": "#330066",
+    "monocle": "#990066",
     "unfocused": "#000000",
-    "floating": "#000000"		
+    "floating": "#033694"		
   },
   "stackbar": {
     "height": 18,
-    "mode": "OnStack",
+    "mode": "Never",
     "tabs": {
       "width": 170,
       "focused_text": "#8BE9FD",

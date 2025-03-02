@@ -40,12 +40,12 @@ bars:
           # "komorebi_workspaces",
            "komorebi_workspaces2",
            "komorebi_active_layout",
+           "active_window2",
           # "whkd",
           #windows_workspaces,
           # "wallpapers",
           # "apps",
           # "taskbar",
-          "active_window2",
         ]
       center: [
           #"clock",

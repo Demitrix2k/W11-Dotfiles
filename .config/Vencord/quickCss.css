@@ -29,7 +29,6 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 }
 /* Hide server list */
 [class*=guilds_] {
-    transition-delay: 0.4s;
     &:not(:hover) {
         transition-delay: var(--exit-delay-server);
         padding-left: 13px;
@@ -41,21 +40,10 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
     transition-delay: var(--exit-delay-server);
     width: var(--collapsed-members-width)!important;
 }
-/* Apply hover rules to guilds when sidebar is hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_],
-div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_]:hover {
-    transition-delay: var(--exit-delay-server);
-    width: var(--collapsed-members-width)!important;
-}
-/* Hide Channels sidebar when server list is hovered */
-[class*=guilds_]:hover ~ div[class^=base] > div[class^=content] > div[class^=sidebar] {
-    width: var(--collapsed-members-width)!important;
-}
 /* Hide member list */
 [class^=membersWrap],
 [aria-label="Members"],
 [class^=members] {
-    /* set width */
     transition-delay: var(--exit-delay);
     width: var(--collapsed-members-width)!important;
     min-width: var(--collapsed-members-width)!important;
@@ -73,8 +61,6 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 
 
 
-
-
 /* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Hides the banner image in the server list */
@@ -84,8 +70,6 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 
 }
 /* ########################## ---END OF SNIPPET--- ########################## */
-
-
 
 
 
@@ -121,8 +105,6 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 
 
 
-
-
 /* ########################## ---BEGIN OF SNIPPET--- ########################## */
 /* Hide the dumbfuck voice chat icon on server lists */
 
@@ -139,8 +121,6 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 
 
 
-
-
 /* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Shrinks titlebar down to nothing */
@@ -151,8 +131,6 @@ div[class*="titleBar_"] {
 
 
 
-
-
 /* ########################## ---BEGIN OF SNIPPET--- ########################## */
 
 /* Removes the "Discord" text on the top left of the screen */
@@ -160,8 +138,6 @@ div[class*="wordmark_"] {
     display: none;
 }
 /* ########################## ---END OF SNIPPET--- ########################## */
-
-
 
 
 
@@ -181,24 +157,16 @@ div[class*=winButton_]:hover {
     background-color: transparent;
 	display:none;	
 }
-/* small hack to avoid https://github.com/electron/electron/issues/1354 */
-/* [class^="winButtonClose_"], */
-/* [class^="closeButton_"] { */
-    /* -webkit-app-region: no-drag; */
-	/* display:none; */
-/* } */
-div[class^="upperContainer_"] {
-    -webkit-app-region: drag;
-    width: calc(100% - 96px);
-}
-
 /* revert offset when thread/forum channel is open */
 div[class*="threadSidebarOpen_"] > div > section > div[class^="upperContainer_"] {
     width: 100%;
 }
+/* fixes header offset being skewed away from the right */
+div[class^="upperContainer_"] {
+  -webkit-app-region: drag;
+  width: 100%;
+}
 /* ########################## ---END OF SNIPPET--- ########################## */
-
-
 
 
 
@@ -245,8 +213,6 @@ div[aria-label="Forward"] {
     display: none;
 }
 /* ########################## ---END OF SNIPPET--- ########################## */
-
-
 
 
 

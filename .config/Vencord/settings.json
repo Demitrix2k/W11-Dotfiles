@@ -162,7 +162,8 @@
             "enabled": true
         },
         "Experiments": {
-            "enabled": true
+            "enabled": true,
+            "toolbarDevMenu": false
         },
         "F8Break": {
             "enabled": false
@@ -612,7 +613,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1740721619309
+        "settingsSyncVersion": 1740887687254
     },
     "eagerPatches": false
 }

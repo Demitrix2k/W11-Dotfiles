@@ -4,3 +4,4 @@
 /.config/github-copilot
 .config/nvim/.github/ISSUE_TEMPLATE/bug_report.md
 .config/nvim/.github/pull_request_template.md
+/.config/Zen/chrome/zen-themes
