@@ -23,6 +23,15 @@ Styles for new tab
     --background-color-box: var(--tr-col) !important;
   }
   
+  .layout-variant-b .ds-outer-wrapper-breakpoint-override main .body-wrapper {
+    width: 989px;
+    width: auto;
+  }
+
+  .outer-wrapper.ds-outer-wrapper-breakpoint-override {
+    padding: 200px 32px 32px;
+  }
+
   .toggle-button[aria-pressed="true"] {
     background: var(--shy-color) !important;
     border-color: transparent;
@@ -130,8 +139,10 @@ Styles for new tab
   main{
     margin-top: 15% !important;
     height: 50%;
+    padding: 30px;
     background-color: var(--tr-col);
     border-radius: var(--giant-rounding);
+    scale:1.1;
   }
   
   /* settings */

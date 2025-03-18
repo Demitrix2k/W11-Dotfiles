@@ -3,25 +3,28 @@ $Env:WHKD_CONFIG_HOME =                 "$HOME\.config\whkd"
 $Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
 $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
-$Env:POSHY=                             "$HOME\.config\posh"
-$Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
-$Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 $Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
 $Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
 $Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
 $Env:pad2=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-20.ps1"
+$Env:matrix=                            "$HOME\.config\Powershell\Scripts\Matrix.ps1"
+$Env:meow=                              "$HOME\.config\Powershell\Scripts\Meow\meow.ps1"
+$Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
+$Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 
+#############################################################################
 
 Set-Alias       "ff"                    "fastfetch"
+Set-Alias       "meow"                  "$env:meow"
 Set-Alias       "q"                     "Quit"
 Set-Alias       "obm"                   "OnboardMemoryManager"
-Set-Alias       "winget-local"          "WingetLocal"
-Set-Alias       "open-exp"              "Open-In-Explorer"
-Set-Alias       "aliasp"                "profile-aliases"
+Set-Alias       "wlocal"                "WingetLocal"
+Set-Alias       "open"                  "Open-In-Explorer"
 Set-PSReadlineKeyHandler -Key           "shift+Tab" -Function MenuComplete
 Set-PSReadLineKeyHandler -Chord         "Tab" -Function AcceptSuggestion
 # Set-PSReadLineKeyHandler -Chord       "RightArrow" -Function ForwardWord
 
+#############################################################################
 
 # Store information that doesn't change frequently outside the prompt function
 $WindowTitle = "PowerShell" # Initial window title
@@ -56,7 +59,9 @@ function prompt {
     return "󱞩 "
 } # end prompt function
 
-# custom prompt Functions
+############################################################################# 
+####################### CUSTOM PROMPT FUNCTIONS BEGIN #######################
+#############################################################################
 function y {
     $tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="$tmp"
@@ -78,12 +83,9 @@ function Open-In-Explorer {
     Invoke-item .
 }
 
-
-
 function reboot {
     Restart-Computer
 }
-
 
 function shell-colors {
 	$colors = [System.Enum]::GetValues([System.ConsoleColor])
@@ -92,7 +94,7 @@ foreach ($color in $colors) {
 	}
 }
 
-function profile-aliases {
+function palias {
 	Write-Host "ff              - Fastfetch"
 	Write-Host "q               - quit terminal"
 	Write-Host "obm             - OnBoardMemoryManager mouse"
@@ -116,7 +118,34 @@ function Convert-WebmToMp4 {
   & $conversionScriptPath @args  # Pass any arguments to the script
 }
 
+function matrix {
+    param(
+        [Parameter(Mandatory = $false, ValueFromRemainingArguments = $true)]
+        [string[]]$ScriptArguments
+    )
 
+    $MXPath = $Env:matrix
+
+    if (-not $MXPath) {
+        Write-Error "Error: Environment variable 'matrix' is not defined."
+        return
+    }
+
+    if (-not (Test-Path -Path $MXPath -PathType Leaf)) {
+        Write-Error "Error: Script not found at '$MXPath'."
+        return
+    }
+
+    # Execute the script, passing the arguments
+    & pwsh -File "$MXPath" @ScriptArguments
+}
+
+############################################################################# 
+######################## CUSTOM PROMPT FUNCTIONS END ########################
+#############################################################################
+
+
+#############################################################################
 # Measure initialization time
 $InitializationStartTime = Get-Date
 
@@ -130,7 +159,9 @@ $InitializationTime = [math]::Round(($InitializationEndTime - $InitializationSta
 # Display initialization time once at startup
 Write-Host "[Initialized in $InitializationTime ms] " -NoNewline -ForegroundColor Green
 
+#############################################################################
 
-
-
-
+$ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+if (Test-Path($ChocolateyProfile)) {
+  Import-Module "$ChocolateyProfile"
+}

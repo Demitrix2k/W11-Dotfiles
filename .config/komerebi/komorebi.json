@@ -4,7 +4,6 @@
   "window_hiding_behaviour": "Cloak",
   "window_container_behaviour": "Create",
   "cross_monitor_move_behaviour": "Insert",
-  "mouse_follows_focus": false,
   "default_workspace_padding": 10,
   "default_container_padding": 10,
   "border": true,

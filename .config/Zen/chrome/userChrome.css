@@ -56,3 +56,17 @@ flex-direction: column !important;
 #zen-workspaces-button {
 	display: none !important;
 }  
+
+#tab-icon-overlay {
+	display: none !important;
+}
+
+/* Hides audio icon on tab playing audio that is selected, on vertical small tabs  */
+.tab-icon-overlay {
+  #tabbrowser-tabs[orient="vertical"]:not([expanded]) &:not([crashed]), &:not([crashed]) {
+    &:is([soundplaying], [muted], [activemedia-blocked]) {
+      --audio-overlay-extra-background: transparent;
+      display: none !important;
+    }
+  }
+}
