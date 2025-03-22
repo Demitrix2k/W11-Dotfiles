@@ -58,7 +58,7 @@ bars:
           #"ip_info",
           # "update_check",
           #"weather",
-          "weather2",          
+          #"weather2",          
           #"cpu",
           "cpu2",
           #"memory",

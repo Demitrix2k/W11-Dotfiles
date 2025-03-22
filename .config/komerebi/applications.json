@@ -1593,6 +1593,11 @@
         "kind": "Exe",
         "id": "PowerToys.PowerAccent.exe",
         "matching_strategy": "Equals"
+      },
+	        {
+        "kind": "Exe",
+        "id": "PowerToys.FileLocksmithUI.exe",
+        "matching_strategy": "Equals"
       }
     ]
   },

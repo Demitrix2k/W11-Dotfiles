@@ -3,19 +3,23 @@ $Env:WHKD_CONFIG_HOME =                 "$HOME\.config\whkd"
 $Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
 $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
+
 $Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
 $Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
 $Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
 $Env:pad2=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-20.ps1"
 $Env:matrix=                            "$HOME\.config\Powershell\Scripts\Matrix.ps1"
 $Env:meow=                              "$HOME\.config\Powershell\Scripts\Meow\meow.ps1"
+
+$Env:w4ch=                              "$HOME\.config\Powershell\Scripts\Python\webm_for_4chan.py"
+
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 
 #############################################################################
 
-Set-Alias       "ff"                    "fastfetch"
 Set-Alias       "meow"                  "$env:meow"
+Set-Alias       "ff"                    "fastfetch"
 Set-Alias       "q"                     "Quit"
 Set-Alias       "obm"                   "OnboardMemoryManager"
 Set-Alias       "wlocal"                "WingetLocal"
@@ -26,24 +30,23 @@ Set-PSReadLineKeyHandler -Chord         "Tab" -Function AcceptSuggestion
 
 #############################################################################
 
-# Store information that doesn't change frequently outside the prompt function
-$WindowTitle = "PowerShell" # Initial window title
-$CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name.Split("\")[1] # Get user only once
+
+#################### Terminal color and appearance begin ####################
+$WindowTitle = "PowerShell" 
+$CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name.Split("\")[1] 
 $IsAdmin = (New-Object Security.Principal.WindowsPrincipal ([Security.Principal.WindowsIdentity]::GetCurrent())).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-$LastPath = $pwd # Initialize last path
+$LastPath = $pwd 
 
 function prompt {
-    ## Update Window title only if the path has changed
     $currentPath = $pwd
     if ($currentPath -ne $LastPath) {
         $host.ui.RawUI.WindowTitle = "Current Folder: $currentPath"
-        $LastPath = $currentPath # Update last path
+        $LastPath = $currentPath 
     }
 
     $CmdPromptCurrentFolder = Split-Path -Path $currentPath -Leaf
-    $Date = Get-Date -Format 'HH:mm:ss' # Simplified date format
+    $Date = Get-Date -Format 'HH:mm:ss' 
 
-    ## Decorate the CMD Prompt (simplified)
     Write-Host ""
     Write-host ($(if ($IsAdmin) { 'Elevated ' } else { '' })) -BackgroundColor DarkRed -ForegroundColor White -NoNewline
     Write-Host "  " -BackgroundColor DarkCyan -ForegroundColor White -NoNewline
@@ -57,12 +60,14 @@ function prompt {
     Write-Host " $Date " -ForegroundColor White
 
     return "󱞩 "
-} # end prompt function
+}
+##################### Terminal color and appearance end #####################
 
 ############################################################################# 
 ####################### CUSTOM PROMPT FUNCTIONS BEGIN #######################
 #############################################################################
-function y {
+
+function y { # For Yazi, exit yazi to viewed folder
     $tmp = [System.IO.Path]::GetTempFileName()
     yazi $args --cwd-file="$tmp"
     $cwd = Get-Content -Path $tmp
@@ -71,23 +76,24 @@ function y {
     }
     Remove-Item -Path $tmp
 }
-function Quit {
+
+function Quit { # quit terminal
     [System.Environment]::Exit(0)
 }
 
-function WingetLocal {
+function WingetLocal { # show winget packages location
     Set-Location -Path $Env:LocalAppdata\Microsoft\WinGet\Packages\
 }
 
-function Open-In-Explorer {
+function Open-In-Explorer { # opens explorer window
     Invoke-item .
 }
 
-function reboot {
+function reboot { # reboot computer
     Restart-Computer
 }
 
-function shell-colors {
+function shell-colors { # displays all supported terminal colors
 	$colors = [System.Enum]::GetValues([System.ConsoleColor])
 foreach ($color in $colors) {
     Write-Host "This is $color" -ForegroundColor $color
@@ -102,23 +108,21 @@ function palias {
 	Write-Host "open-exp        - opens explorer in current path"
 	Write-Host "Tab             - autocomplete"
 	Write-Host "Shift+Tab       - Show Suggestions"
+	Write-Host "chan       		- 4chan webm script"
 }
 
-function Convert-WebmToMp4 {
-  # Get the path to the conversion script from the environment variable
+function Convert-WebmToMp4 { # script that can handle mass conversion
   $conversionScriptPath = $Env:conv_webm_to_mp4
 
-  # Check if the path is valid
   if (-not (Test-Path $conversionScriptPath)) {
     Write-Error "Conversion script not found at: $conversionScriptPath"
-    return  # Exit the function if the script is not found
+    return 
   }
-
-  # Execute the conversion script
-  & $conversionScriptPath @args  # Pass any arguments to the script
+  
+  & $conversionScriptPath @args 
 }
 
-function matrix {
+function matrix { # cmatrix effects
     param(
         [Parameter(Mandatory = $false, ValueFromRemainingArguments = $true)]
         [string[]]$ScriptArguments
@@ -136,9 +140,18 @@ function matrix {
         return
     }
 
-    # Execute the script, passing the arguments
     & pwsh -File "$MXPath" @ScriptArguments
 }
+
+function chan { # webm-for-4ch
+    param (
+        [Parameter(ValueFromRemainingArguments=$true)]
+        [string[]]$args
+    )
+    python $Env:w4ch @args
+}
+
+
 
 ############################################################################# 
 ######################## CUSTOM PROMPT FUNCTIONS END ########################
