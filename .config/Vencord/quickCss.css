@@ -2,25 +2,25 @@
 
 /* Auto-collapse server, channel and member list. */
 :root {
-    --transition-bezier: 0s ease-in-out; /* modify this to add a transition, but it stutters too much for me */
+    --transition-bezier: 0s ease-in-out; 
     --exit-delay: 0.25s;
 	--exit-delay-server: .25s;
-    --collapsed-channel-width: 120px;
+    --collapsed-channel-width: 64px;
     --collapsed-members-width: 64px;
     --collapsed-profile-width: 110px;
-    --expanded-channel-width: 264px;
+    --expanded-channel-width: 240px;
     --expanded-members-width: 240px;
     --expanded-profile-width: 340px;
 }   
 /* Hide Channels sidebar */
 div[class^=base] > div[class^=content] > div[class^=sidebar] {
     transition-delay: var(--exit-delay);
-    width: var(--collapsed-members-width)!important;
+    width: var(--collapsed-channel-width)!important;
 }
 /* Show Channels sidebar when hovered */
 div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
     transition-delay: var(--exit-delay);
-    width: var(--expanded-members-width)!important;
+    width: var(--expanded-channel-width)!important;
 }
 /* Hide server list when Channels sidebar is hovered */
 div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_] {
@@ -125,7 +125,7 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
 
 /* Shrinks titlebar down to nothing */
 div[class*="titleBar_"] {
-    height: 5px;
+    height: 1px;
 }
 /* ########################## ---END OF SNIPPET--- ########################## */
 
@@ -217,3 +217,14 @@ div[aria-label="Forward"] {
 
 
 /* ########################## ---BEGIN OF SNIPPET--- ########################## */
+/* Fix Chat Title/Topics */
+div[class*='topic__'],
+div[class*='nicknames__'],
+div[class*='subtitleContainer_'] div[class*='children__']{
+  width: 0;
+}
+/* fix VC sizing */
+.tileWrapper__6981d {
+  position: absolute;
+}
+/* ########################## ---END OF SNIPPET--- ########################## */

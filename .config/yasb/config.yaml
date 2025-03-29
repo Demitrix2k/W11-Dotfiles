@@ -1,7 +1,7 @@
 # ROOT CONFIGURATION
 watch_stylesheet: true
 watch_config: true
-debug: false
+debug: true
 
 # TRAY MENU KOMOREBI
 komorebi:
@@ -58,7 +58,7 @@ bars:
           #"ip_info",
           # "update_check",
           #"weather",
-          #"weather2",          
+          "weather2",          
           #"cpu",
           "cpu2",
           #"memory",

@@ -4,19 +4,23 @@
   "window_hiding_behaviour": "Cloak",
   "window_container_behaviour": "Create",
   "cross_monitor_move_behaviour": "Insert",
+  "floating_window_aspect_ratio": "Widescreen",
   "default_workspace_padding": 10,
   "default_container_padding": 10,
-  "border": false,
+  "border": true,
   "border_width": 4,
   "border_offset": -1,
   "border_style": "Square",
   "border_colours": {
     "single": "#006699",
-    "stack": "#330066",
-    "monocle": "#990066",
+    "stack": "#c53b53",
+    "monocle": "#c53b53",
     "unfocused": "#000000",
-    "floating": "#033694"		
+    "floating": "#3d59a1"		
   },
+  "object_name_change_title_ignore_list": [
+    "Zen"
+  ],
   "stackbar": {
     "height": 18,
     "mode": "Never",
@@ -31,6 +35,20 @@
     "0": "SHP1558-5&2c1b134a&0&UID256",
     "1": "GSM5BD2-5&32d7051&1&UID4354"
 	  },
+    "floating_applications": [
+    {
+      "kind": "Exe",
+      "id": "explorer.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "remove_titlebar_applications": [
+    {
+      "kind": "Exe",
+      "id": "Code.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
   "monitors": [
     {
       "workspaces": [
