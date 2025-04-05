@@ -34,21 +34,29 @@
   "display_index_preferences": {
     "0": "SHP1558-5&2c1b134a&0&UID256",
     "1": "GSM5BD2-5&32d7051&1&UID4354"
-	  },
+    },
     "floating_applications": [
     {
       "kind": "Exe",
       "id": "explorer.exe",
       "matching_strategy": "Equals"
-    }
-  ],
-  "remove_titlebar_applications": [
+    },
     {
       "kind": "Exe",
-      "id": "Code.exe",
+      "id": "qbittorrent.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "code.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "mpc-hc64.exe",
       "matching_strategy": "Equals"
     }
-  ],
+    ],
   "monitors": [
     {
       "workspaces": [

@@ -12,6 +12,32 @@
     --expanded-members-width: 240px;
     --expanded-profile-width: 340px;
 }   
+
+
+
+/* Hide Channels sidebar (DISCORD UPDATE) */
+div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList] {
+    transition-delay: var(--exit-delay);
+    width: var(--collapsed-channel-width)!important;
+    }
+/*undoes the hiding a low width discord now does */    
+@container (max-width: 100px) {
+    .visual-refresh div[class^=sidebarList] *  {
+   /* display: revert; */
+    }
+}    
+/* Show Channels sidebar when hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover {
+    transition-delay: var(--exit-delay);
+    width: var(--expanded-channel-width)!important;
+}
+/* Hide server list when Channels sidebar is hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
+    padding-left: 13px;
+    width: 0px;
+} 
+
+
 /* Hide Channels sidebar */
 div[class^=base] > div[class^=content] > div[class^=sidebar] {
     transition-delay: var(--exit-delay);
@@ -27,6 +53,25 @@ div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=gui
     padding-left: 13px;
     width: 0px;
 }
+
+
+/* Hide Channels sidebar (DISCORD UPDATE) */
+div[class^=base] > div[class^=content] > div[class^=sidebarList] {
+    transition-delay: var(--exit-delay);
+    width: var(--collapsed-channel-width)!important;
+}
+/* Show Channels sidebar when hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover {
+    transition-delay: var(--exit-delay);
+    width: var(--expanded-channel-width)!important;
+}
+/* Hide server list when Channels sidebar is hovered */
+div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
+    padding-left: 13px;
+    width: 0px;
+}
+
+
 /* Hide server list */
 [class*=guilds_] {
     &:not(:hover) {
@@ -227,4 +272,8 @@ div[class*='subtitleContainer_'] div[class*='children__']{
 .tileWrapper__6981d {
   position: absolute;
 }
+/* fix threads pop up window priority */ 
+div[class^=chatLayerWrapper] {
+	z-index: 1000;
+}    
 /* ########################## ---END OF SNIPPET--- ########################## */

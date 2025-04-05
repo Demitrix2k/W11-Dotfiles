@@ -3,8 +3,7 @@
     "autoUpdateNotification": true,
     "useQuickCss": true,
     "themeLinks": [
-        "https://raw.githubusercontent.com/Dyzean/Tokyo-Night/main/themes/tokyo-night.theme.css",
-        ".https://discordstyles.github.io/DarkMatter/DarkMatter.theme.css"
+        "https://raw.githubusercontent.com/justinrubek/discord-tokyo-night/refs/heads/main/themes/tokyo-night.theme.css"
     ],
     "enabledThemes": [
         "MinimalNight.theme.css"
@@ -601,6 +600,19 @@
         },
         "HideMedia": {
             "enabled": false
+        },
+        "WebRichPresence (arRPC)": {
+            "enabled": false
+        },
+        "WebContextMenus": {
+            "enabled": true,
+            "addBack": false
+        },
+        "WebKeybinds": {
+            "enabled": true
+        },
+        "WebScreenShareFixes": {
+            "enabled": true
         }
     },
     "notifications": {
@@ -613,7 +625,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1741934312313
+        "settingsSyncVersion": 1743745046848
     },
     "eagerPatches": false
 }
