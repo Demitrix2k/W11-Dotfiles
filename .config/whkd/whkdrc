@@ -116,7 +116,7 @@ ctrl + alt + b                  : komorebic border disable
 ################ LAYOUTS
 
 alt + win + u                   : komorebic flip-layout horizontal
-ctrl + alt + u                  : komorebic flip-layout vertical
+ctrl + win + u                  : komorebic flip-layout vertical
 
 alt + win + i                   : komorebic cycle-layout next
 ctrl + alt + i                  : komorebic cycle-layout previous

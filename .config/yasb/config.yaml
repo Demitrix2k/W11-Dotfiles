@@ -53,6 +53,7 @@ bars:
           #"media",
         ]
       right: [
+          #"systray",
           #"battery",
           #"traffic",
           #"ip_info",
@@ -70,6 +71,23 @@ bars:
         ]
 
 widgets:
+
+
+
+  systray:
+    type: "yasb.systray.SystrayWidget"
+    options:
+      class_name: "systray"
+      label_collapsed: "▼"
+      label_expanded: "◀"
+      label_position: "right" # Can be "left" or "right"
+      icon_size: 16 # Can be any integer between 8 and 64
+      pin_click_modifier: "alt" # Can be "ctrl", "alt" or "shift"
+      show_unpinned: true
+      show_unpinned_button: true
+      show_battery: false
+      show_volume: false
+      show_network: false
 
 
 
@@ -113,7 +131,7 @@ widgets:
         label_zero_index: false
         hide_empty_workspaces: true
         hide_if_offline: false
-        animation: false
+        animation: true
         container_padding:
           top: 0
           left: 8
@@ -163,7 +181,7 @@ widgets:
       label_workspace_btn: "\udb80\udea0" # \uecca
       label_workspace_active_btn: "\udb82\udfaf" # \udb82\udfaf,\ueccb
       switch_workspace_animation: true
-      animation: false
+      animation: true
       container_padding: 
         top: 0
         left: 10

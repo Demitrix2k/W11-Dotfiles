@@ -55,7 +55,22 @@
       "kind": "Exe",
       "id": "mpc-hc64.exe",
       "matching_strategy": "Equals"
-    }
+    },
+    {
+      "kind": "Exe",
+      "id": "mpv.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "FalloutNV.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "zen.exe",
+      "matching_strategy": "Equals"
+    }	
     ],
   "monitors": [
     {

@@ -1,246 +1,289 @@
-
-* {
-	font-size: 12px;
-	color: #cdd6f4;
-	font-weight: 500;
-	font-family: "JetBrainsMonoNL NFP Thin";
-	margin: 0;
-	padding: 0;
+/* 
+This is default and very simple styles file for Yasb. 
+For more information about configuration options, please visit the Wiki https://github.com/amnweb/yasb/wiki
+*/
+:root {
+    --rosewater: #f5e0dc;
+    --flamingo: #f2cdcd;
+    --pink: #f5c2e7;
+    --mauve: #cba6f7;
+    --red: #f38ba8;
+    --maroon: #eba0ac;
+    --peach: #fab387;
+    --yellow: #f9e2af;
+    --green: #a6e3a1;
+    --teal: #94e2d5;
+    --sky: #89dceb;
+    --sapphire: #74c7ec;
+    --blue: #89b4fa;
+    --lavender: #b4befe;
+    --text: #cdd6f4;
+    --subtext1: #bac2de;
+    --subtext0: #a6adc8;
+    --overlay2: #9399b2;
+    --overlay1: #7f849c;
+    --overlay0: #6c7086;
+    --surface2: #585b70;
+    --surface1: #45475a;
+    --surface0: #282936;
+    --base: #1e1e2e;
+    --mantle: rgba(24, 24, 37, 0.5);
+    --crust: rgba(17, 17, 27, 0.85);
+    --main: #10151d;
+	
+	--cyan: #41a6b5;
+	--cyan-active: #8BE9FD;
+	--white: #ffffff;
+	--transparent: rgba(0, 0, 0, 0);
 }
-
+/* Global styles for ToolTip */
+QToolTip {
+    padding: 6px;
+    color: #cdd6f4;
+    font-size: 12px;
+    background-color: #1e1e2e;
+    border: 0px solid #313244;
+    border-radius: 6px;
+}
+* {
+    font-size: 12px;
+    color: var(--white);
+    font-weight: 500;
+    font-family: "JetBrainsMonoNL NFP Thin";
+    margin: 0;
+    padding: 0;
+}
 .yasb-bar {
-	/* background-color: rgba(0, 0, 0, 1.0);	 */
-	padding: 0 1px;
-	margin: 0;
+    padding: 0;
+    margin: 0;
+    background-color: var(--transparent);
+    border-radius: 8px;
 }
 .widget {
-	/* background-color: rgba(0, 0, 0, 1.0); */
-	padding: 0 8px;
-	margin: 0;
+    padding: 0 12px;
+    margin: 0;
+}
+.icon {
+    font-size: 16px;
 }
 .widget .label {
-	padding: 1px 2px 1px 2px;
-}
-.widget .label.alt {
-	padding: 1px 8px 1px 8px;
-}
-.active-window-widget {
-	border-radius: 18px;
-	margin-left: 8px;
-}
-.container-left,
-.container-center,
-.container-right {
-	margin: 0;
-	padding: 0;
-}
-
-.clock-widget {
-	/* font-size: 22px; */
-	/* border-top-left-radius: 18px; */
-	/* border-bottom-left-radius: 18px; */
-}
-
-.apps-widget {
-	padding: 0 2px;
-	border-top-right-radius: 18px;
-	border-bottom-right-radius: 18px;
+    padding: 0px 2px;
 }
 .komorebi-active-layout {
-	border-top-right-radius: 18px;
-	border-bottom-right-radius: 18px;
-	padding: 0 4px 0 0;
+	
+    padding: 0 4px 0 0;
 }
-
 .komorebi-active-layout .label {
-	font-weight: 600;
-	padding: 2px 0 0 0;
+    font-weight: 600;
+    padding: 2px 0 0 0;
 }
-.wifi-widget {
-	padding: 0 4px 0 4px;
-	border-top-left-radius: 18px;
-	border-bottom-left-radius: 18px;
-}
-
 .apps-widget .widget-container,
 .komorebi-workspaces .widget-container,
-.wifi-widget .widget-container,
 .komorebi-active-layout .widget-container {
-	/* background-color: rgba(162, 245, 225, 1.0); */
+    background-color: var(--transparent);
+	border: 1px solid var(--transparent);
+    margin: 3px 0 3px 0;
+    border-radius: 12px;
 	margin: 4px 0px 4px 0;
 	border-radius: 14px;
-}
-.apps-widget .widget-container {
-    margin-right: 2px;
-}
 
+}
+.komorebi-workspaces .widget-container {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    margin-left: 4px;
+	margin-right: 2px;
+}
+.komorebi-workspaces {
+    border-top-right-radius: 14px;
+    border-bottom-right-radius: 14px;
+    padding: 0 4px 0 0;
+}
+.komorebi-workspaces .offline-status {
+    color: var(--surface2);
+    font-size: 12px;
+    padding: 0 0 0 4px;
+    font-weight: 600;
+}
 .komorebi-workspaces .ws-btn {
-	font-size: 14px;
     border: none;
-    color: #41a6b5;
-	margin: 0 1px 0 1px;
+    margin: 0 1px 0 1px;
+    font-size: 14px;
+    color: var(--cyan);
     height: 30px;
-    padding: 0 3px;
-    border-bottom: 1px solid #6c7086;
+	padding: 0 3px;
 }
 .komorebi-workspaces .ws-btn:hover {
-    color: #7f849c;
+    color: var(--cyan-active);
     border-bottom: 1px solid #7f849c;
 }
 .komorebi-workspaces .ws-btn.populated {
-	color: #41a6b5;
+    color: var(--cyan);
 }
 .komorebi-workspaces .ws-btn.active {
-    color: #41a6b5;
+    color: var(--cyan-active);
     font-weight: 900;
-    border-bottom-color: #8BE9FD;
 }
-
+.apps-widget {
+    padding: 0 4px 0 2px;
+}
 .apps-widget .label {
-	font-size: 14px;
-	padding: 0 2px;
+    font-size: 14px;
+    padding: 0 2px;
+    color: var(--subtext0);
 }
 .apps-widget .label:hover {
-	color: #fff;
+    color: var(--text);
 }
 
-/*POWER MENU WIDGET*/
-/* Uptime text */
-.uptime {
-	font-size: 14px;
-	margin-bottom: 10px;
-	color: #ffffff;
-	font-weight: 600;
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
 .power-menu-widget .label {
-	color: #f38ba8;
-	font-size: 13px;
+    color: #f38ba8;
+    font-size: 13px;
 }
 .power-menu-popup {
-	background-color: rgba(24, 24, 37, 0.9);
-	border-radius: 12px;
-	border: 4px solid rgb(41, 42, 58);
+    background-color: transparent
 }
 .power-menu-popup .button {
-	padding: 0;
-	width: 240px;
-	height: 120px;
-	border-radius: 8px;
-	background-color: rgb(41, 42, 58);
-	font-family: "SegoeUI";
-	color: white;
-	border: 1px solid rgba(255, 255, 255, 0.1);
-	margin: 8px;
+    padding: 0;
+    width: 180px;
+    height: 230px;
+    border-radius: 8px;
+    background-color: var(--crust);
+    color: var(--text);
+    border-left: 4px solid rgba(58, 59, 83, 0);
+    border-right: 4px solid rgba(58, 59, 83, 0);
+    border-top: 4px solid rgba(58, 59, 83, 0);
+    border-bottom: 4px solid rgba(58, 59, 83, 0);
+    margin: 0px;
 }
 .power-menu-popup .button.hover {
-	background-color: rgb(55, 56, 75);
-	border: 1px solid rgb(55, 56, 75);
+    background-color: var(--base);
+    border-left: 4px solid var(--base);
+    border-right: 4px solid var(--base);
+    border-top: 4px solid var(--base);
+    border-bottom: 4px solid var(--base);
 }
+
 .power-menu-popup .button .label {
-	margin-bottom: 8px;
-	font-size: 16px;
-	font-weight: 600;
-	color: rgba(255, 255, 255, 0.95);
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--overlay2)
 }
 .power-menu-popup .button .icon {
-	font-size: 48px;
-	padding-top: 8px;
-	color: rgba(255, 255, 255, 0.25);
+    font-size: 64px;
+    padding-top: 32px;
+    color: var(--surface2)
 }
+
 .power-menu-popup .button.cancel .icon {
-	color: rgba(243, 139, 168, 0.55);
+    padding: 0;
+    margin: 0;
 }
 .power-menu-popup .button.cancel .label {
-	color: rgba(243, 139, 168, 0.95);
+    color: var(--red);
+    margin: 0;
 }
-.power-menu-popup .button.shutdown .icon {
-	color: rgba(137, 180, 250, 0.55);
+.power-menu-popup .button.cancel {
+    height: 32px;
+    border-radius: 4px;
 }
-.power-menu-popup .button.shutdown .label {
-	color: rgba(137, 180, 250, 0.95);
+.uptime {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: var(--surface2);
+    font-weight: 600;
 }
-
-/* ICONS */
-.icon {
-	font-size: 16px;
+.microphone-widget {
+    padding: 0 6px 0 6px;
+}
+.microphone-widget .icon {
+    font-size: 18px;
+}
+.microphone-widget .icon {
+    color: var(--mauve);
 }
 .volume-widget .icon {
-	color: #41a6b5;
-	margin: 1px 2px 0 0;
+    color: var(--cyan);
+    margin: 1px 2px 0 0;
 }
-.cpu-widget .icon,
-.memory-widget .icon {
-	font-size: 14px;
-	color: #cba6f7;
-	margin: 0 2px 1px 0;
+.weather-widget,
+.volume-widget {
+    padding: 0 6px;
 }
-.memory-widget .icon {
-	color: #a6c9f7;
-}
-.wifi-widget .icon {
-	color: #a2f5e1;
-	padding: 0 7px;
-	margin: 0;
-}
-
-
-
-/* WEATHER WIDGET */
 .weather-widget .icon {
-	font-size: 16px;
-	margin: 0 2px 1px 0;
+    font-size: 18px;
+    margin: 0 2px 1px 0;
+    color: var(--yellow);
 }
-.weather-widget .icon.sunnyDay {
-	color: rgb(221, 210, 107);
-}
-.weather-widget .icon.clearNight {
-	color: rgb(107, 189, 221);
-	font-size: 22px;
-	margin: 1px 2px 0px 0;
-}
-
-/* MEDIA WIDGET */
 .media-widget {
-	padding: 0;
-	padding-left: 2px;
-	margin: 0;
-	border-radius: 16px;
-	margin-right: 8px;
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
 }
 .media-widget .label {
-	background-color: rgba(0, 0, 0, 0.0);
+    color: #bac2db;
+    background-color: rgba(24, 24, 37, 0.7);
+    padding: 0px;
+    padding-right: 4px;
+    font-size: 12px;
+}
+.media-widget .label.maintext {
+    padding-top: 3px;
 }
 .media-widget .btn {
-	color: #acb2c9;
-	padding: 0 3px;
-	margin: 4px 0;
-	font-family: Segoe Fluent Icons;
+    color: #989caa;
+    padding: 0 1px;
+    margin: 0;
+    font-family: Segoe Fluent Icons;
+    font-weight: 400;
 }
 .media-widget .btn:hover {
-	color: #89b4fa;
+    color: #babfd3;
 }
 .media-widget .btn.play {
-	background-color: #313244;
-	border-radius: 14px;
-	font-size: 16px;
+    font-size: 16px;
 }
 .media-widget .btn.disabled:hover,
 .media-widget .btn.disabled {
-	color: #4e525c;
-	font-size: 12px;
-	background-color: rgba(0, 0, 0, 0);
+    color: #4e525c;
+    font-size: 12px;
+    background-color: rgba(0, 0, 0, 0);
 }
-
-/* GITHUB WIDGET */
-.github-widget {
-    padding:0 4px;
+.taskbar-widget {
+    padding: 0;
+    margin: 0;
+    border: none;
 }
-.github-widget .icon {
-    font-size: 14px;
-	color: #cdd6f4
+.taskbar-widget .app-icon {
+    padding: 0 6px;
+    border: none;
+    margin: 0;
 }
-.github-widget .icon.new-notification {
-    color: #f38ba8;
+.home-widget {
+    padding: 0 4px 0 12px;
+}
+.home-widget .icon {
+    color: var(--lavender);
+}
+.home-widget .icon:hover {
+    color: var(--text);
+}
+.home-menu {
+    background-color: var(--crust);
+}
+.home-menu .menu-item {
+    padding: 8px 48px 9px 16px;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text);
+    font-weight: 600;
+}
+.home-menu .menu-item:hover {
+    background-color: rgba(128, 130, 158, 0.15);
+    color: #fff;
+}
+.home-menu:separator {
+    height: 1px;
+    background-color: rgba(128, 130, 158, 0.3);
 }

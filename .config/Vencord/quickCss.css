@@ -12,9 +12,6 @@
     --expanded-members-width: 240px;
     --expanded-profile-width: 340px;
 }   
-
-
-
 /* Hide Channels sidebar (DISCORD UPDATE) */
 div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList] {
     transition-delay: var(--exit-delay);
@@ -275,5 +272,14 @@ div[class*='subtitleContainer_'] div[class*='children__']{
 /* fix threads pop up window priority */ 
 div[class^=chatLayerWrapper] {
 	z-index: 1000;
-}    
+}   
+
+/* hide user avatar in bottom left */
+div[class*="avatarWrapper"][class*="experiment"] > div[class*="wrapper"][class*="avatar"] {
+	display:none;
+} 
+/* pads username for avatar in bottom left more into the left side */
+div[class*="avatarWrapper"][class*="experiment"] > div[class*="nameTag"][class*="canCopy"] {
+	padding-left: 0px;
+}  
 /* ########################## ---END OF SNIPPET--- ########################## */
