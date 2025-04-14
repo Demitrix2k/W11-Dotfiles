@@ -16,8 +16,8 @@
             "id": "User.paste"
         },
         {
-            "command": "find",
-            "id": "User.find"
+            "command": "toggleFocusMode",
+            "id": "User.toggleFocusMode"
         },
         {
             "command": 
@@ -29,8 +29,8 @@
             "id": "User.splitPane.A6751878"
         },
         {
-            "command": "toggleFocusMode",
-            "id": "User.toggleFocusMode"
+            "command": "find",
+            "id": "User.find"
         }
     ],
     "alwaysShowTabs": true,
@@ -45,24 +45,24 @@
             "keys": "ctrl+c"
         },
         {
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
+            "id": "User.toggleFocusMode",
+            "keys": "ctrl+f"
         },
         {
             "id": "User.paste",
             "keys": "ctrl+v"
         },
         {
-            "id": "User.toggleFocusMode",
-            "keys": "ctrl+f"
-        },
-        {
-            "id": "User.splitPane.A6751878",
-            "keys": "alt+shift+d"
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
         },
         {
             "id": "Terminal.ToggleMarkMode",
             "keys": "ctrl+alt+m"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
         },
         {
             "id": null,
@@ -154,6 +154,18 @@
                 "guid": "{7fc85221-6506-5cc6-8d20-4b0abffd8360}",
                 "hidden": false,
                 "name": "Developer PowerShell for VS 2019",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{6160e4d9-2843-5c5b-8b43-055f0568df09}",
+                "hidden": false,
+                "name": "Developer Command Prompt for VS 2022",
+                "source": "Windows.Terminal.VisualStudio"
+            },
+            {
+                "guid": "{7ce302d9-11e9-5bc8-a58d-f580c2b8b9e7}",
+                "hidden": false,
+                "name": "Developer PowerShell for VS 2022",
                 "source": "Windows.Terminal.VisualStudio"
             }
         ]

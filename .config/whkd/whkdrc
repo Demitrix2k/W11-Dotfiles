@@ -56,6 +56,11 @@ ctrl + win + Down               : komorebic move down
 ctrl + win + Up                 : komorebic move up
 ctrl + win + Right              : komorebic move right
 
+shift + win + left              : komorebic focus left
+shift + win + down              : komorebic focus down
+shift + win + up                : komorebic focus up
+shift + win + right             : komorebic focus right
+
 shift + win + h                 : komorebic focus left
 shift + win + j                 : komorebic focus down
 shift + win + k                 : komorebic focus up
