@@ -1,191 +1,227 @@
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Auto-collapse server, channel and member list. */
-:root {
-    --transition-bezier: 0s ease-in-out; 
-    --exit-delay: 0.25s;
-	--exit-delay-server: .25s;
-    --collapsed-channel-width: 64px;
-    --collapsed-members-width: 64px;
-    --collapsed-profile-width: 110px;
-    --expanded-channel-width: 240px;
-    --expanded-members-width: 240px;
-    --expanded-profile-width: 340px;
-}   
-/* Hide Channels sidebar (DISCORD UPDATE) */
-div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList] {
-    transition-delay: var(--exit-delay);
-    width: var(--collapsed-channel-width)!important;
+@import url('https://raw.githubusercontent.com/surgedevs/visual-refresh-compact-title-bar/refs/heads/main/browser.css');
+        
+    /* Auto-collapse server, channel and member list. */
+    :root {
+        --transition-bezier: 0s ease-in-out; 
+        --exit-delay: 0.25s;
+        --exit-delay-server: .25s;
+        --collapsed-channel-width: 105px;
+        --collapsed-members-width: 64px;
+        --collapsed-profile-width: 110px;
+        --expanded-channel-width: 240px;
+        --expanded-members-width: 240px;
+        --expanded-profile-width: 340px;
+    }     
+        
+        
+    /* Hide Channels sidebar (DISCORD UPDATE) */
+    div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList] {
+        transition-delay: var(--exit-delay);
+        width: var(--collapsed-channel-width)!important;
+        }
+            
+        
+        
+    /* Show Channels sidebar when hovered */
+    div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover {
+        transition-delay: var(--exit-delay);
+        width: var(--expanded-channel-width)!important;
     }
-/*undoes the hiding a low width discord now does */    
-@container (max-width: 100px) {
-    .visual-refresh div[class^=sidebarList] *  {
-   /* display: revert; */
+    /* Hide server list when Channels sidebar is hovered */
+    /*
+        div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
+        padding-left: 13px;
+        width: 0px;
+    } 
+    */
+    
+        
+    /* Hide Channels sidebar */
+    /* 
+    div[class^=base] > div[class^=content] > div[class^=sidebar] {
+        transition-delay: var(--exit-delay);
+        width: var(--collapsed-channel-width)!important;
     }
-}    
-/* Show Channels sidebar when hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover {
-    transition-delay: var(--exit-delay);
-    width: var(--expanded-channel-width)!important;
-}
-/* Hide server list when Channels sidebar is hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
-    padding-left: 13px;
-    width: 0px;
-} 
-
-
-/* Hide Channels sidebar */
-div[class^=base] > div[class^=content] > div[class^=sidebar] {
-    transition-delay: var(--exit-delay);
-    width: var(--collapsed-channel-width)!important;
-}
-/* Show Channels sidebar when hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
-    transition-delay: var(--exit-delay);
-    width: var(--expanded-channel-width)!important;
-}
-/* Hide server list when Channels sidebar is hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_] {
-    padding-left: 13px;
-    width: 0px;
-}
-
-
-/* Hide Channels sidebar (DISCORD UPDATE) */
-div[class^=base] > div[class^=content] > div[class^=sidebarList] {
-    transition-delay: var(--exit-delay);
-    width: var(--collapsed-channel-width)!important;
-}
-/* Show Channels sidebar when hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover {
-    transition-delay: var(--exit-delay);
-    width: var(--expanded-channel-width)!important;
-}
-/* Hide server list when Channels sidebar is hovered */
-div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
-    padding-left: 13px;
-    width: 0px;
-}
-
-
-/* Hide server list */
-[class*=guilds_] {
-    &:not(:hover) {
-        transition-delay: var(--exit-delay-server);
+     */
+    /* Show Channels sidebar when hovered */
+    /* 
+    div[class^=base] > div[class^=content] > div[class^=sidebar]:hover {
+        transition-delay: var(--exit-delay);
+        width: var(--expanded-channel-width)!important;
+    }
+     */
+    /* Hide server list when Channels sidebar is hovered */
+    /* 
+    div[class^=base] > div[class^=content] > div[class^=sidebar]:hover ~ [class*=guilds_] {
         padding-left: 13px;
         width: 0px;
     }
-}
-/* Show server list when hovered */
-[class*=guilds_]:hover {
-    transition-delay: var(--exit-delay-server);
-    width: var(--collapsed-members-width)!important;
-}
-/* Hide member list */
-[class^=membersWrap],
-[aria-label="Members"],
-[class^=members] {
-    transition-delay: var(--exit-delay);
-    width: var(--collapsed-members-width)!important;
-    min-width: var(--collapsed-members-width)!important;
-}
-/* Show member list when hovered */
-[class^=membersWrap]:hover,
-[class^=membersWrap]:hover [aria-label="Members"],
-[class^=members]:hover {
-    /* set width */
-    transition-delay: 0s;
-    transition: var(--transition-bezier);
-    width: var(--expanded-members-width)!important;
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Hides the banner image in the server list */
-[class*=animatedContainer_]:has(>[class*=bannerImage_]),
-[style="height: 84px;"] {
-	display:none
-
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Hides the # in channel names and also hides server user list */
-@media (max-width: 1100px)
-{
-    [class*="sidebar_"]
-    {
-        width: 200px;
-        .vc-typing-indicator, .vc-channelemojis-emoji, [class*="guildIconV2Container_"]
-        {
-            display: none;
-        }
-        [class*="containerDefault_"]
-        {
-            [role="img"]
-            {
-                display: none;
-            }
+      */   
+    
+    
+    /* Hide Channels sidebar (DISCORD UPDATE) */
+    div[class^=base] > div[class^=content] > div[class^=sidebarList] {
+        transition-delay: var(--exit-delay);
+        width: var(--collapsed-channel-width)!important;
+    }
+    /* Show Channels sidebar when hovered */
+    div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover {
+        transition-delay: var(--exit-delay);
+        width: var(--expanded-channel-width)!important;
+    }
+    /* Hide server list when Channels sidebar is hovered */
+    div[class^=base] > div[class^=content] > div[class^=sidebarList]:hover ~ [class*=guilds_] {
+        padding-left: 13px;
+        width: 0px;
+    }
+    
+    
+    /* Hide server list */
+    [class*=guilds_] {
+        &:not(:hover) {
+            transition-delay: var(--exit-delay-server);
+            padding-left: 13px;
+            width: 0px;
         }
     }
-    [class*="chat_"]
-    {
-        [class*="membersWrap_"]
-        {
-            display: all;
-        }
+    /* Show server list when hovered */
+    [class*=guilds_]:hover {
+        transition-delay: var(--exit-delay-server);
+        width: var(--collapsed-members-width)!important;
     }
+    /* Hide member list */
+    [class^=membersWrap],
+    [aria-label="Members"],
+    [class^=members] {
+        transition-delay: var(--exit-delay);
+        width: var(--collapsed-members-width)!important;
+        min-width: var(--collapsed-members-width)!important;
+    }
+    /* Show member list when hovered */
+    [class^=membersWrap]:hover,
+    [class^=membersWrap]:hover [aria-label="Members"],
+    [class^=members]:hover {
+        /* set width */
+        transition-delay: 0s;
+        transition: var(--transition-bezier);
+        width: var(--expanded-members-width)!important;
+    }    
+        
+    #channels > ul > li > div > div > a {
+	left: -35px !important;
+    width: 250px !important;
+}        
+        
+    /* hide user avatar in bottom left */
+    
+    div[class*="avatarWrapper"] > div[class*="wrapper"][class*="avatar"] {
+        display:none;
+    }     
+       
+    /* repositions bottom left username area */ 
+    .visual-refresh section[aria-label="User area"] {
+        width: calc(var(--custom-guild-sidebar-width) - var(--custom-guild-list-width) + 1px);;
+        left: var(--custom-guild-list-width);
+        bottom: 0px;
+        border-radius: 0px;
+        border: none;
+    }
+    
+    .visual-refresh nav:has([data-list-id="guildsnav"]) {
+      margin-bottom: unset;
+    }
+        
+    /* shrink the user panel to just server list width */   
+    
+     .panels_c48ade {
+      height: 42px;
+      width: 48px!important;
+     display: flex!important;
+     flex-direction: column;
+     overflow: hidden;
+     transition: width 0.3s;
+      z-index: 50000;
+      pointer-events: all;
+      border: 1px solid var(--border-subtle)!important;
+      left: 15px !important;   
+    
+     &:has(.container_e131a9) {
+      background-color: var(--notice-background-positive);
+      border: 1px solid var(--border-normal);
+         }   
+        }
+    /* small adjustment to user panel to center it when small */ 
+    .visual-refresh .container__37e49 {
+        padding: 0 !important;   
+     }
+    
+    
+    .wrapper_e131a9 {
+      height: 0;
+      overflow: hidden;
+       transition: height 0.5s;
+    }
+    .panels_c48ade:hover {
+      width: 100%!important;
+      width: 200px!important;
+      height: auto!important;
+      .wrapper_e131a9 {
+        height: auto!important;
+      }
+    }
+    .sidebar_c48ade {
+      overflow: visible!important;
+    }
+    .container__2637a {
+      padding-bottom: 0px!important;
+    }
+    .scroller__99e7c {
+      margin-bottom: 0px!important;
+    }
+    
+    .bottom__7aaec {
+      bottom: 0px!important;
+    }   
+       
+    /* shrink the user panel to just server list width */     
+        
+        
+    /* hide title */    
+        div[class^=title_] {
+            display:none;
+        }   
+    
+    
+	/* to make themes consistent */
+.visual-refresh .container__2637a {
+    background: var(--background-base-low);
 }
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-/* Hide the dumbfuck voice chat icon on server lists */
-
-[class^="upperBadge_"] {
-	display:none;
-}
-
-/*
- * @name Collapsable Sidebars
- * @author rech
- * @source https://github.com/rechington/Discord-Mods/blob/main/collapsable%20sidebars.css
-*/
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Shrinks titlebar down to nothing */
-div[class*="titleBar_"] {
-    height: 1px;
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Removes the "Discord" text on the top left of the screen */
-div[class*="wordmark_"] {
-    display: none;
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* Scale the _ □ X buttons to match top bar icons */
+    
+.visual-refresh div[class^="bannerImage_"], 
+.visual-refresh div[class^="bannerImg_"] {
+	display: none;
+}  
+.visual-refresh div[class^="container_"] {
+    --custom-guild-banner-height: 0px;
+}   
+#channels > ul > div:nth-child(1) {
+	display: none;
+}  
+div[class^="headerEllipseForeground"] {
+	display: none !important;
+}  
+.visual-refresh .bg__960e4 {
+    background: var(--background-base-low);
+}  
+.visual-refresh .wrapper_ef3116 {
+background: var(--background-base-low);
+}    
+    
+	/* to make themes consistent */
+    
+	
+	
+	/* Scale the _ □ X buttons to match top bar icons */
 div[class*=winButton_] {
     top: 13px;
     transform: scale(1.6);
@@ -199,87 +235,175 @@ div[class*=winButton_]:hover {
     background-color: transparent;
 	display:none;	
 }
-/* revert offset when thread/forum channel is open */
-div[class*="threadSidebarOpen_"] > div > section > div[class^="upperContainer_"] {
-    width: 100%;
+	
+    
+		/* Tokyo Night Dark Theme */
+  .visual-refresh {
+    --activity-card-background: #16161e !important; /* Darker background */
+    --autocomplete-bg: #16161e !important;
+    --background-floating: #16161e !important;
+    --background-mentioned: #2a2e3e !important;
+    --background-mentioned-hover: #24283b !important;
+    --background-message-highlight: #2e3b59 !important;
+    --background-message-highlight-hover: #27324e !important;
+    --background-message-hover: #1a1b26 !important;
+    --background-modifier-accent: #2a2e3e !important;
+    --background-modifier-active: #3b4261 !important;
+    --background-modifier-hover: #24283b !important;
+    --background-modifier-selected: #3b4261 !important;
+    --background-primary: #16161e !important;
+    --background-secondary: #1a1b26 !important;
+    --background-tertiary: #24283b !important;
+    --bg-base-primary: #16161e !important;
+    --bg-base-secondary: #1a1b26 !important;
+    --bg-base-tertiary: #24283b !important;
+    --bg-brand: #7aa2f7 !important; /* Blue accent */
+    --bg-mod-faint: #1a1b26 !important;
+    --bg-mod-strong: #3b4261 !important;
+    --bg-mod-subtle: #24283b !important;
+    --border-faint: #1a1b26 !important;
+    --border-strong: #3b4261 !important;
+    --border-subtle: #24283b !important;
+    --button-danger-background: #f7768e !important; /* Red accent */
+    --button-danger-background-active: #d06c84 !important;
+    --button-danger-background-disabled: #f7768e !important;
+    --button-danger-background-hover: #e06c75 !important;
+    --button-danger-border: #1a1b26 !important;
+    --button-filled-brand-border: #1a1b26 !important;
+    --button-filled-brand-inverted-background-active: #24283b !important;
+    --button-filled-brand-inverted-background-hover: #1a1b26 !important;
+    --button-filled-brand-inverted-text: #c0caf5 !important; /* Light text */
+    --button-filled-white-background-active: #24283b !important;
+    --button-filled-white-background-hover: #1a1b26 !important;
+    --button-filled-white-text: #c0caf5 !important;
+    --button-outline-danger-background: #24283b !important;
+    --button-outline-danger-background-active: #2a2e3e !important;
+    --button-outline-danger-background-hover: #3b4261 !important;
+    --button-outline-danger-border: #1a1b26 !important;
+    --button-outline-danger-border-active: #1a1b26 !important;
+    --button-outline-danger-border-hover: #1a1b26 !important;
+    --button-outline-danger-text: #f7768e !important;
+    --button-outline-danger-text-active: #f7768e !important;
+    --button-outline-danger-text-hover: #f7768e !important;
+    --button-positive-background: #9ece6a !important; /* Green accent */
+    --button-positive-background-active: #8bbf5a !important;
+    --button-positive-background-disabled: #9ece6a !important;
+    --button-positive-background-hover: #8bbf5a !important;
+    --button-positive-border: #1a1b26 !important;
+    --button-secondary-background: #24283b !important;
+    --button-secondary-background-active: #2a2e3e !important;
+    --button-secondary-background-disabled: #24283b !important;
+    --button-secondary-background-hover: #3b4261 !important;
+    --button-secondary-text: #c0caf5 !important;
+    --button-transparent-background: #24283b !important;
+    --button-transparent-background-active: #2a2e3e !important;
+    --button-transparent-background-hover: #3b4261 !important;
+    --button-transparent-text: #c0caf5 !important;
+    --card-primary-bg: #16161e !important;
+    --card-secondary-bg: #24283b !important;
+    --channel-icon: #7aa2f7 !important;
+    --channels-default: #7aa2f7 !important;
+    --header-muted: #4e5173 !important;
+    --header-primary: #c0caf5 !important;
+    --header-secondary: #a9b1d6 !important;
+    --icon-muted: #4e5173 !important;
+    --icon-primary: #c0caf5 !important;
+    --icon-secondary: #a9b1d6 !important;
+    --info-danger-background: #2a2e3e !important;
+    --info-danger-text: #f7768e !important;
+    --info-help-background: #2e3b59 !important;
+    --info-help-text: #7aa2f7 !important;
+    --info-positive-background: #2a2e3e !important;
+    --info-positive-text: #9ece6a !important;
+    --info-warning-background: #2a2e3e !important;
+    --info-warning-text: #e0af68 !important; /* Yellow accent */
+    --input-background: #1a1b26 !important;
+    --input-border: #24283b !important;
+    --input-focused-border: #7aa2f7 !important;
+    --input-placeholder-text: #4e5173 !important;
+    --interactive-active: #c0caf5 !important;
+    --interactive-hover: #a9b1d6 !important;
+    --interactive-normal: #7aa2f7 !important;
+    --mention-background: #2e3b59 !important;
+    --mention-foreground: #7aa2f7 !important;
+    --message-reacted-background: #2e3b59 !important;
+    --message-reacted-text: #7aa2f7 !important;
+    --modal-background: #16161e !important;
+    --modal-footer-background: #16161e !important;
+    --premium-nitro-pink-text: #bb9af7 !important; /* Purple accent */
+    --scrollbar-auto-scrollbar-color-thumb: #4e5173 !important;
+    --scrollbar-auto-scrollbar-color-track: #16161e !important;
+    --scrollbar-auto-thumb: #4e5173 !important;
+    --scrollbar-auto-track: #16161e !important;
+    --scrollbar-thin-thumb: #4e5173 !important;
+    --spine-default: #3b4261 !important;
+    --spoiler-hidden-background: #4e5173 !important;
+    --text-brand: #7aa2f7 !important;
+    --text-link: #7aa2f7 !important;
+    --text-muted: #4e5173 !important;
+    --text-normal: #a9b1d6 !important;
+    --text-positive: #9ece6a !important;
+    --text-primary: #c0caf5 !important;
+    --text-secondary: #a9b1d6 !important;
+    --text-warning: #e0af68 !important;
+    --user-profile-background-hover: #24283b !important;
+    --user-profile-overlay-background: #1a1b26 !important;
+    --user-profile-overlay-background-hover: #24283b !important;
+    --app-background-frame: #16161e !important;
+    --app-border-frame: #24283b !important;
+    --background-base-low: #16161e !important;
+    --background-base-lower: #1a1b26 !important;
+    --background-base-lowest: #24283b !important;
+    --background-code: #1a1b26 !important;
+    --background-code-addition: #2a2e3e !important;
+    --background-code-deletion: #2a2e3e !important;
+    --background-feedback-critical: #2a2e3e !important;
+    --background-feedback-info: #2e3b59 !important;
+    --background-feedback-positive: #2a2e3e !important;
+    --background-feedback-warning: #2a2e3e !important;
+    --background-mod-faint: #1a1b26 !important;
+    --background-mod-normal: #3b4261 !important;
+    --background-mod-strong: #3b4261 !important;
+    --background-mod-subtle: #24283b !important;
+    --background-surface-high: #16161e !important;
+    --background-surface-higher: #1a1b26 !important;
+    --background-surface-highest: #24283b !important;
+    --border-feedback-critical: #f7768e !important;
+    --border-normal: #24283b !important;
+    --chat-background-default: #16161e !important;
+    --chat-text-muted: #4e5173 !important;
+    --checkbox-background-checked: #7aa2f7 !important;
+    --checkbox-background-default: #1a1b26 !important;
+    --checkbox-border-checked: #7aa2f7 !important;
+    --checkbox-border-default: #24283b !important;
+    --icon-default: #c0caf5 !important;
+    --icon-tertiary: #4e5173 !important;
+    --notice-background-critical: #f7768e !important;
+    --notice-background-info: #7aa2f7 !important;
+    --notice-background-positive: #9ece6a !important;
+    --notice-background-warning: #e0af68 !important;
+    --notice-text-critical: #16161e !important;
+    --notice-text-info: #16161e !important;
+    --notice-text-positive: #16161e !important;
+    --notice-text-warning: #16161e !important;
+    --spoiler-hidden-background-hover: #4e5173 !important;
+    --text-code-addition: #9ece6a !important;
+    --text-code-builtin: #bb9af7 !important;
+    --text-code-bullet: #e0af68 !important;
+    --text-code-comment: #4e5173 !important;
+    --text-code-default: #7aa2f7 !important;
+    --text-code-deletion: #f7768e !important;
+    --text-code-keyword: #f7768e !important;
+    --text-code-section: #7aa2f7 !important;
+    --text-code-string: #9ece6a !important;
+    --text-code-tag: #bb9af7 !important;
+    --text-code-title: #7aa2f7 !important;
+    --text-code-variable: #7aa2f7 !important;
+    --text-default: #a9b1d6 !important;
+    --text-feedback-critical: #f7768e !important;
+    --text-feedback-info: #7aa2f7 !important;
+    --text-feedback-positive: #9ece6a !important;
+    --text-feedback-warning: #e0af68 !important;
+    --text-tertiary: #4e5173 !important;
 }
-/* fixes header offset being skewed away from the right */
-div[class^="upperContainer_"] {
-  -webkit-app-region: drag;
-  width: 100%;
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-
-/* hide nitro ads from profile */
-
-[data-list-item-id*="_get-premium"] {
-  display: none;
-}
-[class*="menuDivider_"]:has(+[data-list-item-id*="_get-premium"])
- {
-  display: none;
-}
-
-/* Hides Store and Shop button BEST WORKING SO FAR THAN ABOVE ONE*/
-[href="/store"], 
-[href='/shop']
-{
-  display: none;
-}
-
-/* Hide Nitro Gift button */
-button[aria-label="Send a gift"] {
-  display: none;
-}
-
-/* Hide app launcher */
-[class*=channelAppLauncher_] {
-  display: none;
-}
-
-/* Hide forward button (only on hover) */
-#message-actions-forward {
-    display: none;
-}
-
-div[aria-label="Forward"] {
-    display: none;
-}
-
-/* Hide "Find or start conversation" button in home */
-.searchBar_f0963d {
-    display: none;
-}
-/* ########################## ---END OF SNIPPET--- ########################## */
-
-
-
-/* ########################## ---BEGIN OF SNIPPET--- ########################## */
-/* Fix Chat Title/Topics */
-div[class*='topic__'],
-div[class*='nicknames__'],
-div[class*='subtitleContainer_'] div[class*='children__']{
-  width: 0;
-}
-/* fix VC sizing */
-.tileWrapper__6981d {
-  position: absolute;
-}
-/* fix threads pop up window priority */ 
-div[class^=chatLayerWrapper] {
-	z-index: 1000;
-}   
-
-/* hide user avatar in bottom left */
-div[class*="avatarWrapper"][class*="experiment"] > div[class*="wrapper"][class*="avatar"] {
-	display:none;
-} 
-/* pads username for avatar in bottom left more into the left side */
-div[class*="avatarWrapper"][class*="experiment"] > div[class*="nameTag"][class*="canCopy"] {
-	padding-left: 0px;
-}  
-/* ########################## ---END OF SNIPPET--- ########################## */
+	/* Tokyo Night Dark Theme */
