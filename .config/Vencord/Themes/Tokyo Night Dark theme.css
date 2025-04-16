@@ -1,4 +1,5 @@
-/* Tokyo Night Dark Theme */
+    
+ /* Tokyo Night Dark Theme */
 .visual-refresh {
   --activity-card-background: #16161e !important;
   --autocomplete-bg: #16161e !important;
@@ -16,6 +17,10 @@
   --background-secondary: #1a1b26 !important;
   --background-tertiary: #24283b !important;
   --bg-base-primary: #16161e !important;
+  /*--__header-bar-background: #16161e !important; */
+  --bg-overlay-1: #16161e !important;
+  --bg-overlay-2: #16161e !important;
+  --bg-overlay-3: #16161e !important;
   --bg-base-secondary: #1a1b26 !important;
   --bg-base-tertiary: #24283b !important;
   --bg-brand: #7aa2f7 !important;
@@ -167,4 +172,4 @@
   --text-feedback-warning: #e0af68 !important;
   --text-tertiary: #4e5173 !important;
 }
-/* Tokyo Night Dark Theme */
+/* Tokyo Night Dark Theme */   
