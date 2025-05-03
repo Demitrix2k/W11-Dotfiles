@@ -1,6 +1,6 @@
     
  /* Tokyo Night Dark Theme */
-.visual-refresh {
+.visual-refresh * {
   --activity-card-background: #16161e !important;
   --autocomplete-bg: #16161e !important;
   --background-floating: #16161e !important;
