@@ -56,7 +56,8 @@ extract = [
 ]
 play = [
 	{ run = 'mpv --force-window "$@"', orphan = true, for = "unix" },
-	{ run = 'C:\programs\MPC-HC\mpc-hc64.exe %*', orphan = true, for = "windows" },
+	#	{ run = 'C:\programs\MPC-HC\mpc-hc64.exe %*', orphan = true, for = "windows" },
+	{ run = 'mpv %*', orphan = true, for = "windows" },
 	{ run = '''mediainfo "$1"; echo "Press enter to exit"; read _''', block = true, desc = "Show media info", for = "unix" },
 ]
 

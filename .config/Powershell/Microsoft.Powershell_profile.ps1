@@ -4,20 +4,25 @@ $Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
 $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
 
-$Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
-$Env:pad0=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-0.ps1"
-$Env:pad1=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-10.ps1"
-$Env:pad2=                              "$HOME\.config\Powershell\Scripts\Komorebic-padding-20.ps1"
-$Env:matrix=                            "$HOME\.config\Powershell\Scripts\Matrix.ps1"
-$Env:meow=                              "$HOME\.config\Powershell\Scripts\Meow\meow.ps1"
-
-$Env:w4ch=                              "$HOME\.config\Powershell\Scripts\Python\webm_for_4chan.py"
-
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
+$Env:BSArch=                            "D:\Modding\MO2-FNV\External-tools\BSArch.exe"
+
+$Env:komorebi_start=                    "$HOME\.config\Powershell\Scripts\komorebi\Komorebi-start.ps1"
+$Env:komorebi_stop=                     "$HOME\.config\Powershell\Scripts\komorebi\Komorebi-stop.ps1"
+
+$Env:matrix=                            "$HOME\.config\Powershell\Scripts\Matrix.ps1"
+$Env:meow=                              "$HOME\.config\Powershell\Scripts\Meow\meow.ps1"
+$Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
+$Env:w4ch=                              "$HOME\.config\Powershell\Scripts\Python\webm_for_4chan.py"
+
+
 
 #############################################################################
 
+Set-Alias       "bsarch"                "$env:BSArch"
+Set-Alias       "kstart"                "$env:komorebi_start"
+Set-Alias       "kstop"                 "$env:komorebi_stop"
 Set-Alias       "meow"                  "$env:meow"
 Set-Alias       "ff"                    "fastfetch"
 Set-Alias       "q"                     "Quit"

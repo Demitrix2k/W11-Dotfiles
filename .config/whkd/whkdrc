@@ -20,6 +20,11 @@ alt + shift + o          		: komorebic reload-configuration
 #ctrl + shift + enter     		: if ($wshell.AppActivate('Firefox') -eq $False) { start firefox }
 
 ##########################################################################################################################################
+############### DISABLE KEYBINDS
+win + ctrl + s                  :
+
+
+##########################################################################################################################################
 ############### PROGRAMS
 alt + shift + 0                 : start wt
 alt + shift + 9                 : start 'C:\programs\TaskbarToggle.exe'
@@ -94,9 +99,11 @@ ctrl + 5                        : komorebic load-resize $Env:KOMOREBI_CONFIG_HOM
 ctrl + 6                        : komorebic save-resize $Env:KOMOREBI_CONFIG_HOME/komorebi-configs.txt
 
 
-win + ctrl + 1                  : pwsh $env:pad0 
-win + ctrl + 2                  : pwsh $env:pad1
-win + ctrl + 3                  : pwsh $env:pad2
+ctrl + shift + 1                : komorebic focused-workspace-padding 0 && komorebic focused-workspace-container-padding 0
+ctrl + shift + 2                : komorebic focused-workspace-padding 10 && komorebic focused-workspace-container-padding 10
+ctrl + shift + 3                : komorebic focused-workspace-padding 20 && komorebic focused-workspace-container-padding 20
+ctrl + shift + 4                : komorebic focused-workspace-padding 120 && komorebic focused-workspace-container-padding 20
+ctrl + shift + 5                : komorebic focused-workspace-padding 220 && komorebic focused-workspace-container-padding 20
 
 ##########################################################################################################################################
 ################ MANIPULATE WINDOWS

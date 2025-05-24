@@ -1,9 +1,15 @@
-/* conflicts with zen  */
-/* #titlebar { */
-    /* position: absolute; */
-    /* top: 1px; */
-/* } */
-/* Remove close button */
+
+#zen-current-workspace-indicator-container, .zen-workspace-tabs-section.zen-current-workspace-indicator {
+ display:none !important;
+}
+
+
+/* top bar in browser over bookmarks */
+#nav-bar {
+	min-height: 1px !important;
+	height: 25px !important;
+}
+
 .titlebar-buttonbox-container { 
 	display:none 
 }
@@ -25,9 +31,9 @@
   display: none !important;	
 }
 
-#alltabs-button {
-  display: none !important;	
-}
+/* #alltabs-button { */
+  /* display: none !important;	 */
+/* } */
 
 #tabs-newtab-button, #vertical-tabs-newtab-button {
   display: none !important;	
@@ -41,9 +47,9 @@
 	display: flex; 
 flex-direction: column !important; 
 } 
-/* .urlbarView-title-separator{  */
-/* display: none;  */
-/* }  */
+.urlbarView-title-separator{ 
+display: none; 
+} 
 
 #PlacesToolbarItems { 
 	justify-content: safe center !important;
@@ -53,13 +59,13 @@ flex-direction: column !important;
 	/* appearance: unset !important; */
 /* } */
 
-#zen-workspaces-button {
-	display: none !important;
-}  
+/* #zen-workspaces-button { */
+	/* display: none !important; */
+/* }   */
 
-#tab-icon-overlay {
-	display: none !important;
-}
+/* #tab-icon-overlay { */
+	/* display: none !important; */
+/* } */
 
 /* Hides audio icon on tab playing audio that is selected, on vertical small tabs  */
 .tab-icon-overlay {
@@ -71,49 +77,5 @@ flex-direction: column !important;
   }
 }
 
-/* Adaptive tab color quickfix */
 
-/* #nav-bar, #urlbar-background, #zen-sidebar-web-panel { */
-    /* background-color:  var(--lwt-accent-color) !important; */
-/* } */
-
-/* panel { */
-    /* --panel-background: var(--lwt-accent-color) !important; */
-/* } */
-
-/* #browser { */
-        /* background-image: none !important; */
-        /* background-color:  var(--lwt-accent-color) !important; */
-        /* opacity: 1 !important; */
-/* } */
-
-/* :root:not([inDOMFullscreen="true"]):not([chromehidden~="location"]):not([chromehidden~="toolbar"]) { */
-    /* & #tabbrowser-tabbox #tabbrowser-tabpanels .browserSidebarContainer { */
-      /* box-shadow: 0 0 1px 1px light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) !important; */
-    /* } */
-  /* } */
-
-/* #zen-sidebar-web-panel { */
-    /* border: none !important; */
-    /* box-shadow: 0 0 1px 1px light-dark(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)) !important; */
-/* } */
-
-/* #zen-sidebar-web-header, #zen-sidebar-panels-wrapper { */
-    /* border-bottom: 0 !important; */
-    /* border-top: 0 !important; */
-/* } */
-
-/* @media (-moz-bool-pref: "zen.view.compact") { */
-    /* :root:not([customizing]):not([inDOMFullscreen="true"]) { */
-      /* @media (-moz-bool-pref: "zen.view.compact.hide-tabbar") { */
-        /* & #titlebar { */
-          /* background: var(--lwt-accent-color) !important; */
-        /* } */
-      /* } */
-    /* } */
-/* } */
-
-/* #titlebar { */
-  /* background: var(--lwt-accent-color) !important; */
-/* } */
-/* Adaptive tab color quickfix */
+@import url("Custom/adaptive-tab-color.css");

@@ -1,1 +1,0 @@
-pwsh -File %~dp0\Komorebic.ps1

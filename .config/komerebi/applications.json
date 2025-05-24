@@ -9,6 +9,15 @@
       }
     ]
   },
+    "Fallout New Vegas": {
+    "ignore": [
+      {
+        "kind": "Exe",
+        "id": "FalloutNV.exe",
+        "matching_strategy": "Equals"
+      }
+    ]
+  },
   "Ableton Live": {
     "ignore": [
       {
@@ -1622,6 +1631,11 @@
   },
   "PowerToys": {
     "ignore": [
+	  {
+        "kind": "Exe",
+        "id": "PowerToys.Settings.exe",
+        "matching_strategy": "Equals"
+      },
       {
         "kind": "Exe",
         "id": "PowerToys.ColorPickerUI.exe",

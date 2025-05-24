@@ -451,11 +451,11 @@ widgets:
     options:
       label: "<span>{icon}</span>{temp}"
       label_alt: "<span>{icon}</span>Min {min_temp} | Max {max_temp} | rF {humidity}"
-      api_key: "3ce31daec3cb4390967233226251401" # Get your free API key from https://www.weatherapi.com/
+      api_key: "f8de075730b64d4ba5f191508252904" # Get your free API key from https://www.weatherapi.com/
       update_interval: 600 # Update interval in seconds, Min 600 seconds
       hide_decimal: true
       units: "metric" # Can be 'metric' or 'imperial'
-      location: "Germany Hallbergmoos 85399" # You can use "USA Los Angeles 90006" {COUNTRY CITY ZIP_CODE}, or just city.
+      location: "Norway Kristiansand 4610" # You can use "USA Los Angeles 90006" {COUNTRY CITY ZIP_CODE}, or just city.
       animation:
         enabled: false
       callbacks:
@@ -463,16 +463,26 @@ widgets:
         on_middle: "toggle_card"
         on_right: "do_nothing"
       icons:
-        sunnyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\sunnyDay.svg'/>" # \ue30d
-        clearNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\clearNight.svg'/>" # \ue32b
-        cloudyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\cloudyDay.svg'/>" # \ue302
-        cloudyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\cloudyNight.svg'/>" # \ue37e
-        rainyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\rainyDay.svg'/>" # \ue308
-        rainyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\rainyNight.svg'/>" # \ue325
-        snowyIcyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\snowyIcyDay.svg'/>" # \ue30a
-        snowyIcyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\snowyIcyNight.svg'/>" # \ue327
-        blizzard: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\blizzard.svg'/>" # \ue314
-        default: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\default.svg'/>" # \uebaa
+        # sunnyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\sunnyDay.svg'/>" # \ue30d
+        # clearNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\clearNight.svg'/>" # \ue32b
+        # cloudyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\cloudyDay.svg'/>" # \ue302
+        # cloudyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\cloudyNight.svg'/>" # \ue37e
+        # rainyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\rainyDay.svg'/>" # \ue308
+        # rainyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\rainyNight.svg'/>" # \ue325
+        # snowyIcyDay: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\snowyIcyDay.svg'/>" # \ue30a
+        # snowyIcyNight: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\snowyIcyNight.svg'/>" # \ue327
+        # blizzard: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\blizzard.svg'/>" # \ue314
+        # default: "<img src='C:\\Users\\Slim08\\.config\\yasb\\icons\\Weather\\default.svg'/>" # \uebaa
+        sunnyDay: "\ue30d"
+        clearNight: "\ue32b"
+        cloudyDay: "\udb81\udd99"
+        cloudyNight: "\ue311"
+        rainyDay: "\udb81\ude7e"
+        rainyNight: "\udb81\ude7e"
+        snowyIcyDay: "\udb81\udd98"
+        snowyIcyNight: "\udb81\udd98"
+        blizzard: "\uebaa"
+        default: "\uebaa"
       weather_card: 
         blur: true
         round_corners: true
@@ -488,7 +498,7 @@ widgets:
     options:
       label: "<span>{icon}</span> {temp}"
       label_alt: "{location}: Min {min_temp}, Max {max_temp}, Humidity {humidity}"
-      api_key: '3bf4cf9a7c3f40d6b31174128242807' # Get your free API key from https://www.weatherapi.com/
+      api_key: 'f8de075730b64d4ba5f191508252904' # Get your free API key from https://www.weatherapi.com/
       update_interval: 600 # Update interval in seconds, Min 600 seconds
       hide_decimal: true
       units: "metric"
