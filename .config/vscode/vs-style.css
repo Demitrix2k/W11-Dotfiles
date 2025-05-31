@@ -71,8 +71,9 @@
 
 /* Hide app icon */
 .window-appicon {
-    position: absolute !important;
-    left: -999px !important;
+    /* position: absolute !important; */
+    /* left: -999px !important; */
+	display: none;
 }
 
 /* ===== QUICK INPUT / COMMAND PALETTE ===== */

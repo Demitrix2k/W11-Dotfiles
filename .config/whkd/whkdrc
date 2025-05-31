@@ -18,6 +18,7 @@ alt + shift + o          		: komorebic reload-configuration
 ################ THE APPS WILL BE FOCUSED IF OPEN, OR LAUNCHED IF NOT OPEN
 
 #ctrl + shift + enter     		: if ($wshell.AppActivate('Firefox') -eq $False) { start firefox }
+alt + i                         : komorebic toggle-shortcuts
 
 ##########################################################################################################################################
 ############### DISABLE KEYBINDS

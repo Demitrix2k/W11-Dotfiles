@@ -7,7 +7,7 @@
 /* top bar in browser over bookmarks */
 #nav-bar {
 	min-height: 1px !important;
-	height: 25px !important;
+	height: 30px !important;
 }
 
 .titlebar-buttonbox-container { 
@@ -35,6 +35,16 @@
   /* display: none !important;	 */
 /* } */
 
+/* disable rounding on url menu in header and background */
+#urlbar-background {
+  border-radius: 0px;
+  background: black !important;
+  background: var(--zen-themed-toolbar-bg-transparent) !important;
+}
+#personal-bookmarks {
+	background-color: var(--zen-themed-toolbar-bg-transparent) !important;
+}
+
 #tabs-newtab-button, #vertical-tabs-newtab-button {
   display: none !important;	
 }
@@ -45,16 +55,27 @@
 }
 .urlbarView-row-inner{ 
 	display: flex; 
-flex-direction: column !important; 
+	flex-direction: column !important; 
 } 
 .urlbarView-title-separator{ 
-display: none; 
+	display: none; 
 } 
 
 #PlacesToolbarItems { 
 	justify-content: safe center !important;
 }
 
+ #tabbrowser-tabpanels > hbox {
+
+	margin: 0px !important;
+
+} 
+
+/* #urlbar-background, #urlbar, #searchbar-background, #searchbar { */
+/* border-radius: 0px !important; */
+/* padding-bottom: 6px !important; */
+/* height: 30px !important; */
+/* } */
 /* #zen-main-app-wrapper,  #zen-appcontent-wrapper,  #zen-sidebar-splitter { */
 	/* appearance: unset !important; */
 /* } */
@@ -68,14 +89,25 @@ display: none;
 /* } */
 
 /* Hides audio icon on tab playing audio that is selected, on vertical small tabs  */
-.tab-icon-overlay {
-  #tabbrowser-tabs[orient="vertical"]:not([expanded]) &:not([crashed]), &:not([crashed]) {
-    &:is([soundplaying], [muted], [activemedia-blocked]) {
-      --audio-overlay-extra-background: transparent;
-      display: none !important;
-    }
-  }
-}
+/* .tab-icon-overlay { */
+  /* #tabbrowser-tabs[orient="vertical"]:not([expanded]) &:not([crashed]), &:not([crashed]) { */
+    /* &:is([soundplaying], [muted], [activemedia-blocked]) { */
+      /* --audio-overlay-extra-background: transparent; */
+      /* display: none !important; */
+    /* } */
+  /* } */
+/* } */
+
+/* Adjust height of individual URL search results */
+
+/* #urlbar-results .urlbarView-row { */
+  /* height: 35px !important;  */
+  /* min-height: 35px !important;  */
+/* } */
+/* #urlbar-results .urlbarView-row-inner { */
+  /* padding-top: 2px !important;  */
+  /* padding-bottom: 2px !important; */
+/* } */
 
 
 @import url("Custom/adaptive-tab-color.css");

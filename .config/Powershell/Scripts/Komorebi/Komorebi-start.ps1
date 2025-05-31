@@ -8,4 +8,4 @@ komorebic start --whkd
 # komorebic start --bar --whkd
 #  "mouse_follows_focus": false,
 echo Komorebic Running
-timeout /t 30
+timeout /t 5

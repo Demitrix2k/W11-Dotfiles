@@ -5,7 +5,13 @@ Styles for new tab
 */
 
 @-moz-document url("about:home"), url("about:newtab") {
-  
+	
+	.logo-and-wordmark .logo,
+	.logo-and-wordmark .wordmark,
+	.icon.icon-pin-small,
+	.sponsored-label {
+	display: none !important;
+	}
   /* accent color */
   :root{
     --newtab-primary-action-background: var(--shy-color) !important;
@@ -17,159 +23,68 @@ Styles for new tab
     --background-color-box: var(--tr-col) !important;
   }
   
-  .toggle-button[aria-pressed="true"] {
-    background: var(--shy-color) !important;
-    border-color: transparent;
-  }
   
-  .home-section .section .sponsored-checkbox:checked {
-    background-color: var(--shy-color) !important;
-  }
-  
-  .search-wrapper.fake-focus:not(.search.disabled) .search-handoff-button {
-    border: 1px solid var(--shy-color) !important;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--shy-color) 20%, transparent) !important;
-  }
-  
-  /* rounded corners */
-  .top-site-button,
-  .context-menu button,
-  .close-button,
-  .home-section .section .selector
-  {border-radius: var(--rounding) !important;}
-  
-  .top-site-outer, 
-  .top-site-inner,
-  .context-menu,
-  .icon-settings,
-  .weatherCard
-  {border-radius: var(--big-rounding) !important;}
-  
-  /* pinned links */
-  .top-site-button {overflow: clip;}
-  
-  .tile, .top-site-icon{
-    background-color: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  
-  .top-site-button, .customize-menu{
-    background-color: var(--tr-col) !important;
-    backdrop-filter: blur(var(--blur-radius));
-  }
-    
-  .title {
-    background-color: color-mix(in srgb, var(--tr-col) 90%, var(--newtab-text-primary-color));
-    & > span {
-      padding-left: 8px;
-      padding-right: 8px;
-    }
-  }
-  
-  .top-site-outer:is(.active, :focus, :hover){
-    background: var(--tr-hov-col) !important;
-  }
-  
-  .top-site-outer, .top-site-inner {
-    & > a {padding: 0 !important;}
-    padding: 5px;
-  }
-  
-  .top-site-outer:not(:hover) .icon-pin-small{display: none !important;}
-  
-  .context-menu-item{
-    padding-inline: 5px !important;
-    padding-block: 1px !important;
-  }
-  
-  /* search box */
-  .search-handoff-button {
-    border-radius: 100px !important;
-    backdrop-filter: blur(var(--blur-radius));
-    background-color: var(--tr-col) !important;
-  }
-
-  /* height overflow */
-  @media (height > 700px) {
-    body:not(.inline-onboarding) .fixed-search .search-wrapper {
-      background-color: var(--tr-col) !important;
-      backdrop-filter: blur(var(--blur-radius));
-    }
-    .logo-and-wordmark {display: flex !important;}
-  }
-  
-  @media (height <= 700px) {
-    .search-wrapper {padding: 20px 0 30px !important;}
-    .outer-wrapper > main {margin-top: 0px !important;}
-  }
-  
-  /* margin to logo when only search is enabled */
-  .only-search .logo-and-wordmark {margin-top: 20px !important;}
-  
-  
-  body{
+   body {
     /* This will load image.jpg stored in the same folder as this file */
-    background-image: url("wallpaper.png") !important;
+    /* background-image: url("wallpaper.png") !important; */
+	background-image: url("wallpaper.jpg") !important;
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position-x: center;
     background-position-y: bottom;
   }
-
   
-  /* central box */
-  main{
-    margin-top: 15% !important;
-    height: 50%;
-    background-color: var(--tr-col);
-    border-radius: var(--giant-rounding);
+  section.collapsible-section.top-sites {
+	scale: 1.3 !important;
   }
-  
-  /* settings */
-  .icon-settings:hover {background-color: var(--tr-hov-col) !important;}
-  .close-button-wrapper {background-color: transparent !important;}
-  
-  .home-section .section .selector{
-    background-color: var(--tr-col) !important;
-    &:hover{background-color: var(--tr-hov-col) !important;}
-  }
-  
-  /* weather */
-  .weatherInfoLink:hover, .weatherButtonContextMenuWrapper:hover {
-    background-color: var(--tr-hov-col) !important;
-  }
-  
-  .weatherCard:not(:hover) .weatherButtonContextMenuWrapper{opacity: 0}
-  .weatherInfoLink {border-radius: 0px !important;}
-  .weatherButtonContextMenuWrapper::after{display: none !important;}
-  
-  /* autograph */
-  .activity-stream::before,
-  .activity-stream::after
-  {
-    font-family: monospace;
-    color: white;
-    opacity: 0.042;
-    position: fixed;
-    z-index: 99999;
-    bottom: 10px;
-  }
-  
-  .activity-stream::before{
-    content: "ShyFox by N2ezr";
-    left: 10px;
-  }
-  
-  .activity-stream::after{
-    content: "42 🤙";
-    right: 10px;
-  }
-  
+  .tile {
+	scale: 1.2 !important;
+	border-top-left-radius: 8px !important;
+	border-top-right-radius: 8px !important;
+	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;
+	background: rgba(0, 0, 0, .6) !important;
+	width: 60px !important;
+	height: calc(var(--size-item-large) * 1.8) !important;
+}
+.top-site-outer .title {
+	padding-top: 8px !important;
+}
+.top-site-outer .top-site-icon {
+	background-color: #0000 !important;
+}
+.top-site-button:hover {
+	background: #0000 !important;
+}
+.top-sites-list:not(.dnd-active) .top-site-outer:is(.active, :focus, :hover) {
+  background: rgba(0, 0, 0, 0) !important;
+  scale: 1.03 !important;
+  /* transition: all 0.3s; */
+}
+.top-site-outer:is(:hover) .context-menu-button {
+  opacity: 0.1 !important;
+}
+.context-menu-button.icon:hover {
+	opacity: 1.0;
 }
 
-@-moz-document url("about:privatebrowsing") {
-  .search-handoff-button {border-radius: 100px !important;}
-  .info {border-radius: var(--big-rounding) !important;}
-}
+  .title-label {
+	background: rgba(0, 0, 0, .6) !important;
+	border-radius: 5px !important;
+	scale: 1.2 !important;
+	height: 20px !important;
+	min-height: 0 !important;
+	width: 60px !important;
+	/* width: calc(var(--size-item-large) * 1); */
+	/* height: calc(var(--size-item-large) * 1); */
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;
+	border-bottom-right-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+  }
+  
+  .context-menu > ul > li > a:is(:focus, :hover),
+.context-menu > ul > li > button:is(:focus, :hover) {
+  background: var(--newtab-element-secondary-hover-color);
+  background: #000000b2 !important;

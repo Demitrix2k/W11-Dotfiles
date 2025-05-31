@@ -1680,7 +1680,12 @@
         "kind": "Exe",
         "id": "Microsoft.CmdPal.UI.exe",
         "matching_strategy": "Equals"
-      }
+      },
+      {
+        "kind": "Exe",
+        "id": "PowerToys.PowerRename.exe",
+        "matching_strategy": "Equals"
+      }	  
     ]
   },
   "Prime95": {
