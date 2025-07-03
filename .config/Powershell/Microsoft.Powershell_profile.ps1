@@ -3,6 +3,7 @@ $Env:WHKD_CONFIG_HOME =                 "$HOME\.config\whkd"
 $Env:NTop_CONFIG_HOME=                  "$HOME\.config\ntop"
 $Env:YAZI_CONFIG_HOME=                  "$HOME\.config\yazi"
 $Env:XDG_CONFIG_HOME=                   "$HOME\.config"
+$Env:MPV_HOME=                          "$HOME\.config\mpv"
 
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"

@@ -74,7 +74,7 @@ shift + win + l                 : komorebic focus right
 
 alt + r                         : komorebic promote
 alt + f                         : komorebic toggle-maximize
-ctrl + shift + m                : komorebic cycle-send-to-monitor next
+win + shift + m                : komorebic cycle-send-to-monitor next
 
 ##########################################################################################################################################
 ################ STACK WINDOWS

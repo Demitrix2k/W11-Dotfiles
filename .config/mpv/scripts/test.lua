@@ -1,0 +1,4 @@
+-- test.lua
+-- local mp = require("mp")
+-- mp.commandv('script-message-to', 'uosc', 'disable-elements', mp.get_script_name(), 'Speed,volume')
+-- print("test.lua loaded")

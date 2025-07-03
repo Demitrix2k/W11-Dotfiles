@@ -2,7 +2,7 @@
 # If you encounter any issues, please make an issue at https://github.com/yazi-rs/schemas.
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
-[manager]
+[mgr]
 
 
 keymap = [
@@ -329,17 +329,17 @@ keymap = [
 	{ on = "f", run = "filter", desc = "Apply a filter for the help items" },
 ]
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = "t"
 run  = "plugin hide-preview"
 desc = "Hide or show preview"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = "<S-t>"
 run  = "plugin max-preview"
 desc = "Maximize or restore preview"
 
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on   = "<S-e>"
 run = 'shell "nvim %*" --block --hovered'
 desc = "Edit selected with neovim"
