@@ -10,3 +10,7 @@
 .config/gh/config.yml
 /.config/gh
 .config/yasb/yasb.log.1
+.config/yasb/yasb.log.2
+.config/yasb/yasb.log.3
+/.config/mpv/watch_later
+/.config/tacky-borders/tacky-borders.log
