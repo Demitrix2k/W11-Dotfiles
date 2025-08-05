@@ -1,3 +1,11 @@
+:root {
+--actual-zen-sidebar-width: 40px !important;	
+--zen-toolbox-max-width:35px !important;
+--zen-toolbox-min-width:35px !important;
+--zen-min-toolbox-padding: 0 !important;
+--tab-collapsed-background-width:25px !important;
+--zen-min-toolbox-padding: 0 !important;
+}
 
 #zen-current-workspace-indicator-container, .zen-workspace-tabs-section.zen-current-workspace-indicator {
  display:none !important;
@@ -70,6 +78,21 @@
 	margin: 0px !important;
 
 } 
+
+/* hbox#browser > #navigator-toolbox:not([zen-sidebar-expanded="true"]) { */
+	/* max-width: 30px !important; */
+	/* mix-width: 30px !important; */
+/* } */
+/* #browser { */
+  /* --zen-min-toolbox-padding: 0 !important; */
+/* } */
+/* #tabbrowser-tabs { */
+  /* & .tabbrowser-tab { */
+    /* { */
+      /* margin: 0 auto !important; */
+    /* } */
+  /* } */
+/* } */
 
 /* #urlbar-background, #urlbar, #searchbar-background, #searchbar { */
 /* border-radius: 0px !important; */

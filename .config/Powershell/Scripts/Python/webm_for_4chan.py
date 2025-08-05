@@ -13,12 +13,18 @@ import math
 import mimetypes
 import os
 import platform
+import re
 import signal
 import subprocess
-import sys
-import time
 import traceback
+from sys import exit
 
+ffmpeg_path = None # Edit this if you want to specify a custom path to ffmpeg
+ffprobe_path = ffmpeg_path # Usually you should not have to edit this
+ffmpeg_exe = os.path.join(ffmpeg_path, 'ffmpeg') if ffmpeg_path else 'ffmpeg'
+ffprobe_exe = os.path.join(ffprobe_path, 'ffprobe') if ffprobe_path else 'ffprobe'
+ytdlp_path = None # Edit this if you want to specify a custom path to yt-dlp
+ytdlp_exe = os.path.join(ytdlp_path, 'yt-dlp') if ytdlp_path else 'yt-dlp'
 max_bitrate = 2800 # (kbps) Cap bitrate in case the clip is really short. This is already an absurdly high rate.
 max_size = [6144 * 1024, 4096 * 1024] # 4chan size limits, in bytes [wsg, all other boards]
 max_duration = [400, 300, 120] # Maximum clip durations, in seconds [wsg, gif, all other boards]
@@ -43,7 +49,9 @@ fps_map = { # Map of clip duration to fps. Clip must be below the duration to fi
     400.0: 24.0
 }
 audio_map = { # Map of clip duration to audio bitrate. Very long clips benefit from audio bitrate reduction, but not ideal for music oriented webms. Use --music_mode to bypass.
-    60.0: 96,
+    15.0: 128,
+    45.0: 112,
+    95.0: 96,
     120.0: 80,
     240.0: 64,
     300.0: 56,
@@ -58,17 +66,23 @@ audio_map_gif = { # Separate audio lookup for gif mode (4MB w/ sound)
     120.0: 32
 }
 audio_map_music_mode = { # Use high bit rate in music mode. Trying to keep the max size under 5.5MB.
+    15.0: 320,
+    45.0: 256,
+    100.0: 192,
+    220.0: 160,
     285.0: 128,
     330.0: 112,
     400.0: 96
 }
 bitrate_compensation_map = { # Automatic bitrate compensation, in kbps. This value is subtracted to prevent file size overshoot, which tends to happen in longer files
-    300.0: 0,
-    360.0: 2,
-    400.0: 4
+    240.0: 0,
+    300.0: 2,
+    360.0: 3,
+    380.0: 4,
+    400.0: 6
 }
 mixdown_stereo_threshold = 96 # Automatically mixdown to stereo if audio bitrate <= this value
-mixdown_mono_threshold = 56 # Automatically mixdown to mono if audio bitrate <= this value
+mixdown_mono_threshold = 64 # Automatically mixdown to mono if audio bitrate <= this value
 null_output = 'NUL' if platform.system() == 'Windows' else '/dev/null' # For pass 1 and certain preprocessing steps, need to output to appropriate null depending on system
 
 files_to_clean = [] # List of temp files to be cleaned up at the end
@@ -94,10 +108,90 @@ def get_temp_filename(extension : str):
 
 # This is only called if you don't specify a duration or end time. Uses ffprobe to find out how long the input is.
 def get_video_duration(input_filename, start_time : float):
+    mime, subtype = mimetypes.guess_type(input_filename)[0].split('/')
+    if mime != 'video' and mime != 'audio':
+        raise RuntimeError(f"Unsupported mime type '{mime}/{subtype}' for input file '{input_filename}'")
     # https://superuser.com/questions/650291/how-to-get-video-duration-in-seconds
-    result = subprocess.run(["ffprobe","-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", input_filename], stdout=subprocess.PIPE, text=True)
+    result = subprocess.run([ffprobe_exe,"-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", input_filename], stdout=subprocess.PIPE, text=True)
     duration_seconds = float(result.stdout)
     return datetime.timedelta(seconds=duration_seconds - start_time)
+
+# Format a timedelta into hh:mm:ss.ms
+def format_timedelta(ts : datetime.timedelta):
+    hours, rm_hr = divmod(ts.total_seconds(), 3600)
+    mins, rm_min = divmod(rm_hr, 60)
+    sec, rm_sec = divmod(rm_min, 1)
+    # Omit leading zero hours and minutes
+    if int(hours) == 0:
+        if int(mins) == 0:
+            ts_str = '{:02}.{:03}'.format(int(sec), int(rm_sec*1000))
+        else:
+            ts_str = '{:02}:{:02}.{:03}'.format(int(mins), int(sec), int(rm_sec*1000))
+    else:
+        ts_str = '{:02}:{:02}:{:02}.{:03}'.format(int(hours), int(mins), int(sec), int(rm_sec*1000))
+    return ts_str
+
+def is_url(arg : str) -> bool:
+    return re.match(r'(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)', arg) is not None
+
+def download_video(url : str, args) -> str:
+    print(f'Attempting to download {url}')
+    ytdl_cmd = [ytdlp_exe, url]
+    if args.auto_subs: # This should result in embedding subs into the video, so --auto_subs will pick up and use the first sub track
+        ytdl_cmd.extend(['--embed-subs', '--write-automatic-subs'])
+    if args.ytdlp_args is not None: # Add custom command-line args
+        ytdl_cmd.extend(args.ytdlp_args.split())
+    # Need to know whether or not to download only segments
+    start = parsetime(args.start)
+    seg_end = None
+    if (not args.download_full) and (args.concat is not None or args.cut is not None):
+        # cut and concat segments potentially need to be modified to match 
+        segments = parse_segments(start, args.concat if args.concat is not None else args.cut, do_print=False)
+        if args.concat is not None and len(segments) == 1:
+            start, seg_end = segments[0]
+            args.concat = None # Erase processed concat segment so that it doesn't mess up video conversion
+        elif start.total_seconds() > 0.0:
+            # The segment is passed in as an absolute timestamp, but downloading a chunk messes up
+            # the segment relative time, so the segment timing needs to be re-adjusted.
+            new_segments = ';'.join([f'{format_timedelta(start_seg)}-{format_timedelta(end_seg)}' for start_seg, end_seg in segments])
+            if args.concat is not None:
+                args.concat = new_segments
+            elif args.cut is not None:
+                args.cut = new_segments
+    end = seg_end.total_seconds() if seg_end is not None else parsetime(args.end).total_seconds() if args.end is not None else (start + parsetime(args.duration)).total_seconds() if args.duration is not None else 'inf'
+    if (not args.download_full) and (start.total_seconds() > 0.0 or (end != 'inf')):
+        ytdl_cmd.extend(['--force-keyframes-at-cuts', '--download-sections', f'*{start.total_seconds()}-{end}'])
+        if start.total_seconds() == 0.0: # Optimization for clips that start at the beginning of the video.
+            ytdl_cmd.extend(['--downloader-args', 'ffmpeg:-c:v copy -c:a copy']) 
+        else:
+            ytdl_cmd.extend(['--downloader-args', 'ffmpeg:-crf 20 -b:a 256k']) # Note: most youtube audio is 128k and can be up to 256k
+        # Reset the passed-in start and duration arguments so that the full video is post-processed
+        args.start = '0.0'
+        args.end = None
+        args.duration = None
+    print(' '.join(ytdl_cmd))
+    ytdl_cmd1 = ytdl_cmd.copy()
+    ytdl_cmd1.extend([ '-j'])
+    # The first one is a simulated run just to get the prospective filename
+    result = subprocess.run(ytdl_cmd1, stdout=subprocess.PIPE, text=True)
+    if result.returncode != 0:
+        print(result.stdout)
+        print('yt-dlp returned error code {}'.format(result.returncode))
+        return None
+    # Outputs the frame rate as a precise fraction. Have to convert to decimal.
+    result_json = json.loads(result.stdout)
+    result_filename = result_json['filename']
+    print(f'Downloading to "{result_filename}"')
+    if os.path.isfile(result_filename):
+        print('File already found. Skipping download.')
+    else:
+        pope = subprocess.Popen(ytdl_cmd, stdout=subprocess.PIPE, universal_newlines=True, encoding='utf-8', errors='ignore')
+        for line in iter(pope.stdout.readline, ""):
+            if '[download]' in line and '%' in line:
+                print('\r' + line.strip(), end='')
+            else:
+                print(line, end='')
+    return result_filename
 
 # Determines if the argument is a parsable timestamp
 def is_timestamp(arg : str):
@@ -117,7 +211,6 @@ def is_timestamp(arg : str):
 
 # Determines if the argument is a segment (i.e. a collection of timestamps used by --cut or --concat)
 def is_segment(arg : str):
-    print('aa')
     for tok in arg.split(';'): # Segments can be split by semicolon
         if '-' not in tok:
             return False # Segments need to be separated by a dash
@@ -127,26 +220,27 @@ def is_segment(arg : str):
     return True # Only true if all arguments pass as individual timestamps
 
 # Rudamentary timestamp parsing, the format is H:M:S.ms and hours/minutes/milliseconds can be omitted
-def parsetime(ts_input):
-    ts = ts_input.split('.')
-    # Note: I didn't want to import a 3rd party library just to parse simple timestamps. The janky millisecond parsing is a result of this.
-    ms = 0
-    if len(ts) > 1:
-        ms = int(ts[1])
-        if len(ts[1]) == 1: # Single digit, that means its 100s of ms
-            ms *= 100
-        elif len(ts[1]) == 2: # 2 digits, that means its 10s of ms
-            ms *= 10
-    try:
-        duration = time.strptime(ts[0], '%H:%M:%S')
-        return datetime.timedelta(hours=duration.tm_hour, minutes=duration.tm_min, seconds=duration.tm_sec, milliseconds=ms)
-    except ValueError:
-        try:
-            duration = time.strptime(ts[0], '%M:%S')
-            return datetime.timedelta(minutes=duration.tm_min, seconds=duration.tm_sec, milliseconds=ms)
-        except ValueError:
-            duration = time.strptime(ts[0], '%S')
-            return datetime.timedelta(seconds=duration.tm_sec, milliseconds=ms)
+def parsetime(timestamp: str) -> datetime.timedelta:
+    # Split the timestamp by the colon to separate hours, minutes, and seconds
+    parts = timestamp.split(':')
+    
+    # Initialize total seconds
+    total_seconds = 0.0
+    
+    if len(parts) == 3:  # Format: hours:minutes:seconds
+        hours, minutes, seconds = parts
+        total_seconds += int(hours) * 3600  # Convert hours to seconds
+        total_seconds += int(minutes) * 60   # Convert minutes to seconds
+        total_seconds += float(seconds)       # Add seconds
+    elif len(parts) == 2:  # Format: minutes:seconds
+        minutes, seconds = parts
+        total_seconds += int(minutes) * 60   # Convert minutes to seconds
+        total_seconds += float(seconds)       # Add seconds
+    else:  # Format: seconds (or seconds with milliseconds)
+        total_seconds = float(timestamp)
+    
+    # Return a timedelta object
+    return datetime.timedelta(seconds=total_seconds)
 
 # Define the 3 different options for 4chan
 class BoardMode(Enum):
@@ -219,12 +313,21 @@ def scale_to_even(original_width, original_height, scaled_width, scaled_height):
         #print("{}x{}".format(width, height))
     return int(max(height, width))
 
+def get_video_resolution(input_filename : str):
+    result = subprocess.run([ffprobe_exe,"-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "csv=p=0", input_filename], stdout=subprocess.PIPE, text=True)
+    if result.returncode == 0:
+        width, height = [int(x) for x in result.stdout.strip().split(',')]
+        return width, height
+    else:
+        print(result.stdout)
+        raise RuntimeError(f'ffprobe returned error code {result.returncode}')
+
 # Use the lookup table to find the highest resolution under the pre-defined durations in the table
 def calculate_target_resolution(duration, input_filename, target_bitrate, resizing_mode : ResizeMode, bypass_resolution_table : bool):
     if str(resizing_mode) != 'table':
         try:
             # ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=p=0 input.mp4
-            result = subprocess.run(["ffprobe","-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "csv=p=0", input_filename], stdout=subprocess.PIPE, text=True)
+            result = subprocess.run([ffprobe_exe,"-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height", "-of", "csv=p=0", input_filename], stdout=subprocess.PIPE, text=True)
             if result.returncode == 0:
                 # Grab the largest dimension of the video's resolution
                 raw_width, raw_height = [int(x) for x in result.stdout.strip().split(',')]
@@ -298,7 +401,7 @@ def calculate_target_fps(input_filename, duration):
             break
     # Get input frame rate
     try:
-        result = subprocess.run(["ffprobe","-v", "error", "-select_streams", "v", "-of", "default=noprint_wrappers=1:nokey=1", "-show_entries", "stream=r_frame_rate", input_filename], stdout=subprocess.PIPE, text=True)
+        result = subprocess.run([ffprobe_exe,"-v", "error", "-select_streams", "v", "-of", "default=noprint_wrappers=1:nokey=1", "-show_entries", "stream=r_frame_rate", input_filename], stdout=subprocess.PIPE, text=True)
         if result.returncode != 0:
             print(result.stdout)
             print('ffprobe returned error code {}'.format(result.returncode))
@@ -348,7 +451,7 @@ def find_json(output):
 
 # Return a tuple containing the stream layout and a flag that is True of no audio stream was detected
 def get_audio_layout(input_filename : str, track : int):
-    ffprobe_cmd = ['ffprobe', '-v', 'error', '-hide_banner', '-of', 'default=noprint_wrappers=1:nokey=1', '-show_streams', '-select_streams', 'a:{}'.format(track), '-print_format', 'json', input_filename]
+    ffprobe_cmd = [ffprobe_exe, '-v', 'error', '-hide_banner', '-of', 'default=noprint_wrappers=1:nokey=1', '-show_streams', '-select_streams', 'a:{}'.format(track), '-print_format', 'json', input_filename]
     result = subprocess.run(ffprobe_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     if result.returncode != 0:
         print(result.stdout)
@@ -375,7 +478,7 @@ def calculate_audio_size(input_filename, start, duration, audio_bitrate, track, 
         files_to_clean.append(output)
         if os.path.isfile(output):
             os.remove(output)
-        ffmpeg_cmd = ['ffmpeg', '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vn', '-acodec', acodec, '-b:a', audio_bitrate]
+        ffmpeg_cmd = [ffmpeg_exe, '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vn', '-acodec', acodec, '-b:a', audio_bitrate]
         if track is not None: # Optional audio track selection
             ffmpeg_cmd.extend(['-map', '0:a:{}'.format(track)])
         # https://superuser.com/questions/852400/properly-downmix-5-1-to-stereo-using-ffmpeg
@@ -437,7 +540,7 @@ def calculate_audio_size(input_filename, start, duration, audio_bitrate, track, 
         if normalize:
             print('Normalizing audio (1st pass)')
             null_output = 'NUL' if platform.system() == 'Windows' else '/dev/null' # For pass 1, need to output to appropriate null depending on system
-            result = subprocess.run(['ffmpeg', '-i', output, '-filter:a', 'loudnorm=print_format=json', "-f", "null", null_output], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run([ffmpeg_exe, '-i', output, '-filter:a', 'loudnorm=print_format=json', "-f", "null", null_output], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             # Search stdout and stderr for the loudnorm params
             params = None
             if result.returncode == 0:
@@ -452,7 +555,7 @@ def calculate_audio_size(input_filename, start, duration, audio_bitrate, track, 
                 if os.path.isfile(output2):
                     os.remove(output2)
                 # The size of the normalized audio is different from the initial one, so render to get the exact size
-                ffmpeg_cmd = ['ffmpeg', '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vn', '-acodec', acodec, '-filter:a', 'loudnorm=linear=true:measured_I={}:measured_LRA={}:measured_tp={}:measured_thresh={}'.format(params['input_i'], params['input_lra'], params['input_tp'], params['input_thresh']), '-b:a', audio_bitrate]
+                ffmpeg_cmd = [ffmpeg_exe, '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vn', '-acodec', acodec, '-filter:a', 'loudnorm=linear=true:measured_I={}:measured_LRA={}:measured_tp={}:measured_thresh={}'.format(params['input_i'], params['input_lra'], params['input_tp'], params['input_thresh']), '-b:a', audio_bitrate]
                 if track is not None: # Optional audio track selection
                     ffmpeg_cmd.extend(['-map', '0:a:{}'.format(track)])
                 if mixdown == MixdownMode.stereo:
@@ -495,7 +598,7 @@ def calculate_bitrate_compensation(duration, manual_compensation):
 # Return a dictionary of the available subtitles, with index as the key and language as the value
 def list_subtitles(input_filename):
     # ffprobe -loglevel error -select_streams s -show_entries stream=index:stream_tags=language -of csv=p=0
-    result = subprocess.run(["ffprobe","-v", "error", "-select_streams", "s", "-of", "csv=p=0", "-show_entries", "stream=index:stream_tags=language", input_filename], stdout=subprocess.PIPE, text=True)
+    result = subprocess.run([ffprobe_exe,"-v", "error", "-select_streams", "s", "-of", "csv=p=0", "-show_entries", "stream=index:stream_tags=language", input_filename], stdout=subprocess.PIPE, text=True)
     if result.returncode == 0:
         lines = result.stdout.splitlines()
         subs = dict()
@@ -512,7 +615,7 @@ def list_subtitles(input_filename):
 # Return a dictionary of the available audio tracks, with index as the key and language as the value
 def list_audio(input_filename):
     # ffprobe -show_entries stream=index:stream_tags=language -select_streams a -of compact=p=0:nk=1
-    result = subprocess.run(["ffprobe","-v", "error", "-show_entries", "stream=index:stream_tags=language", "-select_streams", "a", "-of", "csv=p=0", input_filename], stdout=subprocess.PIPE, text=True)
+    result = subprocess.run([ffprobe_exe,"-v", "error", "-show_entries", "stream=index:stream_tags=language", "-select_streams", "a", "-of", "csv=p=0", input_filename], stdout=subprocess.PIPE, text=True)
     if result.returncode == 0:
         lines = result.stdout.splitlines()
         tracks = dict()
@@ -630,7 +733,7 @@ def segment_video(input_filename : str, start, duration, full_video : bool, args
         raise RuntimeError("5.1(side) surround sound detected. --cut is not compatible with this audio track.")
 
     video_filter_graph, audio_filter_graph = build_cut_segments(start, duration, args) if args.cut is not None else build_concat_segments(start, args)
-    ffmpeg_args = ['ffmpeg', '-hide_banner', '-y']
+    ffmpeg_args = [ffmpeg_exe, '-hide_banner', '-y']
     if not full_video:
         ffmpeg_args.extend(['-ss', str(start), '-t', str(duration)])
     # Input file to process
@@ -639,7 +742,7 @@ def segment_video(input_filename : str, start, duration, full_video : bool, args
     ffmpeg_args.extend(['-filter_complex', video_filter_graph + ';' + audio_filter_graph, '-map', '[outv]', '-map', '[outa]'])
 
     # Encoder. This is used to generate a temporary file.
-    ffmpeg_args.extend(["-c:v", "libx265", "-x265-params", "lossless=1"])
+    ffmpeg_args.extend(["-c:v", "libx264", "-preset", "ultrafast", "-qp", "0"])
     ffmpeg_args.extend(["-c:a", "libopus", "-b:a", "512k"])
     
     # Output file
@@ -660,7 +763,7 @@ def segment_video(input_filename : str, start, duration, full_video : bool, args
 def blackframe(input_filename, start, duration):
     print('Running blackframe detection')
     try:
-        result = subprocess.run(['ffmpeg', '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vf', 'blackframe=threshold=96:amount=92', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        result = subprocess.run([ffmpeg_exe, '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vf', 'blackframe=threshold=96:amount=92', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         if result.returncode != 0:
             print(result.stderr.decode())
             raise RuntimeError('ffmpeg returned code {}'.format(result.returncode))
@@ -701,7 +804,7 @@ def blackframe(input_filename, start, duration):
 
 def cropdetect(input_filename, start, duration):
     print('Running cropdetect')
-    result = subprocess.run(['ffmpeg', '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vf', 'cropdetect', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    result = subprocess.run([ffmpeg_exe, '-ss', str(start), '-t', str(duration), '-i', input_filename, '-vf', 'cropdetect', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if result.returncode != 0:
         print(result.stderr.decode())
         raise RuntimeError('ffmpeg returned code {}'.format(result.returncode))
@@ -719,7 +822,7 @@ def cropdetect(input_filename, start, duration):
 
 def silencedetect(input_filename, start, duration):
     print('Running silencedetect')
-    result = subprocess.run(['ffmpeg', '-ss', str(start), '-t', str(duration), '-i', input_filename, '-af', 'silencedetect=n=-50dB:d=1.4', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    result = subprocess.run([ffmpeg_exe, '-ss', str(start), '-t', str(duration), '-i', input_filename, '-af', 'silencedetect=n=-50dB:d=1.4', '-f', 'null', null_output, '-v', 'info'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if result.returncode != 0:
         print(result.stderr.decode())
         raise RuntimeError('ffmpeg returned code {}'.format(result.returncode))
@@ -742,11 +845,82 @@ def silencedetect(input_filename, start, duration):
     if silence_start is not None and silence_end is None:
         silence_segments.append(silence_start,start+duration)
     return silence_segments
-    
+
+def split_string_by_length(input_string : str, max_length : int):
+    words = input_string.split()  # Split the string into words
+    result = []
+    current_chunk = ""
+
+    for word in words:
+        # Check if adding the next word exceeds the max_length
+        if len(current_chunk) + len(word) + (1 if current_chunk else 0) <= max_length:
+            # If current_chunk is not empty, add a space before the word
+            if current_chunk:
+                current_chunk += " "
+            current_chunk += word
+        else:
+            # If it exceeds, append the current_chunk to the result and start a new chunk
+            result.append(current_chunk)
+            current_chunk = word  # Start a new chunk with the current word
+
+    # Append any remaining words in current_chunk to the result
+    if current_chunk:
+        result.append(current_chunk)
+
+    return result
+
+def caption(text : str, font : str, input_filename: str, resolution : int):
+    # input video width
+    video_width, video_height = get_video_resolution(input_filename)
+    max_dimension = max(video_width, video_height)
+    if resolution is None:
+        resolution = max_dimension
+    elif resolution > max_dimension:
+        resolution = max_dimension
+    scale_factor = resolution / max_dimension if resolution is not None else 1
+    # output video width
+    output_width = int(resolution if video_width > video_height else video_width * scale_factor)
+    #print(f'{video_width} {video_height} {output_width}')
+    filters = []
+    # Text itself, along with appropriate height offsets
+    fontsize = 38
+    height_per_line = 56
+    width_per_character = 18
+    max_width = int(output_width / width_per_character)
+    y = 8
+    # Need to divide text into multiple lines if necessary
+    presplit_lines = text.split('\\n') # User escape sequence of newline
+    lines = []
+    for line in presplit_lines:
+        lines.extend(split_string_by_length(line, max_width))
+    total_lines = len(lines)
+    # Padding box to contain the text
+    pad_height = int(total_lines * height_per_line)
+    filters.append(f"pad=w=iw:h=ih+{pad_height}:y={pad_height}:color=white")
+    escape_sequences = {
+        "'": "'\\\\\\''", # Escape single quotes
+        ":": "\\\\\\:", # Escape colon
+        "%": "\\\\\\%", # Escape percent
+    }
+    # Each line of text
+    for idx, line in enumerate(lines):
+        # Apply proper escape sequences
+        for old,new in escape_sequences.items():
+            line = line.replace(old,new)
+            #line = line.replace("'", "'\\\\\\''") # Escape single quotes
+        print(f'Caption line {idx}: {line}')
+        drawtext_cmd = f"drawtext=text='{line}':fontsize={fontsize}:x=(w-text_w)/2:y={y}"
+        if font is not None: # Add optional font
+            drawtext_cmd += f":font='{font}'"
+        filters.append(drawtext_cmd)
+        y += height_per_line
+    return ','.join(filters)
+
 # Convoluted method of determining the output file name. Avoid overwriting existing files, etc.
-def get_output_filename(input_filename, args):
+def get_output_filename(input_filename, args, suffix = None):
     # Use manually specified output
-    suffix = '.webm' if args.codec == 'libvpx-vp9' else '.mp4'
+    if suffix is None:
+        suffix = '.webm' if (args.codec == 'libvpx-vp9' or args.codec == 'vp9_vaapi') else '.mp4'
     if args.output is not None:
         output = args.output
         # Force webm suffix
@@ -775,8 +949,28 @@ def get_output_filename(input_filename, args):
             else:
                 return final_output
 
+def gif_caption(input_filename : str, args):
+    output_filename = get_output_filename(input_filename, args, '.gif')
+    ffmpeg_args = ["ffmpeg", '-hide_banner', '-i', input_filename]
+    ffmpeg_args.extend(['-vf', caption(args.caption, args.font, input_filename, None)])
+    ffmpeg_args.append(output_filename)
+    if not args.dry_run:
+        # Use popen so we can pend on completion
+        pope = subprocess.Popen(ffmpeg_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding='utf-8', errors='ignore')
+        for line in iter(pope.stderr.readline, ""):
+            if 'frame=' in line:
+                print('\r' + line.strip(), end='')
+            else:
+                print(line, end='')
+        print('')
+        pope.stderr.close()
+        pope.wait()
+        if pope.returncode != 0:
+            raise RuntimeError('ffmpeg returned code {}'.format(pope.returncode))
+    return output_filename  
+
 # The part where the webm is encoded
-def encode_video(input, output, start, duration, video_codec : list, video_filters : list, audio_codec : list, audio_filters : list, subtitles, track, full_video : bool, no_audio : bool, mixdown : MixdownMode, mode : BoardMode, dry_run : bool):
+def encode_video(input, output, start, duration, video_codec : list, video_filters : list, audio_codec : list, audio_filters : list, subtitles, track, full_video : bool, no_audio : bool, mixdown : MixdownMode, mode : BoardMode, bframes : int, dry_run : bool):
     ffmpeg_args = ["ffmpeg", '-hide_banner']
     slice_args = ['-ss', str(start), "-t", str(duration)] # The arguments needed for slicing a clip
     vf_args = '' # The video filter arguments
@@ -804,6 +998,9 @@ def encode_video(input, output, start, duration, video_codec : list, video_filte
     if vf_args != '': # Add video filter if there are any arguments
         ffmpeg_args.extend(["-vf", vf_args])
     ffmpeg_args.extend(video_codec)
+
+    if bframes != 0: # Add B-frames argument (default is 0 so it can be skipped if 0)
+        ffmpeg_args.extend(["-bf", str(bframes)])
 
     # The constructed ffmpeg commands
     pass1 = ffmpeg_args
@@ -853,12 +1050,13 @@ def encode_video(input, output, start, duration, video_codec : list, video_filte
     print(' '.join(pass2))
     if not dry_run:
         # Use popen so we can pend on completion
-        pope = subprocess.Popen(pass2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        pope = subprocess.Popen(pass2, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding='utf-8', errors='ignore')
         for line in iter(pope.stderr.readline, ""):
             if 'frame=' in line:
                 print('\r' + line.strip(), end='')
             else:
                 print(line, end='')
+        print('')
         pope.stderr.close()
         pope.wait()
         if pope.returncode != 0:
@@ -873,14 +1071,6 @@ def first_second_every_minute(start : datetime.timedelta, duration : datetime.ti
         segments.append('{}-{}'.format(current_time, current_time + datetime.timedelta(seconds=1)))
         current_time += datetime.timedelta(minutes=1)
     return ';'.join(segments)
-
-# Format a timedelta into hh:mm:ss.ms
-def format_timedelta(ts : datetime.timedelta):
-    hours, rm_hr = divmod(ts.total_seconds(), 3600)
-    mins, rm_min = divmod(rm_hr, 60)
-    sec, rm_sec = divmod(rm_min, 1)
-    ts_str = '{:02}:{:02}:{:02}.{:03}'.format(int(hours), int(mins), int(sec), int(rm_sec*1000))
-    return ts_str
 
 def get_mixdown_mode(audio_kbps, audio_track, mixdown : MixdownMode):
     if mixdown == MixdownMode.auto:
@@ -1027,7 +1217,7 @@ def process_video(input_filename, start, duration, args, full_video):
         args.mixdown = get_mixdown_mode(audio_kbps, audio_track, args.mixdown) # Determine mixdown, if any
         print('Calculating audio size')
         # Calculate the audio file size and the volume normalization parameters if applicable. Always skip normalization in music mode.
-        acodec = 'libopus' if args.codec == 'libvpx-vp9' else 'aac'
+        acodec = 'libopus' if (args.codec == 'libvpx-vp9' or args.codec == 'vp9_vaapi') else 'aac'
         audio_size, np, surround_workaround, no_audio = calculate_audio_size(input_filename, start, duration, audio_bitrate, audio_track, args.board, acodec, args.mixdown, args.normalize)
         print('Audio size: {}kB'.format(int(audio_size/1024)))
     size_limit = get_size_limit(args)
@@ -1042,7 +1232,7 @@ def process_video(input_filename, start, duration, args, full_video):
     if args.sub_file is not None:
         if not os.path.exists(args.sub_file):
             print("Warning: Subtitle file '{}' not found, skipping subtitle burn-in.".format(args.sub_file))
-        subs = "'{}'".format(args.sub_file)
+        subs = "'{}'".format(args.sub_file.replace("'", "'\\\\\\''"))
     elif args.auto_subs or args.sub_index is not None or args.sub_lang is not None:
         sub_idx = None
         # Use the first sub index, if any exist
@@ -1075,7 +1265,7 @@ def process_video(input_filename, start, duration, args, full_video):
             files_to_clean.append(output_subs)
             if os.path.exists(output_subs):
                 os.remove(output_subs)
-            result = subprocess.run(['ffmpeg', '-i', input_filename, '-map', '0:s:{}'.format(sub_idx), output_subs], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run([ffmpeg_exe, '-i', input_filename, '-map', '0:s:{}'.format(sub_idx), output_subs], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             if result.returncode != 0:
                 print(result.stderr)
                 raise RuntimeError("Error rendering subtitles. ffmpeg returned {}".format(result.returncode))
@@ -1113,10 +1303,19 @@ def process_video(input_filename, start, duration, args, full_video):
     if resolution is not None:
         # Constrain to a maximum of the target resolution, horizontal or vertical, while preserving the original aspect ratio
         video_filters.append("scale='min({},iw)':'min({},ih):force_original_aspect_ratio=decrease'".format(resolution,resolution))
+    # >>> ADD THIS BLOCK <<<
+    # Ensure even width/height for libx264
+    if args.codec == 'libx264':
+        width, height = get_video_resolution(input_filename)
+        if width % 2 != 0 or height % 2 != 0:
+            video_filters.append("scale=trunc(iw/2)*2:trunc(ih/2)*2")
+    # <<< END BLOCK >>>
     if fps is not None:
         video_filters.append('fps={}'.format(fps))
     if args.video_filter is not None: # Arbitrary user-supplied filters
         video_filters.append(args.video_filter)
+    if args.caption is not None:
+        video_filters.append(caption(args.caption, args.font, input_filename, resolution))
     
     # Add audio filters
     audio_filters = []
@@ -1140,27 +1339,30 @@ def process_video(input_filename, start, duration, args, full_video):
     elif args.codec == 'libx264':
         video_codec = ["-c:v", "libx264", "-preset", 'fast' if args.fast else 'slower']
         files_to_clean.append('ffmpeg2pass-0.log.mbtree') # This is the pass 1 file for h264
+    elif args.codec == 'vp9_vaapi':
+        video_codec = ["-vaapi_device", "/dev/dri/renderD128", "-c:v", "vp9_vaapi", "-bsf:v", "vp9_raw_reorder,vp9_superframe"]
+        video_filters.extend(['format=nv12','hwupload'])
     else:
         raise RuntimeError("Invalid codec option '{}'".format(args.codec))
     print('Target bitrate: {}'.format(video_bitrate))
-    video_codec.extend(["-b:v", video_bitrate, "-async", "1", "-vsync", "2"])
+    video_codec.extend(["-b:v", video_bitrate, "-async", "1", "-fps_mode", "vfr"])
     
     audio_codec = []
     if no_audio:
         audio_codec = ["-an"]
-    elif args.codec == 'libvpx-vp9':
+    elif args.codec == 'libvpx-vp9' or args.codec == 'vp9_vaapi':
         audio_codec = ["-c:a", "libopus", '-b:a', audio_bitrate]
     elif args.codec == 'libx264':
         audio_codec = ["-c:a", "aac", '-b:a', audio_bitrate]
 
     # The main part where the video is rendered
-    encode_video(input_filename, output, start, duration, video_codec, video_filters, audio_codec, audio_filters, subs, audio_track, full_video, no_audio, args.mixdown, args.board, args.dry_run)
+    encode_video(input_filename, output, start, duration, video_codec, video_filters, audio_codec, audio_filters, subs, audio_track, full_video, no_audio, args.mixdown, args.board, args.bframes, args.dry_run)
 
     if os.path.isfile(output):
         out_size = os.path.getsize(output)
         print('output file size: {} KB'.format(int(out_size/1024)))
         if out_size > size_limit:
-            print('WARNING: Output size exceeded target maximum {}. You should rerun with --bitrate_compensation to reduce output size.'.format(int(size_limit/1024)))
+            print('WARNING: Output size exceeded target maximum {}. You should rerun with -b/--bitrate_compensation to reduce output size.'.format(int(size_limit/1024)))
     return output
 
 # Figures out which input is image and which is audio. Returns (image, audio), which may be None if image or audio couldn't be found.
@@ -1178,7 +1380,7 @@ def get_image_audio_inputs(args : list):
         elif category == 'audio':
             audio = filename
         else:
-            raise RuntimeError("Unsupported mime type '{}' for input file '{}'".format(type, encoding, filename))
+            raise RuntimeError(f"Unsupported mime type '{type}/{encoding}' for input file '{filename}'")
     return image, audio
 
 # Special mode for combining a static image (or animated gif) with an audio file
@@ -1203,26 +1405,34 @@ def image_audio_combine(input_image, input_audio, args):
 
     size_limit = get_size_limit(args)
     print('Calculating audio bitrate: ', end='') # Do a lot of prints in case there is an error on one of the steps or it hangs
-    audio_kbps = args.audio_rate if args.audio_rate is not None else calculate_target_audio_rate(duration, True, args.board)
-    audio_bitrate = '{}k'.format(audio_kbps)
-    print(audio_bitrate)
-    args.mixdown = get_mixdown_mode(audio_kbps, None, args.mixdown) # Determine mixdown, if any
-    print('Calculating audio size')
-    audio_size = 0
-    audio_copy = False
-    # Can copy audio if it's already opus
-    if (audio_subtype == 'ogg') and args.normalize is None:
-        audio_copy = True
-        audio_size = os.path.getsize(input_audio)
-    else:
-        audio_size, np, surround_workaround, no_audio = calculate_audio_size(input_audio, 0.0, duration, audio_bitrate, None, args.board, 'libopus', args.mixdown, args.normalize)
-        if no_audio:
-            raise RuntimeError('Unable to complete image + audio combine mode. No audio stream found.')
-    print('Audio size: {}kB'.format(int(audio_size/1024)))
-    adjusted_size_limit = size_limit - audio_size # File budget subtracting audio
-    size_kb = adjusted_size_limit / 1024 * 8 # File budget in kilobits
-    target_kbps = min((int)(size_kb / duration.total_seconds()), max_bitrate) # Bit rate in kilobits/sec, limit to max size so that small clips aren't unnecessarily large
-    compensated_kbps = target_kbps - calculate_bitrate_compensation(duration, args.bitrate_compensation) # Subtract the compensation factor if specified
+    while True:
+        max_audio_rate = size_limit / duration.total_seconds() / 1024 * 8
+        audio_kbps = args.audio_rate if args.audio_rate is not None else max([x for x in audio_bitrate_table if x <= max_audio_rate])
+        audio_bitrate = '{}k'.format(audio_kbps)
+        print(audio_bitrate)
+        args.mixdown = get_mixdown_mode(audio_kbps, None, args.mixdown) # Determine mixdown, if any
+        print('Calculating audio size')
+        audio_size = 0
+        audio_copy = False
+        # Can copy audio if it's already opus
+        if (audio_subtype == 'ogg') and args.normalize is None and args.audio_rate is None:
+            audio_copy = True
+            audio_size = os.path.getsize(input_audio)
+        else:
+            audio_size, np, surround_workaround, no_audio = calculate_audio_size(input_audio, 0.0, duration, audio_bitrate, None, args.board, 'libopus', args.mixdown, args.normalize)
+            if no_audio:
+                raise RuntimeError('Unable to complete image + audio combine mode. No audio stream found.')
+        print('Audio size: {}kB'.format(int(audio_size/1024)))
+        adjusted_size_limit = size_limit - audio_size # File budget subtracting audio
+        size_kb = adjusted_size_limit / 1024 * 8 # File budget in kilobits
+        target_kbps = min((int)(size_kb / duration.total_seconds()), max_bitrate) # Bit rate in kilobits/sec, limit to max size so that small clips aren't unnecessarily large
+        compensated_kbps = target_kbps - calculate_bitrate_compensation(duration, args.bitrate_compensation) # Subtract the compensation factor if specified
+        if compensated_kbps <= 5: # Not enough margin for video, re-calculate by reducing audio bit-rate
+            print('Warning: Audio bitrate is too large. Reducing bitrate:', end='')
+            args.audio_rate = max([x for x in audio_bitrate_table if x < audio_kbps])
+        else:
+            break
+    compensated_kbps -= 5 # Hard-code a reduction in target bit-rate so that we stay under the limit
     video_bitrate = '{}k'.format(compensated_kbps)
     
     ffmpeg_args = ["ffmpeg", '-hide_banner']
@@ -1305,7 +1515,7 @@ def image_audio_combine(input_image, input_audio, args):
     print(' '.join(ffmpeg_args))
     if not args.dry_run:
         # Use popen so we can pend on completion
-        pope = subprocess.Popen(ffmpeg_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        pope = subprocess.Popen(ffmpeg_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding='utf-8', errors='ignore')
         for line in iter(pope.stderr.readline, ""):
             if 'frame=' in line:
                 print('\r' + line.strip(), end='')
@@ -1322,6 +1532,43 @@ def image_audio_combine(input_image, input_audio, args):
             print('WARNING: Output size exceeded target maximum {}. You should rerun with --bitrate_compensation to reduce output size.'.format(int(size_limit/1024)))
     return output
 
+def extract_png(input_filename : str):
+    output_filename = get_temp_filename('png')
+    # -frames:v 1 -update 1
+    ffmpeg_cmd = [ffmpeg_exe, '-hide_banner', '-i', input_filename, '-frames:v', '1', '-update', '1', output_filename ]
+    result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8', errors='ignore')
+    if result.returncode != 0 or not os.path.isfile(output_filename):
+        print(' '.join(ffmpeg_cmd))
+        print(result.stderr)
+        raise RuntimeError('Error exporting png. ffmpeg return code: {}'.format(result.returncode))
+    files_to_clean.append(output_filename)
+    return output_filename  
+
+def extract_audio(input_filename : str):
+    result = subprocess.run([ffprobe_exe,"-v", "error", "-select_streams", "a:0", "-show_entries", "stream=codec_name", "-of", "default=noprint_wrappers=1:nokey=1", input_filename], stdout=subprocess.PIPE, text=True)
+    if result.returncode != 0:
+        print(result.stderr)
+        raise RuntimeError('Error determining audio codec. ffprobe return code: {}'.format(result.returncode))
+    acodec = result.stdout.strip()
+    output_ext = None
+    if acodec == 'opus':
+        output_ext = 'opus'
+    elif acodec == 'aac':
+        output_ext = 'aac'
+    elif acodec == 'mp3':
+        output_ext = 'mp3'
+    else:
+        raise RuntimeError(f'Unsupported audio codec "{acodec}"')
+    output_filename = get_temp_filename(output_ext)
+    ffmpeg_cmd = [ffmpeg_exe, '-hide_banner', '-i', input_filename, '-vn', '-c:a', 'copy', output_filename ]
+    result = subprocess.run(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding='utf-8', errors='ignore')
+    if result.returncode != 0 or not os.path.isfile(output_filename):
+        print(' '.join(ffmpeg_cmd))
+        print(result.stderr)
+        raise RuntimeError('Error exporting png. ffmpeg return code: {}'.format(result.returncode))
+    files_to_clean.append(output_filename)
+    return output_filename
+
 # Figures out which input is video and which is audio. Returns the tuple (video, audio), which may be None if video or audio couldn't be found.
 def get_video_audio_inputs(args : list):
     mime_types = [ mimetypes.guess_type(x) + (x,) for x in args ]
@@ -1337,7 +1584,7 @@ def get_video_audio_inputs(args : list):
         elif category == 'audio':
             audio = filename
         else:
-            raise RuntimeError("Unsupported mime type '{}' for input file '{}'".format(type, encoding, filename))
+            raise RuntimeError(f"Unsupported mime type '{type}/{encoding}' for input file '{filename}'")
     return video, audio
 
 def audio_replace(video_input, audio_input, args):
@@ -1387,7 +1634,7 @@ def audio_replace(video_input, audio_input, args):
     print(' '.join(ffmpeg_args))
     if not args.dry_run:
         # Use popen so we can pend on completion
-        pope = subprocess.Popen(ffmpeg_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        pope = subprocess.Popen(ffmpeg_args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding='utf-8', errors='ignore')
         for line in iter(pope.stderr.readline, ""):
             if 'frame=' in line:
                 print('\r' + line.strip(), end='')
@@ -1441,15 +1688,21 @@ if __name__ == '__main__':
         parser.add_argument('--audio_replace', action='store_true', help="Special mode that replaces the audio of a clip with other audio without modifying the video.")
         parser.add_argument('--auto_crop', action='store_true', help="Automatic crop using cropdetect.")
         parser.add_argument('--auto_subs', action='store_true', help="Automatically burn-in the first embedded subtitles, if they exist")
+        parser.add_argument('--bframes', type=int, default=-1, help="Number of B-frames to use in video encoding (passed as the -bf option).")
         parser.add_argument('--blackframe', action='store_true', help="Skip initial black frames using a first pass with blackframe filter.")
         parser.add_argument('--board', '--mode', dest='board', type=BoardMode, default='wsg', choices=list(BoardMode), help='Webm convert mode. wsg=6MB with sound, gif=4MB with sound, other=4MB no sound')
         parser.add_argument('--bypass_resolution_table', action='store_true', help='Do not snap to the nearest standard resolution and use raw calculated instead.')
-        parser.add_argument('--codec', type=str, default='libvpx-vp9', choices=['libvpx-vp9','libx264'], help='Video codec to use. Default is libvpx-vp9.')
+        parser.add_argument('--caption', type=str, help='Caption text to add. Caption is rendered on top with a white background in "gif caption" meme format.')
+        parser.add_argument('--codec', type=str, default='libvpx-vp9', choices=['libvpx-vp9','libx264', 'vp9_vaapi'], help='Video codec to use. Default is libvpx-vp9.')
         parser.add_argument('--crop', type=str, help="Crop the video. This string is passed directly to ffmpeg's 'crop' filter. See ffmpeg documentation for details.")
         parser.add_argument('--deadline', type=str, default='good', choices=['good', 'best', 'realtime'], help='The -deadline argument passed to ffmpeg. Default is "good". "best" is higher quality but slower. See libvpx-vp9 documentation for details.')
+        parser.add_argument('--download', type=str, help="Download the video using yt-dlp.")
+        parser.add_argument('--download_full', action='store_true', help="Download the full video before processing (otherwise only the clip bounded by --start and --end/--duration is downloaded).")
+        parser.add_argument('--ytdlp_args', type=str, help="Custom arguments to pass through to yt-dlp")
         parser.add_argument('--dry_run', action='store_true', help='Make all the size calculations without encoding the webm. ffmpeg commands and bitrate calculations will be printed.')
         parser.add_argument('--fast', action='store_true', help='Render fast at the expense of quality. Not recommended except for testing.')
         parser.add_argument('--first_second_every_minute', action='store_true', help='Take 1 second from every minute of the input.')
+        parser.add_argument('--font', type=str, help="Font to use for captions.")
         parser.add_argument('--fps', type=float, help='Manual fps override.')
         parser.add_argument('--list_audio', action='store_true', help="List audio tracks and quit. Use if you don't know which --audio_index or --audio_lang to specify.")
         parser.add_argument('--list_subs', action='store_true', help="List embedded subtitles and quit. Use if you don't know which --sub_index or --sub_lang to specify.")
@@ -1464,6 +1717,7 @@ if __name__ == '__main__':
         parser.add_argument('--no_mt', action='store_true', help='Disable row based multithreading (the "-row-mt 1" switch)')
         parser.add_argument('--resize_mode', type=ResizeMode, default='logarithmic', choices=list(ResizeMode), help='How to calculate target resolution. table = use time-based lookup table. Default is logarithmic.')
         parser.add_argument('--size', '--limit', dest='size', type=float, help='Target file size limit, in MiB. Default is 6 if board is wsg, and 4 otherwise.')
+        parser.add_argument('--static_image', action='store_true', help="Treat video as a static image and use image+audio combine mode.")
         parser.add_argument('--stereo', action='store_true', help="Do stereo mixdown. Equivalent to --mixdown stereo")
         parser.add_argument('--sub_index', type=int, help="Subtitle index to burn-in (use --list_subs if you don't know the index)")
         parser.add_argument('--sub_lang', type=str, help="Subtitle language to burn-in, must be an exact match with what is listed in the file (use --list_subs if you don't know the language)")
@@ -1521,6 +1775,8 @@ if __name__ == '__main__':
                     elif is_segment(arg):
                         args.concat = arg
                         print('Treating {} as a --concat segment'.format(arg))
+                    elif is_url(arg):
+                        args.download = arg
                     else:
                         print("Unable to parse argument: '{}'".format(arg))
                         print('Please command-line flags to specify complex arguments')
@@ -1543,12 +1799,16 @@ if __name__ == '__main__':
                 else:
                     print('Argument parsing failed. Too many timestamps specified.')
                     exit(0)
-            if input_filename is None:
-                print('No input filename found.')
         else:
             parser.print_help() # Can't identify the input file
             exit(0)
+        if args.download is not None:
+            input_filename = download_video(args.download, args)
+            if input_filename is None:
+                print('Unable to download video.')
+                exit(0)
         if input_filename is None:
+            print('No input filename found.')
             parser.print_help()
             exit(0)
         if os.path.isfile(input_filename):
@@ -1563,6 +1823,27 @@ if __name__ == '__main__':
                 for idx, lang in tracks.items():
                     layout, no_audio = get_audio_layout(input_filename, idx) # Also list layout
                     print('{},{},{}'.format(idx, lang,layout))
+                exit(0)
+            if args.caption is not None:
+                mime, subtype = mimetypes.guess_type(input_filename)[0].split('/')
+                if subtype == 'gif':
+                    print('Running in gif caption mode.')
+                    result = gif_caption(input_filename, args)
+                    print('output file: "{}"'.format(result))
+                    cleanup()
+                    exit(0)
+            if args.static_image:
+                print('Extracting static image from video...')
+                image_input = extract_png(input_filename)
+                print('Extracting audio...')
+                audio_input = extract_audio(input_filename)
+                print("Using image + audio combine mode.")
+                if args.output is None:
+                    args.output = get_output_filename(input_filename, args, '.webm')
+                    print(args.output)
+                result = image_audio_combine(image_input, audio_input, args)
+                print('output file: "{}"'.format(result))
+                cleanup()
                 exit(0)
             start_time = parsetime(args.start)
             print('start time:', start_time)
@@ -1590,8 +1871,6 @@ if __name__ == '__main__':
         else:
             print('Input file not found: "' + input_filename + '"')
     except argparse.ArgumentError as e:
-        print(e)
-    except ValueError as e:
         print(e)
     except Exception:
         print(traceback.format_exc())
