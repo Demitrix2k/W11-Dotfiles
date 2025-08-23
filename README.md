@@ -19,14 +19,16 @@
 # Configuration files for
 -  [FastFetch](https://github.com/fastfetch-cli/fastfetch)
 -  [Firefox](https://www.mozilla.org/en-US/firefox/new/)
+-  [Zen](https://zen-browser.app/)
 -  [Komorebi](https://github.com/LGUG2Z/komorebi)
--  [Ntop](https://github.com/gsass1/NTop)
 -  [whkd](https://github.com/LGUG2Z/whkd)
 -  [yasb](github.com/amnweb/yasb)
 -  [yazi](https://github.com/sxyazi/yazi)
+-  [Ntop](https://github.com/gsass1/NTop)
 -  [Windows Terminal](https://github.com/microsoft/terminal)
 -  [Powershell](https://github.com/PowerShell/PowerShell)
--  [Vencord](https://vencord.dev/)
+-  [Neovim](https://neovim.io/) 
+-  [MPV](https://mpv.io/)
 
  # Windows configurations
  -  [SecureUxTheme](https://github.com/namazso/SecureUxTheme) to use custom themes.

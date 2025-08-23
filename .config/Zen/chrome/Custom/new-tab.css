@@ -42,6 +42,8 @@ Styles for new tab
 	scale: 1.2 !important;
 	border-top-left-radius: 8px !important;
 	border-top-right-radius: 8px !important;
+	border-top-left-radius: 0px !important;
+	border-top-right-radius: 0px !important;	
 	border-bottom-right-radius: 0px !important;
 	border-bottom-left-radius: 0px !important;
 	background: rgba(0, 0, 0, .6) !important;
@@ -82,6 +84,8 @@ Styles for new tab
 	border-top-right-radius: 0px !important;
 	border-bottom-right-radius: 5px !important;
 	border-bottom-left-radius: 5px !important;
+	border-bottom-right-radius: 0px !important;
+	border-bottom-left-radius: 0px !important;	
   }
   
   .context-menu > ul > li > a:is(:focus, :hover),

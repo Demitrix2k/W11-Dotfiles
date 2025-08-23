@@ -8,10 +8,12 @@ $Env:MPV_HOME=                          "$HOME\.config\mpv"
 $Env:YAZI_FILE_ONE=                     "C:\Program Files\Git\usr\bin\file.exe"
 $Env:nvim=                              "C:\Program Files\Neovim\bin\nvim.exe"
 $Env:BSArch=                            "D:\Modding\MO2-FNV\External-tools\BSArch.exe"
+$Env:mpv=                               "C:\Programs\mpv\mpv.exe"
 
 $Env:komorebi_start=                    "$HOME\.config\Powershell\Scripts\komorebi\Komorebi-start.ps1"
 $Env:komorebi_stop=                     "$HOME\.config\Powershell\Scripts\komorebi\Komorebi-stop.ps1"
 
+$Env:app_list=                          "$HOME\.config\Powershell\Scripts\list-all-installed.ps1"
 $Env:matrix=                            "$HOME\.config\Powershell\Scripts\Matrix.ps1"
 $Env:meow=                              "$HOME\.config\Powershell\Scripts\Meow\meow.ps1"
 $Env:conv_webm_to_mp4=                  "$HOME\.config\Powershell\Scripts\Convert-webm-to-mp4.ps1"
@@ -21,6 +23,8 @@ $Env:w4ch=                              "$HOME\.config\Powershell\Scripts\Python
 
 #############################################################################
 
+Set-Alias       "app"                   "$env:app_list"
+Set-Alias       "mpv"                   "$env:mpv"
 Set-Alias       "bsarch"                "$env:BSArch"
 Set-Alias       "kstart"                "$env:komorebi_start"
 Set-Alias       "kstop"                 "$env:komorebi_stop"
@@ -121,16 +125,21 @@ foreach ($color in $colors) {
 	}
 }
 
-function palias {
-	Write-Host "ff              - Fastfetch"
-	Write-Host "q               - quit terminal"
-	Write-Host "obm             - OnBoardMemoryManager mouse"
-	Write-Host "w-local         - shows winget path"
-	Write-Host "open            - opens explorer in current path"
-	Write-Host "Tab             - autocomplete"
-	Write-Host "Shift+Tab       - Show Suggestions"
-	Write-Host "chan            - 4chan webm script"
+function commands {
+Write-Host "kstart/kstop        - Komorebi start/stop"           -ForegroundColor Blue
+Write-Host "meow                - used to print colored text"    -ForegroundColor Green
+Write-Host "mpv                 - mpv video player" -ForegroundColor Blue
+Write-Host "app                 - lists installed programs" -ForegroundColor Green
+Write-Host "ff                  - Fastfetch" -ForegroundColor Blue
+Write-Host "q                   - quit terminal" -ForegroundColor Green
+Write-Host "obm                 - OnBoardMemoryManager mouse" -ForegroundColor Blue
+Write-Host "w-local             - shows winget path" -ForegroundColor Green
+Write-Host "open                - opens explorer in current path" -ForegroundColor Blue
+Write-Host "Tab                 - autocomplete" -ForegroundColor Green
+Write-Host "Shift+Tab           - Show Suggestions" -ForegroundColor Blue
+Write-Host "chan                - 4chan webm script" -ForegroundColor Green
 }
+
 
 function Convert-WebmToMp4 { # script that can handle mass conversion
   $conversionScriptPath = $Env:conv_webm_to_mp4

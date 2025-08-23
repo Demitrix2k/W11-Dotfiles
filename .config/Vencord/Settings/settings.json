@@ -2,11 +2,7 @@
     "autoUpdate": true,
     "autoUpdateNotification": true,
     "useQuickCss": true,
-    "themeLinks": [
-        ". https://raw.githubusercontent.com/Dyzean/Tokyo-Night/main/themes/tokyo-night.theme.css",
-        ".https://discordstyles.github.io/DarkMatter/DarkMatter.theme.css",
-        ".https://github.com/refact0r/system24/blob/main/theme/flavors/rosepine.theme.css"
-    ],
+    "themeLinks": [],
     "enabledThemes": [
         "MinimalNight.theme.css"
     ],
@@ -148,7 +144,10 @@
             "enabled": false
         },
         "Dearrow": {
-            "enabled": false
+            "enabled": true,
+            "hideButton": false,
+            "replaceElements": 0,
+            "dearrowByDefault": true
         },
         "Decor": {
             "enabled": false
@@ -158,9 +157,6 @@
         },
         "DontRoundMyTimestamps": {
             "enabled": false
-        },
-        "EmoteCloner": {
-            "enabled": true
         },
         "Experiments": {
             "enabled": true,
@@ -197,7 +193,7 @@
             "enabled": false
         },
         "FriendsSince": {
-            "enabled": false
+            "enabled": true
         },
         "GameActivityToggle": {
             "enabled": false
@@ -371,7 +367,7 @@
             "enabled": false
         },
         "PictureInPicture": {
-            "enabled": false
+            "enabled": true
         },
         "PinDMs": {
             "enabled": false
@@ -383,7 +379,7 @@
             "enabled": false
         },
         "PreviewMessage": {
-            "enabled": false
+            "enabled": true
         },
         "QuickMention": {
             "enabled": false
@@ -444,7 +440,9 @@
             "enabled": false
         },
         "ShowHiddenChannels": {
-            "enabled": false
+            "enabled": true,
+            "showMode": 0,
+            "hideUnreads": true
         },
         "ShowHiddenThings": {
             "enabled": false
@@ -536,7 +534,13 @@
             "enabled": false
         },
         "VcNarrator": {
-            "enabled": false
+            "enabled": true,
+            "joinMessage": "{{USER}} joined",
+            "sayOwnName": false,
+            "latinOnly": false,
+            "volume": 1,
+            "rate": 1,
+            "voice": "Microsoft David - English (United States)"
         },
         "VencordToolbox": {
             "enabled": false
@@ -563,7 +567,7 @@
             "enabled": false
         },
         "YoutubeAdblock": {
-            "enabled": false
+            "enabled": true
         },
         "NoTrack": {
             "enabled": true,
@@ -589,18 +593,44 @@
             "enabled": false
         },
         "FixImagesQuality": {
-            "enabled": false
+            "enabled": true
         },
         "FullUserInChatbox": {
             "enabled": false
         },
         "IrcColors": {
-            "enabled": false
+            "enabled": false,
+            "memberListColors": true,
+            "lightness": 70,
+            "applyColorOnlyInDms": false,
+            "applyColorOnlyToUsersWithoutColor": false
         },
         "BadgeAPI": {
             "enabled": true
         },
         "HideMedia": {
+            "enabled": false
+        },
+        "WebRichPresence (arRPC)": {
+            "enabled": false
+        },
+        "WebContextMenus": {
+            "enabled": true,
+            "addBack": false
+        },
+        "WebKeybinds": {
+            "enabled": true
+        },
+        "WebScreenShareFixes": {
+            "enabled": true
+        },
+        "DisableDeepLinks": {
+            "enabled": true
+        },
+        "ExpressionCloner": {
+            "enabled": true
+        },
+        "CopyStickerLinks": {
             "enabled": false
         }
     },
@@ -614,7 +644,7 @@
         "authenticated": false,
         "url": "https://api.vencord.dev/",
         "settingsSync": false,
-        "settingsSyncVersion": 1741932867885
+        "settingsSyncVersion": 1755968758064
     },
     "eagerPatches": false
 }
