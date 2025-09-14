@@ -43,34 +43,72 @@
   "monitors": [
     {
       "workspaces": [
-			{
-			"name": "laptop-mon"
-			}
-	    ]
-	},
-	{	
-	"workspaces": [		
-			{
-			"name": "1",
-			"layout": "BSP",
-			"float_override": true
-			},
-			{
-			"name": "2",
-			"layout": "BSP",
-			"float_override": true
-			},
-			{
-			"name": "3",
-			"layout": "BSP",
-			"float_override": true
-			},
-			{
-			"name": "4",
-			"layout": "BSP"
-			}
-			
-		]	
-	}
-  ]	
+        {
+          "name": "1",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "2",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "3",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "4",
+          "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "2",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "3",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "4",
+          "layout": "BSP"
+        }
+      ]
+    },
+    {
+      "workspaces": [
+        {
+          "name": "1",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "2",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "3",
+          "layout": "BSP",
+          "float_override": true
+        },
+        {
+          "name": "4",
+          "layout": "BSP"
+        }
+      ]
+    }
+  ]
 }

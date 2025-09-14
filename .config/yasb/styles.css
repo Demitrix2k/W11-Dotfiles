@@ -1,8 +1,8 @@
-/* 
-This is default and very simple styles file for Yasb. 
-For more information about configuration options, please visit the Wiki https://github.com/amnweb/yasb/wiki
-*/
+/* ===================== */
+/* === COLOR VARIABLES === */
+/* ===================== */
 :root {
+    /* Catppuccin Mocha color palette */
     --rosewater: #f5e0dc;
     --flamingo: #f2cdcd;
     --pink: #f5c2e7;
@@ -17,274 +17,506 @@ For more information about configuration options, please visit the Wiki https://
     --sapphire: #74c7ec;
     --blue: #89b4fa;
     --lavender: #b4befe;
+
+/* Text colors */
     --text: #cdd6f4;
     --subtext1: #bac2de;
     --subtext0: #a6adc8;
+
+/* Overlay colors */
     --overlay2: #9399b2;
     --overlay1: #7f849c;
     --overlay0: #6c7086;
+
+/* Surface colors */
     --surface2: #585b70;
     --surface1: #45475a;
     --surface0: #282936;
+
+/* Base colors */
     --base: #1e1e2e;
     --mantle: rgba(24, 24, 37, 0.5);
-    --crust: rgba(17, 17, 27, 0.85);
-    --main: #10151d;
-	
-	--cyan: #41a6b5;
-	--cyan-active: #8BE9FD;
-	--white: #ffffff;
-	--transparent: rgba(0, 0, 0, 0);
+    --crust: rgba(17, 17, 27, 0.75);
 }
-/* Global styles for ToolTip */
-QToolTip {
-    padding: 6px;
-    color: #cdd6f4;
-    font-size: 12px;
-    background-color: #1e1e2e;
-    border: 0px solid #313244;
-    border-radius: 6px;
-}
+
+/* ================= */
+/* === BASE STYLES === */
+/* ================= */
 * {
     font-size: 12px;
-    color: var(--white);
-    font-weight: 500;
-    font-family: "JetBrainsMonoNL NFP Thin";
+    color: var(--subtext0);
+    font-weight: 700;
+    font-family: "JetBrainsMono NFP";
     margin: 0;
     padding: 0;
 }
+
+/* ================= */
+/* === BAR LAYOUT === */
+/* ================= */
 .yasb-bar {
     padding: 0;
     margin: 0;
-    background-color: var(--transparent);
-    border-radius: 8px;
+	background-color: #00000000;
+	background-color: var(--crust);
 }
+
+/* Common widget styles */
 .widget {
-    padding: 0 12px;
-    margin: 0;
+    padding: 0 8px;
+    margin: 0 2px;
 }
-.icon {
-    font-size: 16px;
-}
+
 .widget .label {
     padding: 0px 2px;
 }
-.komorebi-active-layout {
-	
-    padding: 0 4px 0 0;
-}
-.komorebi-active-layout .label {
-    font-weight: 600;
-    padding: 2px 0 0 0;
-}
-.apps-widget .widget-container,
-.komorebi-workspaces .widget-container,
-.komorebi-active-layout .widget-container {
-    background-color: var(--transparent);
-	border: 1px solid var(--transparent);
-    margin: 3px 0 3px 0;
-    border-radius: 12px;
-	margin: 4px 0px 4px 0;
-	border-radius: 14px;
 
-}
-.komorebi-workspaces .widget-container {
-    border-top-left-radius: 6px;
-    border-bottom-left-radius: 6px;
-    margin-left: 4px;
-	margin-right: 2px;
-}
-.komorebi-workspaces {
-    border-top-right-radius: 14px;
-    border-bottom-right-radius: 14px;
-    padding: 0 4px 0 0;
-}
-.komorebi-workspaces .offline-status {
-    color: var(--surface2);
-    font-size: 12px;
-    padding: 0 0 0 4px;
-    font-weight: 600;
-}
-.komorebi-workspaces .ws-btn {
-    border: none;
-    margin: 0 1px 0 1px;
-    font-size: 14px;
-    color: var(--cyan);
-    height: 30px;
-	padding: 0 3px;
-}
-.komorebi-workspaces .ws-btn:hover {
-    color: var(--cyan-active);
-    border-bottom: 1px solid #7f849c;
-}
-.komorebi-workspaces .ws-btn.populated {
-    color: var(--cyan);
-}
-.komorebi-workspaces .ws-btn.active {
-    color: var(--cyan-active);
-    font-weight: 900;
-}
-.apps-widget {
-    padding: 0 4px 0 2px;
-}
-.apps-widget .label {
-    font-size: 14px;
-    padding: 0 2px;
-    color: var(--subtext0);
-}
-.apps-widget .label:hover {
-    color: var(--text);
+.widget .label.alt {
+    padding: 0px 2px;
 }
 
+.icon {
+    font-size: 16px;
+    margin: 0 4px 0 0;
+}
+
+/* ==================== */
+/* === POWER MENU === */
+/* ==================== */
 .power-menu-widget .label {
-    color: #f38ba8;
+    color: var(--red);
     font-size: 13px;
 }
+
 .power-menu-popup {
-    background-color: transparent
+    background-color: transparent;
 }
+
 .power-menu-popup .button {
     padding: 0;
     width: 180px;
     height: 230px;
     border-radius: 8px;
-    background-color: var(--crust);
-    color: var(--text);
-    border-left: 4px solid rgba(58, 59, 83, 0);
-    border-right: 4px solid rgba(58, 59, 83, 0);
-    border-top: 4px solid rgba(58, 59, 83, 0);
-    border-bottom: 4px solid rgba(58, 59, 83, 0);
+    background-color: var(--base);
+    border: 8px solid rgba(58, 59, 83, 0);
     margin: 0px;
 }
+
 .power-menu-popup .button.hover {
-    background-color: var(--base);
-    border-left: 4px solid var(--base);
-    border-right: 4px solid var(--base);
-    border-top: 4px solid var(--base);
-    border-bottom: 4px solid var(--base);
+    background-color: var(--surface0);
+    border: 8px solid var(--surface0);
 }
 
 .power-menu-popup .button .label {
     margin-bottom: 8px;
     font-size: 16px;
     font-weight: 500;
-    color: var(--overlay2)
+    color: var(--lavender);
 }
+
 .power-menu-popup .button .icon {
     font-size: 64px;
     padding-top: 32px;
-    color: var(--surface2)
+    color: var(--lavender);
+}
+
+/* Cancel button specific styles */
+.power-menu-popup .button.cancel {
+    height: 32px;
+    border-radius: 4px;
 }
 
 .power-menu-popup .button.cancel .icon {
     padding: 0;
     margin: 0;
 }
+
 .power-menu-popup .button.cancel .label {
     color: var(--red);
     margin: 0;
 }
-.power-menu-popup .button.cancel {
-    height: 32px;
+
+/* ==================== */
+/* === VOLUME WIDGET === */
+/* ==================== */
+.volume-widget .icon {
+    color: var(--blue);
+    margin: 1px 2px 0 0;
+}
+
+/* Audio dropdown menu */
+.audio-menu {
+    background-color: var(--mantle);
+}
+
+.audio-container .device {
+    font-size: 20px;
+    background-color: transparent;
+    border: none;
+    padding: 6px 8px 6px 4px;
+    margin: 2px 0;
+    font-size: 12px;
     border-radius: 4px;
 }
+
+.audio-container .device.selected {
+    background-color: rgba(255, 255, 255, 0.085);
+}
+
+.audio-container .device:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ================= */
+/* === DISK WIDGET === */
+/* ================= */
+.disk-widget .icon {
+    color: var(--teal);
+}
+
+/* Disk dropdown */
+.disk-group {
+    background-color: var(--mantle);
+}
+
+.disk-group-row {
+    min-width: 220px;
+    max-width: 220px;
+    max-height: 40px;
+    margin: 0;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid transparent;
+}
+
+.disk-group-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.disk-group-label-bar {
+    max-height: 8px;
+    border: 0;
+    background-color: rgba(148, 226, 213, 0.3);
+    border-radius: 4px;
+}
+
+.disk-group-label-bar::chunk {
+    background-color: var(--teal);
+    border-radius: 4px;
+}
+
+.disk-group-label {
+    font-size: 13px;
+}
+
+.disk-group-label-size {
+    font-size: 12px;
+    color: rgba(205, 214, 244, 0.5);
+}
+
+/* ================= */
+/* === CLOCK WIDGET === */
+/* ================= */
+.clock-widget {
+    /* background-color: var(--crust); */
+    margin: 4px 0;
+    border-radius: 12px;
+    border: 0;
+}
+
+.clock-widget .icon {
+    font-size: 14px;
+    color: var(--sky)
+}
+
+.clock-widget .label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--subtext0);
+}
+
+/* Calendar dropdown */
+.calendar {
+    background-color: var(--mantle);
+}
+
+.calendar .calendar-table,
+.calendar .calendar-table::item {
+    background-color: transparent;
+    color: rgba(162, 177, 196, 0.85);
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.calendar .calendar-table::item:selected {
+    color: var(--crust);
+    background-color: var(--lavender);
+    border-radius: 5px;
+}
+
+.calendar .day-label {
+    margin-top: 20px;
+}
+
+.calendar .day-label,
+.calendar .month-label,
+.calendar .date-label {
+    font-size: 16px;
+    color: var(--lavender);
+    font-weight: 700;
+    min-width: 180px;
+    max-width: 180px;
+}
+
+.calendar .month-label {
+    font-weight: normal;
+}
+
+.calendar .date-label {
+    font-size: 88px;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+    margin-top: -20px;
+}
+
+/* ==================== */
+/* === WEATHER WIDGET === */
+/* ==================== */
+.weather-widget .icon {
+    font-size: 20px;
+    margin: 0 2px 1px 0;
+    color: var(--maroon);
+}
+
+.weather-card {
+    background-color: var(--mantle);
+}
+
+/* ====================== */
+/* === WORKSPACE WIDGET === */
+/* ====================== */
+.glazewm-workspaces {
+    background-color: var(--crust);
+    margin: 4px 0;
+    border-radius: 12px;
+    border: 0;
+}
+
+.glazewm-workspaces .ws-btn {
+    font-size: 14px;
+    border: none;
+    color: var(--overlay0);
+    padding: 0 6px;
+    cursor: pointer;
+}
+
+.glazewm-workspaces .ws-btn.active_populated,
+.glazewm-workspaces .ws-btn.active_empty {
+    color: var(--red);
+    font-weight: 900;
+}
+
+/* ====================== */
+/* === KOMOREBI WORKSPACE WIDGET === */
+/* ====================== */
+
+
+.komorebi-workspaces {
+    /* background-color: var(--crust); */
+    margin: 4px 0;
+    border-radius: 12px;
+    border: 0;
+}
+
+.komorebi-workspaces .ws-btn {
+    font-size: 14px;
+    border: none;
+    color: var(--overlay0);
+    padding: 0 6px;
+    cursor: pointer;
+}
+
+.komorebi-workspaces .ws-btn.active
+{
+    color: var(--red);
+    font-weight: 900;
+}
+.komorebi-workspaces .ws-btn.ws-btn.active_empty {
+    color: var(--blue);
+    font-weight: 900;
+}
+
+
+
+/* ====================== */
+/* === KOMOREBI STACK WIDGET === */
+/* ====================== */
+
+
+.komorebi-stack {
+    margin: 4px 0;
+}
+.komorebi-stack .widget-container {
+    background-color: #282936; 
+    border-radius: 4px;
+}
+.komorebi-stack .window {
+    background-color: transparent;
+    border: none;
+    margin: 0px 8px;
+    padding: 0 4px;
+}
+.komorebi-stack .window.active {
+    background-color: #45475a;
+    border-radius: 4px;
+    height: auto;
+    margin: 0;
+}
+
+.komorebi-layout-menu {
+    background-color:rgba(17, 17, 27, 0.4)
+}
+.komorebi-layout-menu .menu-item {
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #cdd6f4; 
+    font-weight: 600;
+}
+.komorebi-layout-menu .menu-item-icon {
+    color: #cdd6f4;
+    font-size: 16px;
+}
+.komorebi-layout-menu .menu-item-text {
+    font-family: 'Segoe UI';
+    padding-left:4px;
+    font-size: 12px;
+} 
+.komorebi-layout-menu .menu-item:hover {
+    background-color:rgba(128, 130, 158, 0.15);
+    color: #fff;
+} 
+.komorebi-layout-menu .separator {
+    max-height: 1px;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* ================= */
+/* === WIFI WIDGET === */
+/* ================= */
+.wifi-widget .icon {
+    color: var(--yellow);
+}
+
+/* ===================== */
+/* === BATTERY WIDGET === */
+/* ===================== */
+.battery-widget .icon {
+    color: var(--flamingo);
+}
+
+/* ==================== */
+/* === MEMORY WIDGET === */
+/* ==================== */
+.memory-widget .icon {
+    color: var(--mauve);
+}
+
+/* ================= */
+/* === UPTIME WIDGET === */
+/* ================= */
 .uptime {
     font-size: 14px;
     margin-bottom: 10px;
     color: var(--surface2);
     font-weight: 600;
 }
-.microphone-widget {
-    padding: 0 6px 0 6px;
-}
-.microphone-widget .icon {
-    font-size: 18px;
-}
-.microphone-widget .icon {
-    color: var(--mauve);
-}
-.volume-widget .icon {
-    color: var(--cyan);
-    margin: 1px 2px 0 0;
-}
-.weather-widget,
-.volume-widget {
-    padding: 0 6px;
-}
-.weather-widget .icon {
-    font-size: 18px;
-    margin: 0 2px 1px 0;
-    color: var(--yellow);
-}
-.media-widget {
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-}
-.media-widget .label {
-    color: #bac2db;
-    background-color: rgba(24, 24, 37, 0.7);
-    padding: 0px;
-    padding-right: 4px;
-    font-size: 12px;
-}
-.media-widget .label.maintext {
-    padding-top: 3px;
-}
-.media-widget .btn {
-    color: #989caa;
-    padding: 0 1px;
-    margin: 0;
-    font-family: Segoe Fluent Icons;
-    font-weight: 400;
-}
-.media-widget .btn:hover {
-    color: #babfd3;
-}
-.media-widget .btn.play {
-    font-size: 16px;
-}
-.media-widget .btn.disabled:hover,
-.media-widget .btn.disabled {
-    color: #4e525c;
-    font-size: 12px;
-    background-color: rgba(0, 0, 0, 0);
-}
-.taskbar-widget {
-    padding: 0;
-    margin: 0;
-    border: none;
-}
-.taskbar-widget .app-icon {
-    padding: 0 6px;
-    border: none;
-    margin: 0;
-}
+
+/* ================= */
+/* === HOME WIDGET === */
+/* ================= */
 .home-widget {
     padding: 0 4px 0 12px;
 }
+
 .home-widget .icon {
-    color: var(--lavender);
+    font-size: 18px;
+    color: var(--subtext1);
 }
-.home-widget .icon:hover {
-    color: var(--text);
-}
+
 .home-menu {
-    background-color: var(--crust);
+    background-color: var(--mantle);
+    padding: 0;
+    margin-left: 2px;
 }
+
 .home-menu .menu-item {
-    padding: 8px 48px 9px 16px;
-    font-size: 12px;
-    /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
-	font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
-    color: var(--text);
+    padding: 8px 48px 8px 12px;
     font-weight: 600;
+    color: var(--text);
 }
+
 .home-menu .menu-item:hover {
-    background-color: rgba(128, 130, 158, 0.15);
-    color: #fff;
+    background-color: var(--lavender);
+    color: var(--surface0);
+    margin: 4px 6px;
+    border-radius: 4px;
 }
-.home-menu:separator {
-    height: 1px;
-    background-color: rgba(128, 130, 158, 0.3);
+
+.home-menu .separator {
+    max-height: 1px;
+    background-color: var(--overlay0);
+    margin: 0 8px;
 }
+
+.systray {
+    background: transparent;
+    border: none;
+    margin: 0;
+}
+
+.systray .unpinned-container {
+    background: var(--surface0);
+    border-radius: 8px;
+}
+
+.systray .pinned-container {
+    background: transparent;
+}
+
+.systray .pinned-container[forceshow=true] {
+    background: red;
+}
+
+.systray .button {
+    border-radius: 4px;
+    padding: 2px 2px;
+}
+
+.systray .button:hover {
+    background: #727272;
+}
+
+.systray .button[dragging=true] {
+    background: orange;
+    border-color: #FF8800;
+}
+
+.systray .unpinned-visibility-btn {
+    border-radius: 4px;
+    height: 20px;
+    width: 16px;
+}
+
+.systray .unpinned-visibility-btn:checked {
+    background: var(--surface0);
+}
+
+.systray .unpinned-visibility-btn:hover {
+    border: 1px solid #AAAAAA;
+    border-radius: 4px;
+    border-color: #AAAAAA;
+}
+

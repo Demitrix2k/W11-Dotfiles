@@ -429,9 +429,8 @@ end
 
 function uosc_update()
     local json = mp.utils.format_json(menu_data) or "{}"
-    mp.msg.info("uosc_update called with json: " .. json)
-    mp.commandv("script-message-to", "uosc", menu_shown and "update-menu" or "open-menu", json)
-    mp.msg.info("sent command to uosc: " .. (menu_shown and "update-menu" or "open-menu"))
+	local cmd = menu_shown and "update-menu" or "open-menu"
+    mp.commandv("script-message-to", "uosc", cmd, json)
 end
 
 function update_dimensions()
@@ -993,14 +992,16 @@ function show_bookmarks()
 
     mp.msg.info("creating menu data with " .. #menu_items .. " items")
     menu_data = menu_json(menu_items, 1)
-    menu_shown = true
+    -- menu_shown = true
 
     mp.msg.info("uosc_available: " .. tostring(uosc_available))
     if uosc_available then
         mp.msg.info("calling uosc_update")
+		menu_shown = false
         uosc_update()
+		menu_shown = true
     else
-        mp.osd_message("uosc not available - bookmark menu requires uosc")
+		open_menu()
     end
     
     event_loop_exhausted = false
